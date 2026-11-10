@@ -43,12 +43,13 @@ footer b{color:var(--prata)}
 #fc label{display:block;font-size:13px;font-weight:600;color:#DDD;margin:0 0 6px}
 #fc input{width:100%;background:#0F0F0F;border:1px solid #333;color:#fff;border-radius:11px;padding:12px 14px;font-size:15px;font-family:var(--body);outline:none}
 #fc input:focus{border-color:var(--dourado)}
-#fc input.err{border-color:var(--erro)}
+#fc input[readonly]{color:var(--prata)}
 #fc .f{margin-bottom:14px}
 #fc .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:560px){#fc .row{grid-template-columns:1fr}}
 #fc .msg{font-size:12px;color:var(--erro);margin-top:5px;display:none}
 #fc .msg.show{display:block}
+#fc .req{color:var(--amarelo)}
 #fc .opts{display:grid;gap:10px}
 #fc .opt{cursor:pointer;border:1px solid #333;border-radius:13px;padding:14px 16px;display:flex;align-items:center;gap:12px;transition:.15s}
 #fc .opt:hover{border-color:var(--dourado)}
@@ -59,17 +60,13 @@ footer b{color:var(--prata)}
 #fc .opt .t{font-weight:600;font-size:14.5px}
 #fc .opt .d{color:var(--prata);font-size:12.5px}
 #fc .opt .p{margin-left:auto;font-family:var(--display);font-weight:700;color:var(--amarelo);font-size:16px;white-space:nowrap}
-#fc .btn{width:100%;border:0;border-radius:999px;padding:16px;font-size:16px;font-weight:700;font-family:var(--body);cursor:pointer;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);transition:.15s}
+#fc .btn{width:100%;border:0;border-radius:999px;padding:16px;font-size:16px;font-weight:700;font-family:var(--body);cursor:pointer;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);transition:.15s;display:block;text-align:center;text-decoration:none}
 #fc .btn:disabled{opacity:.45;cursor:not-allowed}
 #fc .btn.ghost{background:transparent;border:2px solid var(--dourado);color:var(--amarelo);margin-top:10px}
 #fc .pixbox{background:#0F0F0F;border:1px dashed var(--dourado);border-radius:13px;padding:16px;text-align:center;margin-bottom:14px}
 #fc .pixbox .k{font-family:var(--display);font-size:19px;font-weight:700;color:var(--amarelo);word-break:break-all}
 #fc .pixbox .l{font-size:12px;color:var(--prata);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
 #fc .copy{margin-top:10px;background:#1E1E1E;border:1px solid #333;color:#fff;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer}
-#fc .times{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:9px}
-#fc .time{border:1px solid #333;border-radius:11px;padding:11px;text-align:center;font-weight:700;font-size:14px;cursor:pointer}
-#fc .time:hover{border-color:var(--dourado)}
-#fc .time.sel{background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);border-color:var(--amarelo)}
 #fc .warn{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.45);border-radius:13px;padding:14px 16px;font-size:13.5px;color:#FCA5A5;margin-bottom:16px}
 #fc .warn b{color:#fff}
 #fc .okbox{background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.5);border-radius:13px;padding:14px 16px;font-size:13.5px;color:#6EE7B7;margin-bottom:16px}
@@ -80,6 +77,9 @@ footer b{color:var(--prata)}
 #fc .resumo .l:last-child{border:0;padding-top:12px;font-family:var(--display);font-size:17px}
 #fc .resumo .l span:last-child{font-weight:700;text-align:right}
 #fc .resumo .l:last-child span:last-child{color:var(--amarelo)}
+#fc .sec{font-family:var(--display);font-size:14px;color:var(--dourado);text-transform:uppercase;letter-spacing:.1em;margin:22px 0 12px;padding-top:16px;border-top:1px solid rgba(202,152,59,.2)}
+#fc .sec:first-of-type{margin-top:0;padding-top:0;border:0}
+#fc .big{display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:20px;background:rgba(5,150,105,.15);border:1px solid rgba(5,150,105,.5);color:#6EE7B7;font-size:32px;margin:0 auto 16px}
 #fc .hide{display:none!important}
 </style>
 </head>
@@ -101,7 +101,7 @@ footer b{color:var(--prata)}
 <div id="fc">
 <div class="wrapc">
 <h1>Certificado Digital <span>A1</span></h1>
-<p class="sub">Emissão 100% por videoconferência, com reconhecimento facial. Sem sair de casa. <b style="color:var(--amarelo)">Pedidos 24 horas.</b></p>
+<p class="sub">Emissão 100% por videoconferência, com reconhecimento facial. <b style="color:var(--amarelo)">Pedidos 24 horas.</b></p>
 
 <div class="steps"><div class="step" id="p1"></div><div class="step" id="p2"></div><div class="step" id="p3"></div><div class="step" id="p4"></div></div>
 
@@ -124,24 +124,40 @@ footer b{color:var(--prata)}
 
 <div id="etapa2" class="hide">
   <div class="card">
-    <h2><span class="n">2</span>Seus dados</h2>
-    <p class="hint">Usamos seus dados apenas para a emissão do certificado.</p>
-    <div class="f"><label>Nome completo</label><input id="nome" placeholder="Como consta no documento"><div class="msg" id="mnome">Informe seu nome completo.</div></div>
+    <h2><span class="n">2</span>Seus dados <span style="font-size:12px;color:var(--erro);font-weight:600">* obrigatório</span></h2>
+    <p class="hint">Todos os campos são obrigatórios. Usamos seus dados apenas para a emissão do certificado.</p>
+
+    <div class="sec" style="margin-top:0">Identificação</div>
+    <div class="f"><label>Nome completo <span class="req">*</span></label><input id="nome" placeholder="Como consta na CNH"><div class="msg" id="mnome">Informe seu nome completo (nome e sobrenome).</div></div>
     <div class="row">
-      <div class="f"><label>CPF</label><input id="cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14"><div class="msg" id="mcpf">CPF inválido.</div></div>
-      <div class="f"><label>Celular (WhatsApp)</label><input id="tel" placeholder="(63) 99285-6647" inputmode="numeric" maxlength="16"><div class="msg" id="mtel">Informe o celular.</div></div>
+      <div class="f"><label>CPF <span class="req">*</span></label><input id="cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14"><div class="msg" id="mcpf">CPF inválido — confira os números.</div></div>
+      <div class="f"><label>Celular (WhatsApp) <span class="req">*</span></label><input id="tel" placeholder="(63) 99285-6647" inputmode="numeric" maxlength="16"><div class="msg" id="mtel">Informe o celular com DDD.</div></div>
     </div>
-    <div class="f" id="wrapcnpj"><label>CNPJ</label><input id="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18"><div class="msg" id="mcnpj">CNPJ inválido.</div></div>
-    <div class="f"><label>E-mail</label><input id="email" placeholder="seu@email.com" type="email"><div class="msg" id="memail">E-mail inválido.</div></div>
+    <div class="row">
+      <div class="f"><label>E-mail <span class="req">*</span></label><input id="email" placeholder="seu@email.com" type="email"><div class="msg" id="memail">E-mail inválido.</div></div>
+      <div class="f" id="wrapcnpj"><label>CNPJ <span class="req">*</span></label><input id="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18"><div class="msg" id="mcnpj">CNPJ inválido — confira os números.</div></div>
+    </div>
+
+    <div class="sec">CNH — exigida antes do pagamento</div>
+    <div class="warn">
+      <b>⚠️ Só emitimos por videoconferência com CNH válida.</b><br>
+      A videoconferência faz <b>reconhecimento biométrico do rosto</b>, comparando com a foto da CNH emitida pelo Detran. Sem CNH válida e dentro da validade, a emissão por vídeo não é possível.
+    </div>
+    <div class="row">
+      <div class="f"><label>Nº de registro da CNH <span class="req">*</span></label><input id="cnhnum" placeholder="11 dígitos" inputmode="numeric" maxlength="11"><div class="msg" id="mcnhnum">Informe os 11 números do registro da CNH.</div></div>
+      <div class="f"><label>Validade da CNH <span class="req">*</span></label><input type="date" id="cnhval"><div class="msg" id="mcnhval">Informe a validade da CNH.</div></div>
+    </div>
+    <label class="check"><input type="checkbox" id="cnhfoto"><span>Vou enviar a <b>foto da CNH</b> (frente e verso) no WhatsApp junto com o comprovante. <span class="req">*</span></span></label>
+    <div class="msg" id="mcnhfoto">Confirme o envio da foto da CNH.</div>
   </div>
-  <button class="btn" onclick="ir(3)">Continuar →</button>
+  <button class="btn" onclick="ir(3)">Continuar para o pagamento →</button>
   <button class="btn ghost" onclick="ir(1)">← Voltar</button>
 </div>
 
 <div id="etapa3" class="hide">
   <div class="card">
     <h2><span class="n">3</span>Pagamento</h2>
-    <p class="hint">Pague via PIX e o comprovante é enviado junto com o seu pedido.</p>
+    <p class="hint">Pague via PIX e envie o comprovante no WhatsApp. O agendamento é liberado após a confirmação do pagamento.</p>
     <div class="okbox"><b>🕐 Pedidos 24 horas:</b> você pode enviar seu pedido a qualquer hora, todos os dias. O atendimento e as dúvidas são respondidos de segunda a sexta, das 08h às 18h.</div>
     <div class="resumo" id="resumo1"></div>
     <div class="pixbox">
@@ -149,44 +165,22 @@ footer b{color:var(--prata)}
       <div class="k" id="pixkey">19.819.476/0001-87</div>
       <button class="copy" onclick="copiarPix()">Copiar chave PIX</button>
     </div>
-    <label class="check"><input type="checkbox" id="pagou"><span>Já realizei o pagamento e vou enviar o comprovante no WhatsApp.</span></label>
+    <label class="check"><input type="checkbox" id="pagou"><span>Já realizei o pagamento do PIX e vou enviar o comprovante no WhatsApp. <span class="req">*</span></span></label>
     <div class="msg" id="mpag">Confirme o pagamento para continuar.</div>
   </div>
-  <button class="btn" onclick="ir(4)">Continuar →</button>
+  <button class="btn" onclick="ir(4)">Confirmar meu pedido ✅</button>
   <button class="btn ghost" onclick="ir(2)">← Voltar</button>
 </div>
 
-<div id="etapa4" class="hide">
-  <div class="card">
-    <h2><span class="n">4</span>Agende a videoconferência</h2>
-    <p class="hint">Escolha o dia e o horário da sua videoconferência (segunda a sexta, das 08h às 18h). O link chega no seu WhatsApp.</p>
-    <div class="warn">
-      <b>⚠️ Atenção: é obrigatório ter CNH válida.</b><br>
-      A videoconferência faz <b>reconhecimento biométrico do seu rosto</b>, comparando com a foto da CNH emitida pelo Detran. Sem CNH válida, a emissão por vídeo não é possível — nesse caso fale conosco para o atendimento presencial.
-    </div>
-    <div class="f"><label>Tenho CNH válida</label>
-      <div class="opts">
-        <div class="opt" data-cnh="sim"><div class="dot"></div><div><div class="t">Sim, minha CNH está válida</div><div class="d">Podemos seguir com a videoconferência</div></div></div>
-        <div class="opt" data-cnh="nao"><div class="dot"></div><div><div class="t">Não tenho CNH válida</div><div class="d">Vou precisar do atendimento presencial</div></div></div>
-      </div>
-      <div class="msg" id="mcnh">Confirme a situação da sua CNH.</div>
-    </div>
-    <div class="row">
-      <div class="f"><label>Data</label><input type="date" id="data"><div class="msg" id="mdata">Escolha uma data (segunda a sexta).</div></div>
-      <div class="f"><label>Horário</label><div class="times" id="times"></div><div class="msg" id="mhora">Escolha um horário.</div></div>
-    </div>
-    <div class="resumo" id="resumo2"></div>
-  </div>
-  <button class="btn" onclick="finalizar()">Confirmar pedido no WhatsApp ✅</button>
-  <button class="btn ghost" onclick="ir(3)">← Voltar</button>
-</div>
-
 <div id="sucesso" class="hide">
-  <div class="card">
-    <h2><span class="n">✓</span>Pedido enviado!</h2>
-    <div class="okbox">Abrimos o WhatsApp com o resumo do seu pedido. Envie a mensagem e o comprovante — nossa equipe confirma o agendamento e envia o link da videoconferência.</div>
-    <div class="resumo" id="resumoFinal"></div>
-    <p class="hint" style="margin:0">Não abriu? <a href="#" id="wame" style="color:var(--amarelo);font-weight:600">Clique aqui</a> ou chame no (63) 99285-6647.</p>
+  <div class="card" style="text-align:center">
+    <div class="big">✓</div>
+    <h2 style="justify-content:center;text-align:center">Pedido registrado!</h2>
+    <p class="hint" style="margin-bottom:18px">Abrimos o WhatsApp com o resumo do seu pedido. <b>Envie a mensagem, o comprovante do PIX e a foto da CNH</b> nesta conversa.</p>
+    <div class="resumo" id="resumoFinal" style="text-align:left"></div>
+    <div class="okbox" style="text-align:left"><b>Próximo passo:</b> assim que conferirmos o pagamento, você recebe a confirmação e o agendamento da videoconferência. Se o pagamento já foi confirmado, agende pelo botão abaixo.</div>
+    <a class="btn" id="agenda" href="https://certcontrol.com.br/web/agendamento/01a1696c-e32d-7047-b153-bc161647f686" target="_blank" rel="noopener">Agendar videoconferência 📅</a>
+    <p class="hint" style="margin:12px 0 0">Não abriu o WhatsApp? <a href="#" id="wame" style="color:var(--amarelo);font-weight:600">Clique aqui</a> ou chame no (63) 99285-6647.</p>
   </div>
 </div>
 </div>
@@ -207,7 +201,8 @@ footer b{color:var(--prata)}
 
 <script>
 var PIX="19.819.476/0001-87", WA="5563992856647";
-var st={tipo:"",preco:0,cnh:"",hora:""};
+var AGENDA="https://certcontrol.com.br/web/agendamento/01a1696c-e32d-7047-b153-bc161647f686";
+var st={tipo:"",preco:0};
 
 function maskCPF(v){return v.replace(/\D/g,'').slice(0,11).replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');}
 function maskCNPJ(v){return v.replace(/\D/g,'').slice(0,14).replace(/^(\d{2})(\d)/,'$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3').replace(/\.(\d{3})(\d)/,'.$1/$2').replace(/(\d{4})(\d)/,'$1-$2');}
@@ -225,71 +220,78 @@ document.querySelectorAll('#fc [data-tipo]').forEach(function(o){
     document.getElementById('wrapcnpj').style.display=(st.tipo==='A1 PF')?'none':'block';
   };
 });
-document.querySelectorAll('#fc [data-cnh]').forEach(function(o){
-  o.onclick=function(){
-    document.querySelectorAll('#fc [data-cnh]').forEach(function(x){x.classList.remove('sel');});
-    o.classList.add('sel'); st.cnh=o.dataset.cnh;
-    document.getElementById('mcnh').classList.remove('show');
-  };
-});
 
 document.getElementById('cpf').oninput=function(e){e.target.value=maskCPF(e.target.value);};
 document.getElementById('cnpj').oninput=function(e){e.target.value=maskCNPJ(e.target.value);};
 document.getElementById('tel').oninput=function(e){e.target.value=maskTel(e.target.value);};
+document.getElementById('cnhnum').oninput=function(e){e.target.value=e.target.value.replace(/\D/g,'').slice(0,11);};
 
-var HORAS=["08:00","09:00","10:00","11:00","13:00","14:00","15:00","16:00","17:00"];
-(function(){
-  var box=document.getElementById('times');
-  HORAS.forEach(function(h){
-    var d=document.createElement('div'); d.className='time'; d.textContent=h;
-    d.onclick=function(){
-      document.querySelectorAll('#fc .time').forEach(function(t){t.classList.remove('sel');});
-      d.classList.add('sel'); st.hora=h;
-      document.getElementById('mhora').classList.remove('show');
-    };
-    box.appendChild(d);
-  });
-})();
+function mostrar(id,ok){document.getElementById(id).classList[ok?'remove':'add']('show');}
 
-var dt=document.getElementById('data');
-var amanha=new Date(Date.now()+86400000);
-dt.min=amanha.toISOString().slice(0,10);
-dt.onchange=function(){document.getElementById('mdata').classList.remove('show');};
+function validarDados(){
+  var ok=true;
+  var nome=document.getElementById('nome').value.trim();
+  if(nome.split(' ').filter(Boolean).length<2){mostrar('mnome',false);ok=false;}else{mostrar('mnome',true);}
+  if(!validaCPF(document.getElementById('cpf').value)){mostrar('mcpf',false);ok=false;}else{mostrar('mcpf',true);}
+  if(document.getElementById('tel').value.replace(/\D/g,'').length<10){mostrar('mtel',false);ok=false;}else{mostrar('mtel',true);}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(document.getElementById('email').value)){mostrar('memail',false);ok=false;}else{mostrar('memail',true);}
+  if(st.tipo==='A1 PJ'){
+    if(!validaCNPJ(document.getElementById('cnpj').value)){mostrar('mcnpj',false);ok=false;}else{mostrar('mcnpj',true);}
+  }else{mostrar('mcnpj',true);}
+
+  var num=document.getElementById('cnhnum').value.replace(/\D/g,'');
+  if(num.length!==11){mostrar('mcnhnum',false);ok=false;}else{mostrar('mcnhnum',true);}
+
+  var val=document.getElementById('cnhval').value;
+  var hojeBR=new Date(); hojeBR.setHours(0,0,0,0);
+  if(!val){mostrar('mcnhval',false);ok=false;}
+  else{
+    var dv=new Date(val+'T00:00:00');
+    if(dv<=hojeBR){mostrar('mcnhval',false);ok=false;}else{mostrar('mcnhval',true);}
+  }
+
+  if(!document.getElementById('cnhfoto').checked){mostrar('mcnhfoto',false);ok=false;}else{mostrar('mcnhfoto',true);}
+  return ok;
+}
 
 function montarResumo(){
   var nome=document.getElementById('nome').value.trim();
   var cpf=maskCPF(document.getElementById('cpf').value);
   var tel=maskTel(document.getElementById('tel').value);
   var cnpj=maskCNPJ(document.getElementById('cnpj').value);
+  var cnh=document.getElementById('cnhnum').value.replace(/\D/g,'');
+  var cnhVal=document.getElementById('cnhval').value;
+  var d=cnhVal?cnhVal.split('-'):null;
+  var cnhValBR=d?d[2]+'/'+d[1]+'/'+d[0]:'';
   var html='<div class="l"><span>Produto</span><span>Certificado '+st.tipo+'</span></div>'
     +(st.tipo==='A1 PJ'&&cnpj?'<div class="l"><span>CNPJ</span><span>'+cnpj+'</span></div>':'')
     +'<div class="l"><span>Titular</span><span>'+nome+'</span></div>'
     +'<div class="l"><span>CPF</span><span>'+cpf+'</span></div>'
-    +'<div class="l"><span>Contato</span><span>'+tel+'</span></div>'
+    +'<div class="l"><span>WhatsApp</span><span>'+tel+'</span></div>'
+    +'<div class="l"><span>CNH - registro</span><span>'+cnh+'</span></div>'
+    +'<div class="l"><span>CNH - validade</span><span>'+cnhValBR+'</span></div>'
     +'<div class="l"><span>Total</span><span>R$ '+st.preco+',00</span></div>';
   document.getElementById('resumo1').innerHTML=html;
-  document.getElementById('resumo2').innerHTML=html;
+  return html;
 }
 
 function ir(n){
   if(n===2 && !st.tipo){document.getElementById('msg1').classList.add('show');return;}
   if(n===3){
-    var ok=true;
-    if(document.getElementById('nome').value.trim().split(' ').filter(Boolean).length<2){document.getElementById('mnome').classList.add('show');ok=false;}else{document.getElementById('mnome').classList.remove('show');}
-    if(!validaCPF(document.getElementById('cpf').value)){document.getElementById('mcpf').classList.add('show');ok=false;}else{document.getElementById('mcpf').classList.remove('show');}
-    if(document.getElementById('tel').value.replace(/\D/g,'').length<10){document.getElementById('mtel').classList.add('show');ok=false;}else{document.getElementById('mtel').classList.remove('show');}
-    if(st.tipo==='A1 PJ'&&!validaCNPJ(document.getElementById('cnpj').value)){document.getElementById('mcnpj').classList.add('show');ok=false;}else{document.getElementById('mcnpj').classList.remove('show');}
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(document.getElementById('email').value)){document.getElementById('memail').classList.add('show');ok=false;}else{document.getElementById('memail').classList.remove('show');}
-    if(!ok)return;
+    if(!validarDados())return;
     montarResumo();
   }
   if(n===4){
     if(!document.getElementById('pagou').checked){document.getElementById('mpag').classList.add('show');return;}
     document.getElementById('mpag').classList.remove('show');
+    finalizar();
+    return;
   }
   [1,2,3,4].forEach(function(i){
-    document.getElementById('etapa'+i).classList.add('hide');
-    document.getElementById('p'+i).classList.remove('on');
+    var e=document.getElementById('etapa'+i);
+    if(e)e.classList.add('hide');
+    var p=document.getElementById('p'+i);
+    if(p)p.classList.remove('on');
   });
   document.getElementById('sucesso').classList.add('hide');
   document.getElementById('etapa'+n).classList.remove('hide');
@@ -298,50 +300,50 @@ function ir(n){
 }
 
 function copiarPix(){
-  navigator.clipboard.writeText(PIX).then(function(){
+  var run=function(){
     var b=document.querySelector('#fc .copy'), t=b.textContent;
     b.textContent='✓ Copiado!'; setTimeout(function(){b.textContent=t;},1800);
-  });
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(PIX).then(run,run);}
+  else{var ta=document.createElement('textarea');ta.value=PIX;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);run();}
 }
 
 function finalizar(){
-  var data=document.getElementById('data').value;
   var nome=document.getElementById('nome').value.trim();
   var cpf=maskCPF(document.getElementById('cpf').value);
   var tel=maskTel(document.getElementById('tel').value);
   var email=document.getElementById('email').value.trim();
   var cnpj=maskCNPJ(document.getElementById('cnpj').value);
-  var ok=true;
-  if(!st.cnh){document.getElementById('mcnh').classList.add('show');ok=false;}
-  if(!data){document.getElementById('mdata').classList.add('show');ok=false;}
-  if(!st.hora){document.getElementById('mhora').classList.add('show');ok=false;}
-  if(!ok)return;
+  var cnh=document.getElementById('cnhnum').value.replace(/\D/g,'');
+  var cnhVal=document.getElementById('cnhval').value;
+  var d=cnhVal.split('-'), cnhValBR=d[2]+'/'+d[1]+'/'+d[0];
 
-  var d=data.split('-'), dataBR=d[2]+'/'+d[1]+'/'+d[0];
   var linhas=[
     '🔐 *PEDIDO DE CERTIFICADO DIGITAL — CGE EMITTA*','',
     '*Produto:* Certificado '+st.tipo,
     (st.tipo==='A1 PJ'&&cnpj)?'*CNPJ:* '+cnpj:null,
-    '*Titular:* '+nome,
+    '*Nome:* '+nome,
     '*CPF:* '+cpf,
-    '*WhatsApp:* '+tel,
-    '*E-mail:* '+email,'',
-    '*CNH válida:* '+(st.cnh==='sim'?'SIM':'NÃO tenho'),
-    st.cnh==='sim'?'*Videoconferência:* '+dataBR+' às '+st.hora:'*Atendimento:* presencial (sem CNH válida)','',
+    '*E-mail:* '+email,
+    '*Celular:* '+tel,
+    '*CNH registro:* '+cnh,
+    '*CNH validade:* '+cnhValBR,'',
     '*Valor:* R$ '+st.preco+',00',
     '*Pagamento:* PIX '+PIX,'',
-    'Vou enviar o comprovante nesta conversa. ✅'
+    'Anexo nesta conversa: comprovante do PIX + foto da CNH (frente e verso).',
+    'Aguardo a confirmação e o link de agendamento. ✅'
   ].filter(Boolean).join('\n');
 
   var url='https://wa.me/'+WA+'?text='+encodeURIComponent(linhas);
   document.getElementById('wame').href=url;
-  document.getElementById('resumoFinal').innerHTML=
-    '<div class="l"><span>Produto</span><span>Certificado '+st.tipo+'</span></div>'
-    +'<div class="l"><span>Titular</span><span>'+nome+'</span></div>'
-    +(st.cnh==='sim'?'<div class="l"><span>Videoconferência</span><span>'+dataBR+' · '+st.hora+'</span></div>':'<div class="l"><span>Atendimento</span><span>Presencial</span></div>')
-    +'<div class="l"><span>Total</span><span>R$ '+st.preco+',00</span></div>';
+  document.getElementById('agenda').href=AGENDA;
+  document.getElementById('resumoFinal').innerHTML=montarResumo();
 
-  [1,2,3,4].forEach(function(i){document.getElementById('etapa'+i).classList.add('hide');});
+  [1,2,3].forEach(function(i){
+    var e=document.getElementById('etapa'+i);
+    if(e)e.classList.add('hide');
+  });
+  document.getElementById('p4').classList.add('on');
   document.getElementById('sucesso').classList.remove('hide');
   window.scrollTo({top:0,behavior:'smooth'});
   window.open(url,'_blank');
