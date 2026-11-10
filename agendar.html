@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agendamento da videoconferência — CGE EMITTA</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--preto:#0A0A0A;--preto2:#161615;--dourado:#CA983B;--amarelo:#E6AD41;--prata:#AAAAAC;--branco:#fff;--display:'Space Grotesk',sans-serif;--body:'Inter',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--preto);color:var(--branco);font-family:var(--body);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;line-height:1.6}
+.box{max-width:420px;text-align:center}
+.cge{font-family:var(--display);font-weight:700;font-size:34px;letter-spacing:.5px;background:linear-gradient(160deg,#F0C463,#E6AD41 40%,#CA983B 70%,#8C6521);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sis{display:flex;align-items:center;gap:8px;justify-content:center;font-size:10px;letter-spacing:.34em;color:#E8E8E8;margin-top:3px;font-weight:600}
+.sis::before,.sis::after{content:"";width:34px;height:1px;background:linear-gradient(90deg,transparent,#CA983B)}
+.sis::after{background:linear-gradient(90deg,#CA983B,transparent)}
+.card{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:18px;padding:26px;margin-top:26px}
+h1{font-family:var(--display);font-size:21px;margin-bottom:8px}
+p{color:var(--prata);font-size:14px;margin-bottom:16px}
+.btn{display:block;border-radius:999px;padding:15px;font-size:15px;font-weight:700;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);text-decoration:none}
+.spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(202,152,59,.35);border-top-color:var(--amarelo);border-radius:50%;animation:g 1s linear infinite;vertical-align:-3px;margin-right:8px}
+@keyframes g{to{transform:rotate(360deg)}}
+.ft{margin-top:18px;font-size:12px;color:#666}
+</style>
+<script>
+(function(){
+  var alvo='certificado.html?agendar=cgeagenda';
+  try{window.location.replace(alvo);}catch(e){}
+})();
+</script>
+<noscript><meta http-equiv="refresh" content="0; url=certificado.html?agendar=cgeagenda"></noscript>
+</head>
+<body>
+<div class="box">
+  <a href="index.html" style="text-decoration:none"><div class="cge">CGE</div><div class="sis">SISTEMAS</div></a>
+  <div class="card">
+    <h1><span class="spin"></span>Abrindo o agendamento</h1>
+    <p>Estamos te levando para a tela de agendamento da videoconferência.</p>
+    <a class="btn" href="certificado.html?agendar=cgeagenda">Continuar →</a>
+  </div>
+  <p class="ft">CGE EMITTA · CRC 004878/O-7 · WhatsApp (63) 99285-6647</p>
+</div>
+</body>
+</html>
