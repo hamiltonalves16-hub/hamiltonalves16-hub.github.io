@@ -33,9 +33,14 @@ footer b{color:var(--prata)}
 #fc h1{font-family:var(--display);font-size:clamp(26px,5vw,36px);line-height:1.12;margin:26px 0 8px}
 #fc h1 span{color:var(--amarelo)}
 #fc .sub{color:var(--prata);font-size:15px;margin-bottom:24px}
-#fc .steps{display:flex;gap:6px;margin-bottom:26px}
+#fc .steps{display:flex;gap:6px;margin-bottom:8px}
 #fc .step{flex:1;height:5px;background:#232323;border-radius:99px;overflow:hidden}
 #fc .step.on{background:linear-gradient(90deg,var(--dourado),var(--amarelo))}
+#fc .stepslbl{display:flex;justify-content:space-between;gap:4px;margin:0 0 24px;font-size:10.5px;letter-spacing:.02em;color:#777;font-weight:600;text-transform:uppercase}
+#fc .stepslbl span{flex:1;text-align:center}
+#fc .stepslbl span:first-child{text-align:left}
+#fc .stepslbl span:last-child{text-align:right}
+#fc .stepslbl .done{color:var(--amarelo)}
 #fc .card{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:18px;padding:24px;margin-bottom:18px}
 #fc .card h2{font-family:var(--display);font-size:20px;margin-bottom:4px;text-align:left}
 #fc .card h2 .n{display:inline-flex;width:28px;height:28px;align-items:center;justify-content:center;border-radius:9px;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);font-size:15px;margin-right:10px;vertical-align:middle}
@@ -43,7 +48,6 @@ footer b{color:var(--prata)}
 #fc label{display:block;font-size:13px;font-weight:600;color:#DDD;margin:0 0 6px}
 #fc input{width:100%;background:#0F0F0F;border:1px solid #333;color:#fff;border-radius:11px;padding:12px 14px;font-size:15px;font-family:var(--body);outline:none}
 #fc input:focus{border-color:var(--dourado)}
-#fc input[readonly]{color:var(--prata)}
 #fc .f{margin-bottom:14px}
 #fc .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:560px){#fc .row{grid-template-columns:1fr}}
@@ -70,6 +74,9 @@ footer b{color:var(--prata)}
 #fc .warn{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.45);border-radius:13px;padding:14px 16px;font-size:13.5px;color:#FCA5A5;margin-bottom:16px}
 #fc .warn b{color:#fff}
 #fc .okbox{background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.5);border-radius:13px;padding:14px 16px;font-size:13.5px;color:#6EE7B7;margin-bottom:16px}
+#fc .lockbox{background:rgba(202,152,59,.08);border:1px dashed var(--dourado);border-radius:13px;padding:16px;font-size:13.5px;color:#E8D9B5;margin-bottom:16px;text-align:left;line-height:1.6}
+#fc .lockbox b{color:#fff}
+#fc .lockbox .lk{font-size:22px;display:block;margin-bottom:6px}
 #fc .check{display:flex;gap:11px;align-items:flex-start;font-size:13.5px;color:#DDD;cursor:pointer;margin-bottom:10px}
 #fc .check input{width:19px;height:19px;flex-shrink:0;margin-top:2px;accent-color:var(--amarelo)}
 #fc .resumo{background:#0F0F0F;border-radius:13px;padding:16px;font-size:14px;margin-bottom:16px}
@@ -104,6 +111,7 @@ footer b{color:var(--prata)}
 <p class="sub">Emissão 100% por videoconferência, com reconhecimento facial. <b style="color:var(--amarelo)">Pedidos 24 horas.</b></p>
 
 <div class="steps"><div class="step" id="p1"></div><div class="step" id="p2"></div><div class="step" id="p3"></div><div class="step" id="p4"></div></div>
+<div class="stepslbl"><span>1 · Produto</span><span>2 · Dados + CNH</span><span>3 · Pagamento</span><span id="lbl4">4 · Agendamento 🔒</span></div>
 
 <div id="etapa1">
   <div class="card">
@@ -157,7 +165,7 @@ footer b{color:var(--prata)}
 <div id="etapa3" class="hide">
   <div class="card">
     <h2><span class="n">3</span>Pagamento</h2>
-    <p class="hint">Pague via PIX e envie o comprovante no WhatsApp. O agendamento é liberado após a confirmação do pagamento.</p>
+    <p class="hint">Pague via PIX e envie o comprovante no WhatsApp.</p>
     <div class="okbox"><b>🕐 Pedidos 24 horas:</b> você pode enviar seu pedido a qualquer hora, todos os dias. O atendimento e as dúvidas são respondidos de segunda a sexta, das 08h às 18h.</div>
     <div class="resumo" id="resumo1"></div>
     <div class="pixbox">
@@ -175,12 +183,26 @@ footer b{color:var(--prata)}
 <div id="sucesso" class="hide">
   <div class="card" style="text-align:center">
     <div class="big">✓</div>
-    <h2 style="justify-content:center;text-align:center">Pedido registrado!</h2>
+    <h2 style="justify-content:center;text-align:center">Pedido registrado — etapa 3 concluída</h2>
     <p class="hint" style="margin-bottom:18px">Abrimos o WhatsApp com o resumo do seu pedido. <b>Envie a mensagem, o comprovante do PIX e a foto da CNH</b> nesta conversa.</p>
     <div class="resumo" id="resumoFinal" style="text-align:left"></div>
-    <div class="okbox" style="text-align:left"><b>Próximo passo:</b> assim que conferirmos o pagamento, você recebe a confirmação e o agendamento da videoconferência. Se o pagamento já foi confirmado, agende pelo botão abaixo.</div>
-    <a class="btn" id="agenda" href="https://certcontrol.com.br/web/agendamento/01a1696c-e32d-7047-b153-bc161647f686" target="_blank" rel="noopener">Agendar videoconferência 📅</a>
+    <div class="lockbox">
+      <span class="lk">🔒</span>
+      <b>4ª e última etapa — Agendamento</b><br>
+      O agendamento só é liberado <b>após a confirmação do pagamento</b>. Assim que conferirmos o seu PIX, você recebe <b>aqui no WhatsApp o link</b> para escolher o dia e o horário da videoconferência.
+    </div>
     <p class="hint" style="margin:12px 0 0">Não abriu o WhatsApp? <a href="#" id="wame" style="color:var(--amarelo);font-weight:600">Clique aqui</a> ou chame no (63) 99285-6647.</p>
+  </div>
+</div>
+
+<div id="agendaOnly" class="hide">
+  <div class="card" style="text-align:center">
+    <div class="big">📅</div>
+    <h2 style="justify-content:center;text-align:center">Agendamento liberado</h2>
+    <p class="hint" style="margin-bottom:18px">Pagamento confirmado. Escolha agora o dia e o horário da sua videoconferência.</p>
+    <a class="btn" id="agendaBtn" href="https://certcontrol.com.br/web/agendamento/01a1696c-e32d-7047-b153-bc161647f686" target="_blank" rel="noopener">Agendar videoconferência 📅</a>
+    <div class="okbox" style="text-align:left;margin-top:16px"><b>Antes de agendar:</b> tenha a <b>CNH em mãos</b> e um ambiente iluminado. A videoconferência faz reconhecimento facial comparando com a foto da CNH.</div>
+    <p class="hint" style="margin:12px 0 0">Dúvidas? WhatsApp (63) 99285-6647 — seg a sex, 08h às 18h.</p>
   </div>
 </div>
 </div>
@@ -202,7 +224,24 @@ footer b{color:var(--prata)}
 <script>
 var PIX="19.819.476/0001-87", WA="5563992856647";
 var AGENDA="https://certcontrol.com.br/web/agendamento/01a1696c-e32d-7047-b153-bc161647f686";
+var CODE="cgeagenda";
 var st={tipo:"",preco:0};
+
+(function liberar(){
+  var q=new URLSearchParams(window.location.search);
+  var c=(q.get('agendar')||'').trim().toLowerCase();
+  if(c!==CODE) return;
+  ['etapa1','etapa2','etapa3','sucesso'].forEach(function(id){
+    var e=document.getElementById(id); if(e)e.classList.add('hide');
+  });
+  ['.steps','h1','.sub'].forEach(function(sel){
+    var e=document.querySelector('#fc '+sel); if(e)e.classList.add('hide');
+  });
+  for(var i=1;i<=4;i++){ var pp=document.getElementById('p'+i); if(pp)pp.classList.add('on'); }
+  var l=document.getElementById('lbl4'); if(l){l.classList.add('done');l.textContent='4 · Agendamento';}
+  document.getElementById('agendaOnly').classList.remove('hide');
+  document.title='Agendamento da videoconferência — CGE EMITTA';
+})();
 
 function maskCPF(v){return v.replace(/\D/g,'').slice(0,11).replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');}
 function maskCNPJ(v){return v.replace(/\D/g,'').slice(0,14).replace(/^(\d{2})(\d)/,'$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3').replace(/\.(\d{3})(\d)/,'.$1/$2').replace(/(\d{4})(\d)/,'$1-$2');}
@@ -294,6 +333,7 @@ function ir(n){
     if(p)p.classList.remove('on');
   });
   document.getElementById('sucesso').classList.add('hide');
+  document.getElementById('agendaOnly').classList.add('hide');
   document.getElementById('etapa'+n).classList.remove('hide');
   for(var i=1;i<=n;i++)document.getElementById('p'+i).classList.add('on');
   window.scrollTo({top:0,behavior:'smooth'});
@@ -331,19 +371,19 @@ function finalizar(){
     '*Valor:* R$ '+st.preco+',00',
     '*Pagamento:* PIX '+PIX,'',
     'Anexo nesta conversa: comprovante do PIX + foto da CNH (frente e verso).',
-    'Aguardo a confirmação e o link de agendamento. ✅'
+    'Aguardo a confirmação do pagamento para liberar o agendamento. ✅'
   ].filter(Boolean).join('\n');
 
   var url='https://wa.me/'+WA+'?text='+encodeURIComponent(linhas);
   document.getElementById('wame').href=url;
-  document.getElementById('agenda').href=AGENDA;
   document.getElementById('resumoFinal').innerHTML=montarResumo();
 
-  [1,2,3].forEach(function(i){
+  [1,2,3,4].forEach(function(i){
     var e=document.getElementById('etapa'+i);
     if(e)e.classList.add('hide');
   });
-  document.getElementById('p4').classList.add('on');
+  document.getElementById('p4').classList.remove('on');
+  var l4=document.getElementById('lbl4'); if(l4)l4.classList.remove('done');
   document.getElementById('sucesso').classList.remove('hide');
   window.scrollTo({top:0,behavior:'smooth'});
   window.open(url,'_blank');
