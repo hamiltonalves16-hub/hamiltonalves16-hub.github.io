@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CGE Contabilidade & Gestão Empresarial — Contabilidade + Emissor de Notas</title>
+<meta name="description" content="CGE EMITTA: contabilidade completa com emissor de notas fiscal incluso. MEI, ME e EPP. Certificado digital A1 por videoconferência. Vilhena/RO e todo o Brasil.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--preto:#0A0A0A;--preto2:#161615;--dourado:#CA983B;--amarelo:#E6AD41;--prata:#AAAAAC;--branco:#fff;--display:'Space Grotesk',sans-serif;--body:'Inter',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--preto);color:var(--branco);font-family:var(--body);line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+header{position:sticky;top:0;background:rgba(10,10,10,.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(202,152,59,.25);z-index:50}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+.brand{display:block;line-height:1;text-decoration:none}
+.brand .cge{display:block;font-family:var(--display);font-weight:700;font-size:27px;letter-spacing:.5px;background:linear-gradient(160deg,#F0C463,#E6AD41 40%,#CA983B 70%,#8C6521);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .sis{display:flex;align-items:center;gap:7px;font-size:9.5px;letter-spacing:.34em;color:#E8E8E8;margin-top:3px;font-weight:600}
+.brand .sis::before,.brand .sis::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#CA983B)}
+.nav a{color:var(--prata);text-decoration:none;font-weight:600;font-size:15px;margin-left:22px}
+.nav a:hover{color:var(--amarelo)}
+.nav .cta{background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);padding:10px 20px;border-radius:999px;font-weight:700}
+.hero{padding:90px 0 70px;text-align:center;background:radial-gradient(ellipse at top,rgba(202,152,59,.12),transparent 60%)}
+.eyebrow{color:var(--dourado);font-weight:600;text-transform:uppercase;letter-spacing:.14em;font-size:14px}
+h1{font-family:var(--display);font-size:clamp(38px,6vw,64px);line-height:1.05;margin:18px 0}
+h1 span{color:var(--amarelo)}
+.hero p{color:var(--prata);font-size:19px;max-width:640px;margin:0 auto 34px}
+.btn{display:inline-block;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);font-weight:700;font-size:17px;padding:16px 34px;border-radius:999px;text-decoration:none;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;border:2px solid var(--dourado);color:var(--amarelo);margin-left:12px}
+.badges{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:44px}
+.badge{background:var(--preto2);border:1px solid rgba(202,152,59,.4);border-radius:999px;padding:8px 20px;font-size:14px;color:var(--prata)}
+section{padding:70px 0}
+h2{font-family:var(--display);font-size:clamp(30px,4vw,42px);text-align:center;margin-bottom:10px}
+h2 span{color:var(--amarelo)}
+.sub{color:var(--prata);text-align:center;max-width:620px;margin:0 auto 46px;font-size:17px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.card{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:18px;padding:30px;transition:.2s}
+.card:hover{border-color:var(--amarelo);transform:translateY(-4px)}
+.card .ic{font-size:34px}
+.card h3{font-family:var(--display);font-size:21px;margin:12px 0 8px}
+.card p{color:var(--prata);font-size:15px}
+.price{font-family:var(--display);font-size:32px;font-weight:700;color:var(--amarelo);margin:14px 0 4px}
+.price small{font-size:15px;color:var(--prata);font-weight:400}
+.card ul{list-style:none;margin:14px 0 0}
+.card li{font-size:14px;color:var(--branco);padding:5px 0;border-bottom:1px solid rgba(202,152,59,.12)}
+.card li:last-child{border:none}
+.tabela{width:100%;border-collapse:collapse;margin-top:30px}
+.tabela th{background:var(--preto2);color:var(--amarelo);font-family:var(--display);padding:14px;text-align:left;font-size:15px;border-bottom:2px solid var(--dourado)}
+.tabela td{padding:13px 14px;border-bottom:1px solid rgba(202,152,59,.15);font-size:15px}
+.tabela tr:hover td{background:rgba(202,152,59,.06)}
+.promo{background:linear-gradient(135deg,rgba(202,152,59,.15),rgba(230,173,65,.05));border:2px dashed var(--dourado);border-radius:18px;padding:40px;text-align:center;max-width:760px;margin:20px auto}
+.promo h3{font-family:var(--display);font-size:28px}
+.promo .valor{font-family:var(--display);font-size:64px;font-weight:700;color:var(--amarelo);margin:10px 0}
+.promo p{color:var(--prata)}
+.pas{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-top:40px}
+.paso{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:16px;padding:26px;text-align:center}
+.paso .n{display:inline-block;font-family:var(--display);font-weight:700;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);width:40px;height:40px;line-height:40px;border-radius:12px;font-size:20px}
+.paso h4{font-family:var(--display);margin:12px 0 6px;font-size:17px}
+.paso p{color:var(--prata);font-size:14px}
+footer{border-top:1px solid rgba(202,152,59,.25);padding:44px 0 30px;text-align:center;color:#777;font-size:14px}
+footer b{color:var(--prata)}
+.wa{position:fixed;right:22px;bottom:22px;background:#25D366;color:#fff;font-weight:700;text-decoration:none;border-radius:999px;padding:14px 24px;font-size:15px;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:60}
+@media(max-width:700px){.nav a:not(.cta){display:none}.btn.ghost{margin:12px 0 0}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap nav">
+<a href="index.html" class="brand"><span class="cge">CGE</span><span class="sis">SISTEMAS</span></a>
+<div>
+<a href="#servicos">Serviços</a>
+<a href="#precos">Planos</a>
+<a href="certificado.html">Certificado</a>
+<a href="#parceiros">Seja Parceiro</a>
+<a href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site%20CGECONTABIL" class="cta">Falar no WhatsApp</a>
+</div>
+</div>
+</header>
+<section class="hero">
+<div class="wrap">
+<div class="eyebrow">CGE Contabilidade &amp; Gestão Empresarial · Vilhena/RO</div>
+<h1>Contabilidade completa com <span>emissor de notas incluso.</span></h1>
+<p>Imposto em dia, notas emitidas em segundos e contador responsável com CRC. Do MEI à EPP — presencial em Vilhena ou 100% online para todo o Brasil.</p>
+<a class="btn" href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site%20CGECONTABIL">Quero contratar 📲</a>
+<a class="btn ghost" href="certificado.html">Certificado digital 🪪</a>
+<div class="badges">
+<span class="badge">✅ Contador responsável CRC</span>
+<span class="badge">⚡ Notas em segundos</span>
+<span class="badge">🪪 Certificado por videoconferência</span>
+<span class="badge">🇧🇷 Atendimento em todo o Brasil</span>
+</div>
+</div>
+</section>
+<section id="servicos">
+<div class="wrap">
+<h2>Nossos <span>produtos e serviços</span></h2>
+<p class="sub">Solução completa: a empresa contrata a contabilidade e já sai emitindo notas — sem pagar nada a mais pelo emissor.</p>
+<div class="grid">
+<div class="card">
+<div class="ic">🧾</div>
+<h3>Contabilidade + Emissor</h3>
+<div class="price">R$ 129,99<small>/mês</small></div>
+<p>a partir de — MEI</p>
+<ul><li>✔ DAS e impostos em dia</li><li>✔ Emissor de notas incluso</li><li>✔ Contador responsável</li></ul>
+</div>
+<a href="certificado.html" style="text-decoration:none;color:inherit">
+<div class="card">
+<div class="ic">🪪</div>
+<h3>Certificado Digital A1</h3>
+<div class="price">R$ 160<small> PF · R$ 190 PJ</small></div>
+<p>por videoconferência — sem sair de casa</p>
+<ul><li>✔ Basta CNH válida</li><li>✔ Validade 1 ano</li><li>✔ Renovação automática 5 anos</li></ul>
+<p style="margin-top:14px;color:var(--amarelo);font-weight:700">Pedir meu certificado →</p>
+</div>
+</a>
+<div class="card">
+<div class="ic">🏢</div>
+<h3>Abertura de Empresa</h3>
+<div class="price">Honorário R$ 0<small> com contabilidade</small></div>
+<p>abrimos sua PJ funcionando</p>
+<ul><li>✔ CNPJ + contrato social</li><li>✔ Taxas oficiais por sua conta</li><li>✔ 100% digital</li></ul>
+</div>
+<div class="card">
+<div class="ic">🤝</div>
+<h3>Seja Parceiro CGE EMITTA</h3>
+<div class="price">20% a 30%<small> de comissão</small></div>
+<p>renda recorrente com nossa estrutura</p>
+<ul><li>✔ Kit comercial completo</li><li>✔ Treinamento + suporte</li><li>✔ Investimento R$ 5.000 abonado</li></ul>
+</div>
+</div>
+</div>
+</section>
+<section id="precos" style="background:var(--preto2)">
+<div class="wrap">
+<h2>Planos <span>CGE EMITTA</span></h2>
+<p class="sub">Preço fechado, sem surpresa. Todos com emissor de notas incluso e suporte.</p>
+<table class="tabela">
+<tr><th>Plano</th><th>Mensalidade</th><th>Perfil do cliente</th><th>O que inclui</th></tr>
+<tr><td><b>MEI</b></td><td><b style="color:var(--amarelo)">R$ 129,99/mês</b></td><td>MEI · 1 funcionário</td><td>Contabilidade + emissor completo</td></tr>
+<tr><td><b>ME</b></td><td><b style="color:var(--amarelo)">R$ 299,99/mês</b></td><td>ME · 2 funcionários · até R$ 30 mil/mês</td><td>Contabilidade + emissor completo</td></tr>
+<tr><td><b>EPP</b></td><td><b style="color:var(--amarelo)">R$ 399,00/mês</b></td><td>EPP · 3 funcionários · até R$ 70 mil/mês</td><td>Contabilidade + emissor completo</td></tr>
+</table>
+</div>
+</section>
+<section id="parceiros">
+<div class="wrap">
+<h2>Seja <span>Parceiro CGE EMITTA</span></h2>
+<p class="sub">Construa uma carteira de renda recorrente vendendo contabilidade com emissor incluso — com toda a retaguarda da CGE.</p>
+<div class="pas">
+<div class="paso"><span class="n">1</span><h4>Adesão</h4><p>Assine a proposta e entre na rede. Nível inicial: 20% de comissão.</p></div>
+<div class="paso"><span class="n">2</span><h4>Kit + Treinamento</h4><p>Receba apresentações, posts, roteiros e acesso ao painel do parceiro.</p></div>
+<div class="paso"><span class="n">3</span><h4>Venda</h4><p>Prospere no seu mercado com nossa retaguarda técnica e contábil.</p></div>
+<div class="paso"><span class="n">4</span><h4>Ganhe sempre</h4><p>Comissão recorrente todo mês. 100 clientes = até R$ 9.000/mês.</p></div>
+</div>
+<div style="text-align:center;margin-top:34px">
+<a class="btn" href="https://wa.me/5563992856647?text=Quero%20ser%20parceiro%20CGE%20EMITTA!">Quero ser parceiro 🤝</a>
+<p style="color:var(--prata);font-size:14px;margin-top:12px">Já é parceiro? <a href="https://appemitta.cgecontabil.com.br/login" style="color:var(--amarelo)">Acessar painel →</a></p>
+</div>
+</div>
+</section>
+<section id="contato" style="background:var(--preto2)">
+<div class="wrap" style="text-align:center">
+<h2>Fale <span>conosco</span></h2>
+<p class="sub">Atendimento presencial em Vilhena/RO — e online para todo o Brasil.</p>
+<div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:10px">
+<a class="btn" href="https://wa.me/5563992856647">📲 WhatsApp (63) 99285-6647</a>
+<a class="btn ghost" href="https://wa.me/5569993298629">📲 (69) 99329-8629</a>
+</div>
+<p style="margin-top:26px;color:var(--prata);font-size:16px">📍 Av. Benno Luiz Graebin, 5939 — Sala 02 · Vilhena/RO</p>
+<p style="color:var(--prata);font-size:15px">✉️ cge.contabilidade.gestao@gmail.com</p>
+</div>
+</section>
+<footer>
+<div class="wrap">
+<p><b>CGE EMITTA</b> · CGE Contabilidade &amp; Gestão Empresarial</p>
+<p style="margin-top:6px">Responsável Técnico: Hamilton Alves — Contador · CRC 004878/O-7</p>
+<p style="margin-top:10px"><b style="color:var(--amarelo)">Pedidos 24 horas</b> · todo dia, a qualquer hora</p>
+<p style="margin-top:4px"><b style="color:var(--amarelo)">Atendimento e dúvidas:</b> segunda a sexta, 08h às 18h</p>
+<p style="margin-top:6px">© 2026 · CGECONTABIL.COM.BR — Tecnologia para emitir. Estrutura para crescer.</p>
+</div>
+</footer>
+<a class="wa" href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site">💬 Fale conosco</a>
+</body>
+</html>
