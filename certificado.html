@@ -8,11 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--preto:#0A0A0A;--preto2:#161615;--dourado:#CA983B;--amarelo:#E6AD41;--prata:#AAAAAC;--branco:#fff;--display:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;--verde:#6EE7B7;--erro:#EF4444}
+:root{--preto:#0A0A0A;--preto2:#161615;--dourado:#CA983B;--amarelo:#E6AD41;--prata:#AAAAAC;--branco:#fff;--display:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;--verde:#6EE7B7}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--preto);color:var(--branco);font-family:var(--body);line-height:1.6}
 .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
-header{position:sticky;top:0;background:rgba(10,10,10,.95);backdrop-filter:blur(8px);border-bottom:1px solid rgba(202,152,59,.25);z-index:50}
+header{position:sticky;top:0;background:rgba(10,10,10,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(202,152,59,.25);z-index:50}
 .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
 .brand{display:block;line-height:1;text-decoration:none}
 .brand .cge{display:block;font-family:var(--display);font-weight:700;font-size:27px;letter-spacing:.5px;background:linear-gradient(160deg,#F0C463,#E6AD41 40%,#CA983B 70%,#8C6521);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -21,75 +21,57 @@ header{position:sticky;top:0;background:rgba(10,10,10,.95);backdrop-filter:blur(
 .nav a{color:var(--prata);text-decoration:none;font-weight:600;font-size:15px;margin-left:22px}
 .nav a:hover{color:var(--amarelo)}
 .nav .cta{background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);padding:10px 20px;border-radius:999px;font-weight:700}
-footer{border-top:1px solid rgba(202,152,59,.25);padding:40px 0 30px;text-align:center;color:#777;font-size:13.5px}
+footer{border-top:1px solid rgba(202,152,59,.25);padding:36px 0 28px;text-align:center;color:#777;font-size:13.5px}
 footer b{color:var(--prata)}
 .wa{position:fixed;right:22px;bottom:22px;background:#25D366;color:#fff;font-weight:700;text-decoration:none;border-radius:999px;padding:14px 24px;font-size:15px;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:60}
 @media(max-width:700px){.nav a:not(.cta){display:none}}
-#fc{line-height:1.55;padding:10px 0 60px}
-#fc .wrapc{max-width:620px;margin:0 auto;padding:0 24px}
-#fc h1{font-family:var(--display);font-size:clamp(26px,5vw,34px);margin:24px 0 6px}
-#fc h1 span{color:var(--amarelo)}
-#fc .sub{color:var(--prata);font-size:14.5px;margin-bottom:20px}
-#fc .steps{display:flex;gap:6px;margin-bottom:8px}
-#fc .step{flex:1;height:5px;background:#232323;border-radius:99px}
-#fc .step.on{background:linear-gradient(90deg,var(--dourado),var(--amarelo))}
-#fc .stepslbl{display:flex;justify-content:space-between;margin-bottom:22px;font-size:10px;color:#777;font-weight:600;text-transform:uppercase}
-#fc .stepslbl span{flex:1;text-align:center}
-#fc .stepslbl span:first-child{text-align:left}
-#fc .stepslbl span:last-child{text-align:right}
-#fc .card{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:18px;padding:22px;margin-bottom:16px}
-#fc h2{font-family:var(--display);font-size:19px;margin-bottom:12px}
-#fc h2 .n{display:inline-flex;width:26px;height:26px;align-items:center;justify-content:center;border-radius:8px;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);font-size:14px;margin-right:9px;vertical-align:middle}
-#fc .hint{color:var(--prata);font-size:13px;margin-bottom:16px}
-#fc label{display:block;font-size:12.5px;font-weight:600;color:#DDD;margin:0 0 5px}
-#fc input[type=text],#fc input[type=email],#fc input[type=date]{width:100%;background:#0F0F0F;border:1px solid #333;color:#fff;border-radius:10px;padding:11px 13px;font-size:15px;font-family:var(--body);outline:none}
-#fc input:focus{border-color:var(--dourado)}
-#fc .f{margin-bottom:12px}
-#fc .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:560px){#fc .row{grid-template-columns:1fr}}
-#fc .msg{font-size:11.5px;color:var(--erro);margin-top:4px;display:none}
-#fc .msg.show{display:block}
-#fc .req{color:var(--amarelo)}
-#fc .opts{display:grid;gap:9px;margin-top:4px}
-#fc .opt{cursor:pointer;border:1px solid #333;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:11px;transition:.15s}
-#fc .opt:hover{border-color:var(--dourado)}
-#fc .opt.sel{border-color:var(--amarelo);background:rgba(202,152,59,.1)}
-#fc .opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid #555;flex-shrink:0;position:relative}
-#fc .opt.sel .dot{border-color:var(--amarelo)}
-#fc .opt.sel .dot::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--amarelo)}
-#fc .opt .t{font-weight:600;font-size:13.5px}
-#fc .opt .d{color:var(--prata);font-size:12px}
-#fc .tipo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
-#fc .tp{cursor:pointer;border:1px solid #333;border-radius:12px;padding:12px;text-align:center;transition:.15s}
-#fc .tp:hover{border-color:var(--dourado)}
-#fc .tp.sel{border-color:var(--amarelo);background:rgba(202,152,59,.1)}
-#fc .tp .t{font-weight:700;font-size:13.5px}
-#fc .tp .p{font-family:var(--display);font-weight:700;color:var(--amarelo);font-size:17px;margin-top:2px}
-#fc .btn{width:100%;border:0;border-radius:999px;padding:15px;font-size:16px;font-weight:700;font-family:var(--body);cursor:pointer;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);display:block;text-align:center;text-decoration:none}
-#fc .btn.ghost{background:transparent;border:2px solid var(--dourado);color:var(--amarelo);margin-top:9px}
-#fc .btn:disabled{opacity:.55;cursor:not-allowed;background:#2a2a2a;color:#aaa;border-color:#2a2a2a}
-#fc .pixbox{background:#0F0F0F;border:1px dashed var(--dourado);border-radius:12px;padding:15px;text-align:center;margin-bottom:14px}
-#fc .pixbox .k{font-family:var(--display);font-size:18px;font-weight:700;color:var(--amarelo);word-break:break-all}
-#fc .pixbox .l{font-size:11.5px;color:var(--prata);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
-#fc .copy{margin-top:9px;background:#1E1E1E;border:1px solid #333;color:#fff;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer}
-#fc .warn{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.45);border-radius:12px;padding:13px 15px;font-size:13px;color:#FCA5A5;margin-bottom:14px}
-#fc .warn b{color:#fff}
-#fc .okbox{background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.5);border-radius:12px;padding:13px 15px;font-size:13px;color:var(--verde);margin-bottom:14px}
-#fc .okbox b{color:#fff}
-#fc .check{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:#DDD;cursor:pointer;margin-bottom:8px;font-weight:400}
-#fc .check input{width:18px;height:18px;flex-shrink:0;margin-top:2px;accent-color:var(--amarelo)}
-#fc .resumo{background:#0F0F0F;border-radius:12px;padding:15px;font-size:13.5px;margin-bottom:14px}
-#fc .resumo .l{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1E1E1E;gap:12px}
-#fc .resumo .l:last-child{border:0;padding-top:11px;font-family:var(--display);font-size:16px}
-#fc .resumo .l span:last-child{font-weight:700;text-align:right}
-#fc .resumo .l:last-child span:last-child{color:var(--amarelo)}
-#fc .big{display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:18px;background:rgba(5,150,105,.15);border:1px solid rgba(5,150,105,.5);color:var(--verde);font-size:30px;margin:0 auto 14px}
-#fc .hide{display:none!important}
-#fc .arq{background:#0F0F0F;border:1px dashed #555;border-radius:10px;padding:12px;font-size:13px;color:#ccc;width:100%}
-#fc .prev{margin-top:9px}
-#fc .prev img{max-width:100%;border-radius:10px;border:1px solid #333}
-#fc .lista{background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.5);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--verde);text-align:left;margin-bottom:16px;line-height:1.9}
-#fc .lista b{color:#fff}
+#pc{max-width:640px;margin:0 auto;padding:24px 22px 60px}
+#pc h1{font-family:var(--display);font-size:clamp(25px,5vw,33px);margin-bottom:5px}
+#pc h1 span{color:var(--amarelo)}
+#pc .sub{color:var(--prata);font-size:14px;margin-bottom:20px}
+.barra{display:flex;gap:6px;margin-bottom:6px}
+.barra div{flex:1;height:5px;background:#232323;border-radius:99px}
+.barra div.on{background:linear-gradient(90deg,var(--dourado),var(--amarelo))}
+.lblbarra{display:flex;justify-content:space-between;font-size:10px;color:#777;font-weight:600;text-transform:uppercase;margin-bottom:20px;letter-spacing:.03em}
+.lblbarra span{flex:1;text-align:center}
+.lblbarra span:first-child{text-align:left}
+.lblbarra span:last-child{text-align:right}
+.bloco{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:16px;padding:20px;margin-bottom:16px}
+.bloco h2{font-family:var(--display);font-size:18px;margin-bottom:6px}
+.bloco h2 .n{display:inline-flex;width:25px;height:25px;align-items:center;justify-content:center;border-radius:8px;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);font-size:13px;margin-right:8px;vertical-align:middle}
+.bloco p.desc{color:var(--prata);font-size:13px;margin-bottom:14px}
+.bloco.travado{opacity:.55}
+.bloco.travado .btn{pointer-events:none}
+.btn{width:100%;border:0;border-radius:999px;padding:16px;font-size:16px;font-weight:700;font-family:var(--body);cursor:pointer;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);display:block;text-align:center;text-decoration:none}
+.btn.ghost{background:transparent;border:2px solid var(--dourado);color:var(--amarelo);margin-top:10px;font-size:14.5px;padding:14px}
+.btn:disabled{opacity:.45;cursor:not-allowed;background:#2a2a2a;color:#888;border-color:#2a2a2a}
+.f{margin-bottom:12px}
+label{display:block;font-size:12.5px;font-weight:600;color:#DDD;margin:0 0 5px}
+.req{color:var(--amarelo)}
+.arq{background:#0F0F0F;border:1px dashed #555;border-radius:10px;padding:12px;font-size:13px;color:#ccc;width:100%}
+.prev{margin-top:9px}
+.prev img{max-width:100%;border-radius:10px;border:1px solid #333}
+.msg{font-size:11.5px;color:#EF4444;margin-top:4px;display:none}
+.msg.show{display:block}
+.tipos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.tp{cursor:pointer;border:1px solid #333;border-radius:12px;padding:12px;text-align:center}
+.tp.sel{border-color:var(--amarelo);background:rgba(202,152,59,.1)}
+.tp .t{font-weight:700;font-size:13px}
+.tp .p{font-family:var(--display);font-weight:700;color:var(--amarelo);font-size:17px;margin-top:2px}
+.valor{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;font-size:14px;border-bottom:1px solid #1E1E1E}
+.valor b{font-family:var(--display);font-size:20px;color:var(--amarelo)}
+.pixbox{background:#0F0F0F;border:1px dashed var(--dourado);border-radius:12px;padding:15px;text-align:center;margin:14px 0}
+.pixbox .l{font-size:11.5px;color:var(--prata);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.pixbox .k{font-family:var(--display);font-size:18px;font-weight:700;color:var(--amarelo);word-break:break-all}
+.copy{margin-top:10px;background:#1E1E1E;border:1px solid #333;color:#fff;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer}
+.ck{display:flex;gap:10px;align-items:center;margin:12px 0;padding:13px 15px;background:rgba(202,152,59,.07);border:1px solid rgba(202,152,59,.35);border-radius:12px;cursor:pointer;font-size:13.5px}
+.ck input{width:19px;height:19px;flex-shrink:0;accent-color:var(--amarelo);cursor:pointer}
+.ck b{color:var(--amarelo)}
+.okbox{background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.5);border-radius:12px;padding:13px 15px;font-size:13px;color:var(--verde);margin:12px 0}
+.okbox b{color:#fff}
+.hide{display:none!important}
+.aviso{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.45);border-radius:12px;padding:13px 15px;font-size:13px;color:#FCA5A5;margin-bottom:14px}
+.aviso b{color:#fff}
 </style>
 </head>
 <body>
@@ -105,74 +87,41 @@ footer b{color:var(--prata)}
 </div>
 </div>
 </header>
-<div id="fc">
-<div class="wrapc">
+<div id="pc">
 <h1>Certificado Digital <span>A1</span></h1>
 <p class="sub">Por videoconferência, na sua casa. <b style="color:var(--amarelo)">Pedidos 24 horas.</b></p>
-<div class="steps"><div class="step on" id="p1"></div><div class="step" id="p2"></div></div>
-<div class="stepslbl"><span>1 · Seus dados e CNH</span><span>2 · Pagamento</span></div>
-<div id="etapa1">
-<div class="card">
-<h2><span class="n">1</span>Seus dados</h2>
-<div class="tipo">
-<div class="tp sel" data-tipo="Pessoa Física" data-preco="160"><div class="t">Pessoa Física</div><div class="p">R$ 160</div></div>
-<div class="tp" data-tipo="Pessoa Jurídica" data-preco="190"><div class="t">Pessoa Jurídica</div><div class="p">R$ 190</div></div>
+<div class="barra"><div class="on" id="b1"></div><div id="b2"></div></div>
+<div class="lblbarra"><span>1 · Faça seu pedido</span><span>2 · CNH e PIX</span></div>
+<div class="bloco" id="bloco1">
+<h2><span class="n">1</span>Faça seu pedido</h2>
+<p class="desc">Clique abaixo, preencha seus dados e conclua o pedido no sistema. Depois <b style="color:#fff">volte para esta página</b> para enviar a CNH e pagar.</p>
+<a class="btn" href="https://certcontrol.com.br/web/venda-rapida/01a1c81a-6146-71fa-b8a5-2b9f63397c4b" target="_blank" rel="noopener" onclick="liberou()">Abrir meu pedido →</a>
+<div class="okbox" id="avisoVolta" style="margin-bottom:0;display:none"><b>Pedido feito?</b> Agora volte para cá e complete o passo 2 abaixo.</div>
 </div>
-<div class="f"><label>Nome completo <span class="req">*</span></label><input type="text" id="nome" placeholder="Como consta na CNH"><div class="msg" id="mnome">Informe nome e sobrenome.</div></div>
-<div class="row">
-<div class="f"><label>CPF <span class="req">*</span></label><input type="text" id="cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14"><div class="msg" id="mcpf">CPF inválido.</div></div>
-<div class="f"><label>Celular (WhatsApp) <span class="req">*</span></label><input type="text" id="tel" placeholder="(63) 99285-6647" inputmode="numeric" maxlength="16"><div class="msg" id="mtel">Informe o celular com DDD.</div></div>
-</div>
-<div class="f"><label>E-mail <span class="req">*</span></label><input type="email" id="email" placeholder="seu@email.com"><div class="msg" id="memail">E-mail inválido.</div></div>
-<div class="f hide" id="wrapcnpj"><label>CNPJ <span class="req">*</span></label><input type="text" id="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18"><div class="msg" id="mcnpj">CNPJ inválido.</div></div>
-<div class="warn"><b>⚠️ CNH válida é obrigatória.</b><br>Na videoconferência seu rosto é comparado com a foto da CNH emitida pelo Detran.</div>
-<div class="f">
-<label>Sua CNH está válida e dentro da validade? <span class="req">*</span></label>
-<div class="opts">
-<div class="opt" data-cnh="sim"><div class="dot"></div><div><div class="t">Sim, minha CNH está válida</div><div class="d">Podemos seguir com a videoconferência</div></div></div>
-<div class="opt" data-cnh="nao"><div class="dot"></div><div><div class="t">Não tenho CNH válida</div><div class="d">Só é possível o atendimento presencial</div></div></div>
-</div>
-<div class="msg" id="mcnhok">Confirme a situação da sua CNH.</div>
-</div>
-<div class="f"><label>Validade da CNH <span class="req">*</span></label><input type="date" id="cnhval"><div class="msg" id="mcnhval">Informe uma validade futura.</div></div>
+<div class="bloco travado" id="bloco2">
+<h2><span class="n">2</span>Envie a CNH e pague o PIX</h2>
+<p class="desc">Sua CNH é obrigatória para a videoconferência.</p>
 <div class="f">
 <label>Foto da CNH — frente e verso <span class="req">*</span></label>
 <input type="file" id="cnhfile" accept="image/*" class="arq">
 <div class="msg" id="mcnhfile">Anexe a foto da CNH.</div>
 <div class="prev hide" id="cnhprev"><img id="cnhimg" alt="CNH"></div>
-<div class="okbox" style="margin-top:10px;margin-bottom:0"><b>📎 Importante:</b> além de anexar aqui, <b>envie a mesma foto no WhatsApp</b> ao finalizar — é ela que vai para o seu processo de emissão.</div>
 </div>
+<div class="tipos">
+<div class="tp sel" data-tipo="Pessoa Física" data-preco="160"><div class="t">Pessoa Física</div><div class="p">R$ 160</div></div>
+<div class="tp" data-tipo="Pessoa Jurídica" data-preco="190"><div class="t">Pessoa Jurídica</div><div class="p">R$ 190</div></div>
 </div>
-<button class="btn" id="botaoProsseguir" onclick="ir(2)">Continuar para o pagamento →</button>
-</div>
-<div id="etapa2" class="hide">
-<div class="card">
-<h2><span class="n">2</span>Pagamento</h2>
-<p class="hint">Pague o PIX e envie o comprovante no WhatsApp.</p>
-<div class="resumo" id="resumo1"></div>
+<div class="valor"><span>Valor a pagar</span><b id="vvalor">R$ 160,00</b></div>
 <div class="pixbox">
 <div class="l">Chave PIX (CNPJ)</div>
 <div class="k" id="pixkey">19.819.476/0001-87</div>
 <button class="copy" onclick="copiarPix()">Copiar chave PIX</button>
 </div>
-<label class="check"><input type="checkbox" id="pagou"><span>Já fiz o PIX e vou enviar o comprovante. <span class="req">*</span></span></label>
-<div class="msg" id="mpag">Confirme o pagamento.</div>
+<label class="ck"><input type="checkbox" id="pagou"><span>Já fiz o PIX de <b id="vvalor2">R$ 160,00</b></span></label>
+<button class="btn" onclick="finalizar()">Enviar CNH e comprovante no WhatsApp</button>
+<div class="aviso" style="margin-top:14px;margin-bottom:0"><b>⚠️ CNH válida é obrigatória.</b> Na videoconferência seu rosto é comparado com a foto da CNH.</div>
 </div>
-<button class="btn" onclick="finalizar()">Confirmar pedido ✅</button>
-<button class="btn ghost" onclick="ir(1)">← Voltar</button>
-</div>
-<div id="sucesso" class="hide">
-<div class="card" style="text-align:center">
-<div class="big">✓</div>
-<h2 style="text-align:center">Pedido enviado!</h2>
-<p class="hint" style="margin-bottom:14px">Abrimos o WhatsApp com todos os seus dados. <b>Agora envie nesta conversa:</b></p>
-<div class="lista"><b>1.</b> Comprovante do PIX<br><b>2.</b> Foto da CNH — frente e verso</div>
-<div class="resumo" id="resumoFinal" style="text-align:left"></div>
-<div class="okbox" style="text-align:left">Assim que conferirmos o pagamento e a CNH, emitimos o seu certificado e enviamos <b>o link para agendar a videoconferência</b>.</div>
-<p class="hint" style="margin:10px 0 0">Não abriu? <a href="#" id="wame" style="color:var(--amarelo);font-weight:600">Clique aqui</a> ou chame no (63) 99285-6647.</p>
-</div>
-</div>
-</div>
+<div class="okbox"><b>Assim que recebermos</b> a CNH e o comprovante, emitimos o seu certificado e enviamos o link para agendar a videoconferência.</div>
 </div>
 <div class="wrap">
 <footer>
@@ -185,46 +134,22 @@ footer b{color:var(--prata)}
 <a class="wa" href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site">💬 Fale conosco</a>
 <script>
 var PIX="19.819.476/0001-87", WA="5563992856647";
-var st={tipo:"Pessoa Física",preco:160,cnhok:""};
-document.querySelectorAll('#fc [data-cnh]').forEach(function(o){
+var st={tipo:"Pessoa Física",preco:160};
+function preco(v){return v.toFixed(2).replace('.',',');}
+function liberou(){
+  document.getElementById('bloco2').classList.remove('travado');
+  document.getElementById('b2').classList.add('on');
+  document.getElementById('avisoVolta').style.display='block';
+}
+document.querySelectorAll('.tp').forEach(function(o){
   o.onclick=function(){
-    document.querySelectorAll('#fc [data-cnh]').forEach(function(x){x.classList.remove('sel');});
-    o.classList.add('sel');
-    st.cnhok=o.dataset.cnh;
-    document.getElementById('mcnhok').classList.remove('show');
-    var aviso=document.getElementById('avisoPresencial');
-    var bt=document.getElementById('botaoProsseguir');
-    if(st.cnhok==='nao'){
-      if(!aviso){
-        bt.insertAdjacentHTML('beforebegin','<div class="warn" id="avisoPresencial" style="margin-top:12px"><b>Sem CNH válida não é possível emitir por vídeo.</b><br>Chame no WhatsApp para o atendimento presencial: <a href="https://wa.me/5563992856647?text=Ol%C3%A1!%20N%C3%A3o%20tenho%20CNH%20v%C3%A1lida%20e%20preciso%20do%20atendimento%20presencial%20para%20o%20certificado." target="_blank" style="color:#fff;font-weight:700;text-decoration:underline">(63) 99285-6647</a></div>');
-      }
-      bt.disabled=true;
-      bt.textContent='Atendimento presencial — chame no WhatsApp';
-      bt.onclick=function(){window.open('https://wa.me/5563992856647?text=Ol%C3%A1!%20N%C3%A3o%20tenho%20CNH%20v%C3%A1lida%20e%20preciso%20do%20atendimento%20presencial%20para%20o%20certificado.','_blank');};
-    } else {
-      if(aviso)aviso.remove();
-      bt.disabled=false;
-      bt.textContent='Continuar para o pagamento →';
-      bt.onclick=function(){ir(2);};
-    }
-  };
-});
-document.querySelectorAll('#fc .tp').forEach(function(o){
-  o.onclick=function(){
-    document.querySelectorAll('#fc .tp').forEach(function(x){x.classList.remove('sel');});
+    document.querySelectorAll('.tp').forEach(function(x){x.classList.remove('sel');});
     o.classList.add('sel');
     st.tipo=o.dataset.tipo; st.preco=+o.dataset.preco;
-    document.getElementById('wrapcnpj').classList[st.tipo==='Pessoa Física'?'add':'remove']('hide');
+    document.getElementById('vvalor').textContent='R$ '+preco(st.preco);
+    document.getElementById('vvalor2').textContent='R$ '+preco(st.preco);
   };
 });
-function maskCPF(v){return v.replace(/\D/g,'').slice(0,11).replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');}
-function maskCNPJ(v){return v.replace(/\D/g,'').slice(0,14).replace(/^(\d{2})(\d)/,'$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3').replace(/\.(\d{3})(\d)/,'.$1/$2').replace(/(\d{4})(\d)/,'$1-$2');}
-function maskTel(v){var d=v.replace(/\D/g,'').slice(0,11);return d.length<=10?d.replace(/^(\d{2})(\d)/,'($1) $2').replace(/(\d{4})(\d{1,4})$/,'$1-$2'):d.replace(/^(\d{2})(\d)/,'($1) $2').replace(/(\d{5})(\d{1,4})$/,'$1-$2');}
-function validaCPF(c){c=c.replace(/\D/g,'');if(c.length!==11||/^(\d)\1{10}$/.test(c))return false;var s=0,i,d;for(i=0;i<9;i++)s+=+c[i]*(10-i);d=(s*10)%11;if(d===10)d=0;if(d!==+c[9])return false;s=0;for(i=0;i<10;i++)s+=+c[i]*(11-i);d=(s*10)%11;if(d===10)d=0;return d===+c[10];}
-function validaCNPJ(c){c=c.replace(/\D/g,'');if(c.length!==14||/^(\d)\1{13}$/.test(c))return false;var f=function(b){var p=b.length-7,s=0,i,d;for(i=0;i<b.length;i++){s+=+b[i]*p--;if(p<2)p=9;}d=s%11;return d<2?0:11-d;};return f(c.slice(0,12))===+c[12]&&f(c.slice(0,13))===+c[13];}
-document.getElementById('cpf').oninput=function(e){e.target.value=maskCPF(e.target.value);};
-document.getElementById('cnpj').oninput=function(e){e.target.value=maskCNPJ(e.target.value);};
-document.getElementById('tel').oninput=function(e){e.target.value=maskTel(e.target.value);};
 document.getElementById('cnhfile').onchange=function(e){
   var f=e.target.files&&e.target.files[0];
   if(!f)return;
@@ -236,84 +161,31 @@ document.getElementById('cnhfile').onchange=function(e){
   };
   r.readAsDataURL(f);
 };
-function mostrar(id,ok){document.getElementById(id).classList[ok?'remove':'add']('show');}
-function validar(){
-  var ok=true;
-  if(document.getElementById('nome').value.trim().split(' ').filter(Boolean).length<2){mostrar('mnome',false);ok=false;}else{mostrar('mnome',true);}
-  if(!validaCPF(document.getElementById('cpf').value)){mostrar('mcpf',false);ok=false;}else{mostrar('mcpf',true);}
-  if(document.getElementById('tel').value.replace(/\D/g,'').length<10){mostrar('mtel',false);ok=false;}else{mostrar('mtel',true);}
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(document.getElementById('email').value)){mostrar('memail',false);ok=false;}else{mostrar('memail',true);}
-  if(st.tipo==='Pessoa Jurídica'){if(!validaCNPJ(document.getElementById('cnpj').value)){mostrar('mcnpj',false);ok=false;}else{mostrar('mcnpj',true);}}
-  if(!st.cnhok){mostrar('mcnhok',false);ok=false;}else{mostrar('mcnhok',true);}
-  var val=document.getElementById('cnhval').value;
-  if(!val){mostrar('mcnhval',false);ok=false;}
-  else{var dv=new Date(val+'T23:59:59');if(dv<=new Date()){mostrar('mcnhval',false);ok=false;}else{mostrar('mcnhval',true);}}
-  var fi=document.getElementById('cnhfile');
-  if(!fi.files||!fi.files.length){mostrar('mcnhfile',false);ok=false;}else{mostrar('mcnhfile',true);}
-  return ok;
-}
-function dados(){
-  var cv=document.getElementById('cnhval').value;
-  var d=cv?cv.split('-'):null;
-  return {
-    nome:document.getElementById('nome').value.trim(),
-    cpf:maskCPF(document.getElementById('cpf').value),
-    tel:maskTel(document.getElementById('tel').value),
-    email:document.getElementById('email').value.trim(),
-    cnpj:maskCNPJ(document.getElementById('cnpj').value),
-    cnhValBR:d?d[2]+'/'+d[1]+'/'+d[0]:''
-  };
-}
-function resumo(){
-  var x=dados();
-  return '<div class="l"><span>Produto</span><span>Certificado A1 '+st.tipo+'</span></div>'
-    +(st.tipo==='Pessoa Jurídica'&&x.cnpj?'<div class="l"><span>CNPJ</span><span>'+x.cnpj+'</span></div>':'')
-    +'<div class="l"><span>Titular</span><span>'+x.nome+'</span></div>'
-    +'<div class="l"><span>CPF</span><span>'+x.cpf+'</span></div>'
-    +'<div class="l"><span>WhatsApp</span><span>'+x.tel+'</span></div>'
-    +'<div class="l"><span>CNH válida</span><span>'+(st.cnhok==='sim'?'Sim':'Não')+' · vence '+x.cnhValBR+'</span></div>'
-    +'<div class="l"><span>Total</span><span>R$ '+st.preco+',00</span></div>';
-}
-function ir(n){
-  if(n===2){ if(!validar()){window.scrollTo({top:0,behavior:'smooth'});return;} document.getElementById('resumo1').innerHTML=resumo(); }
-  document.getElementById('etapa1').classList.add('hide');
-  document.getElementById('etapa2').classList.add('hide');
-  document.getElementById('sucesso').classList.add('hide');
-  document.getElementById('etapa'+n).classList.remove('hide');
-  document.getElementById('p1').classList.add('on');
-  if(n===2)document.getElementById('p2').classList.add('on');else document.getElementById('p2').classList.remove('on');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
 function copiarPix(){
-  function run(){var b=document.querySelector('#fc .copy'),t=b.textContent;b.textContent='✓ Copiado!';setTimeout(function(){b.textContent=t;},1800);}
+  function run(){var b=document.querySelector('.copy'),t=b.textContent;b.textContent='✓ Copiado!';setTimeout(function(){b.textContent=t;},1800);}
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(PIX).then(run,run);}
   else{var ta=document.createElement('textarea');ta.value=PIX;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);run();}
 }
 function finalizar(){
-  if(!document.getElementById('pagou').checked){document.getElementById('mpag').classList.add('show');return;}
-  var x=dados();
+  var fi=document.getElementById('cnhfile');
+  var ok=true;
+  if(!fi.files||!fi.files.length){document.getElementById('mcnhfile').classList.add('show');ok=false;}
+  if(!document.getElementById('pagou').checked){ok=false;}
+  if(!ok){
+    if(!fi.files||!fi.files.length){document.getElementById('cnhfile').scrollIntoView({block:'center'});}
+    else{document.getElementById('pagou').scrollIntoView({block:'center'});}
+    return;
+  }
   var linhas=[
     '🔐 *PEDIDO DE CERTIFICADO DIGITAL A1*','',
     '*Tipo:* Certificado A1 '+st.tipo,
-    (st.tipo==='Pessoa Jurídica'&&x.cnpj)?'*CNPJ:* '+x.cnpj:null,
-    '*Nome:* '+x.nome,
-    '*CPF:* '+x.cpf,
-    '*E-mail:* '+x.email,
-    '*Celular:* '+x.tel,
-    '*CNH válida:* '+(st.cnhok==='sim'?'SIM':'NÃO tenho'),
-    '*CNH validade:* '+x.cnhValBR,'',
-    '*Valor:* R$ '+st.preco+',00',
+    '*Valor:* R$ '+preco(st.preco),
     '*Pagamento:* PIX '+PIX,'',
-    'Enviando agora: comprovante do PIX + foto da CNH (frente e verso).'
-  ].filter(Boolean).join('\n');
-  var url='https://wa.me/'+WA+'?text='+encodeURIComponent(linhas);
-  document.getElementById('wame').href=url;
-  document.getElementById('resumoFinal').innerHTML=resumo();
-  document.getElementById('etapa1').classList.add('hide');
-  document.getElementById('etapa2').classList.add('hide');
-  document.getElementById('sucesso').classList.remove('hide');
-  window.scrollTo({top:0,behavior:'smooth'});
-  window.open(url,'_blank');
+    'Já fiz o pedido no sistema. Enviando agora:',
+    '1. Comprovante do PIX',
+    '2. Foto da CNH (frente e verso)'
+  ].join('\n');
+  window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(linhas),'_blank');
 }
 </script>
 </body>
