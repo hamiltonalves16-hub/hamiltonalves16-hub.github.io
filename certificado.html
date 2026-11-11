@@ -50,6 +50,15 @@ footer b{color:var(--prata)}
 #fc .msg{font-size:11.5px;color:var(--erro);margin-top:4px;display:none}
 #fc .msg.show{display:block}
 #fc .req{color:var(--amarelo)}
+#fc .opts{display:grid;gap:9px;margin-top:4px}
+#fc .opt{cursor:pointer;border:1px solid #333;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:11px;transition:.15s}
+#fc .opt:hover{border-color:var(--dourado)}
+#fc .opt.sel{border-color:var(--amarelo);background:rgba(202,152,59,.1)}
+#fc .opt .dot{width:18px;height:18px;border-radius:50%;border:2px solid #555;flex-shrink:0;position:relative}
+#fc .opt.sel .dot{border-color:var(--amarelo)}
+#fc .opt.sel .dot::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--amarelo)}
+#fc .opt .t{font-weight:600;font-size:13.5px}
+#fc .opt .d{color:var(--prata);font-size:12px}
 #fc .tipo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 #fc .tp{cursor:pointer;border:1px solid #333;border-radius:12px;padding:12px;text-align:center;transition:.15s}
 #fc .tp:hover{border-color:var(--dourado)}
@@ -58,7 +67,7 @@ footer b{color:var(--prata)}
 #fc .tp .p{font-family:var(--display);font-weight:700;color:var(--amarelo);font-size:17px;margin-top:2px}
 #fc .btn{width:100%;border:0;border-radius:999px;padding:15px;font-size:16px;font-weight:700;font-family:var(--body);cursor:pointer;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);display:block;text-align:center;text-decoration:none}
 #fc .btn.ghost{background:transparent;border:2px solid var(--dourado);color:var(--amarelo);margin-top:9px}
-#fc .btn:disabled{opacity:.4;cursor:not-allowed;background:#2a2a2a;color:#888;border-color:#2a2a2a}
+#fc .btn:disabled{opacity:.55;cursor:not-allowed;background:#2a2a2a;color:#aaa;border-color:#2a2a2a}
 #fc .pixbox{background:#0F0F0F;border:1px dashed var(--dourado);border-radius:12px;padding:15px;text-align:center;margin-bottom:14px}
 #fc .pixbox .k{font-family:var(--display);font-size:18px;font-weight:700;color:var(--amarelo);word-break:break-all}
 #fc .pixbox .l{font-size:11.5px;color:var(--prata);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
@@ -117,10 +126,15 @@ footer b{color:var(--prata)}
 <div class="f"><label>E-mail <span class="req">*</span></label><input type="email" id="email" placeholder="seu@email.com"><div class="msg" id="memail">E-mail inválido.</div></div>
 <div class="f hide" id="wrapcnpj"><label>CNPJ <span class="req">*</span></label><input type="text" id="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18"><div class="msg" id="mcnpj">CNPJ inválido.</div></div>
 <div class="warn"><b>⚠️ CNH válida é obrigatória.</b><br>Na videoconferência seu rosto é comparado com a foto da CNH emitida pelo Detran.</div>
-<div class="row">
-<div class="f"><label>Nº de registro da CNH <span class="req">*</span></label><input type="text" id="cnhnum" placeholder="11 dígitos" inputmode="numeric" maxlength="11"><div class="msg" id="mcnhnum">Informe os 11 números do registro.</div></div>
-<div class="f"><label>Validade da CNH <span class="req">*</span></label><input type="date" id="cnhval"><div class="msg" id="mcnhval">Informe uma validade futura.</div></div>
+<div class="f">
+<label>Sua CNH está válida e dentro da validade? <span class="req">*</span></label>
+<div class="opts">
+<div class="opt" data-cnh="sim"><div class="dot"></div><div><div class="t">Sim, minha CNH está válida</div><div class="d">Podemos seguir com a videoconferência</div></div></div>
+<div class="opt" data-cnh="nao"><div class="dot"></div><div><div class="t">Não tenho CNH válida</div><div class="d">Só é possível o atendimento presencial</div></div></div>
 </div>
+<div class="msg" id="mcnhok">Confirme a situação da sua CNH.</div>
+</div>
+<div class="f"><label>Validade da CNH <span class="req">*</span></label><input type="date" id="cnhval"><div class="msg" id="mcnhval">Informe uma validade futura.</div></div>
 <div class="f">
 <label>Foto da CNH — frente e verso <span class="req">*</span></label>
 <input type="file" id="cnhfile" accept="image/*" class="arq">
@@ -129,7 +143,7 @@ footer b{color:var(--prata)}
 <div class="okbox" style="margin-top:10px;margin-bottom:0"><b>📎 Importante:</b> além de anexar aqui, <b>envie a mesma foto no WhatsApp</b> ao finalizar — é ela que vai para o seu processo de emissão.</div>
 </div>
 </div>
-<button class="btn" onclick="ir(2)">Continuar para o pagamento →</button>
+<button class="btn" id="botaoProsseguir" onclick="ir(2)">Continuar para o pagamento →</button>
 </div>
 <div id="etapa2" class="hide">
 <div class="card">
@@ -171,7 +185,30 @@ footer b{color:var(--prata)}
 <a class="wa" href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site">💬 Fale conosco</a>
 <script>
 var PIX="19.819.476/0001-87", WA="5563992856647";
-var st={tipo:"Pessoa Física",preco:160};
+var st={tipo:"Pessoa Física",preco:160,cnhok:""};
+document.querySelectorAll('#fc [data-cnh]').forEach(function(o){
+  o.onclick=function(){
+    document.querySelectorAll('#fc [data-cnh]').forEach(function(x){x.classList.remove('sel');});
+    o.classList.add('sel');
+    st.cnhok=o.dataset.cnh;
+    document.getElementById('mcnhok').classList.remove('show');
+    var aviso=document.getElementById('avisoPresencial');
+    var bt=document.getElementById('botaoProsseguir');
+    if(st.cnhok==='nao'){
+      if(!aviso){
+        bt.insertAdjacentHTML('beforebegin','<div class="warn" id="avisoPresencial" style="margin-top:12px"><b>Sem CNH válida não é possível emitir por vídeo.</b><br>Chame no WhatsApp para o atendimento presencial: <a href="https://wa.me/5563992856647?text=Ol%C3%A1!%20N%C3%A3o%20tenho%20CNH%20v%C3%A1lida%20e%20preciso%20do%20atendimento%20presencial%20para%20o%20certificado." target="_blank" style="color:#fff;font-weight:700;text-decoration:underline">(63) 99285-6647</a></div>');
+      }
+      bt.disabled=true;
+      bt.textContent='Atendimento presencial — chame no WhatsApp';
+      bt.onclick=function(){window.open('https://wa.me/5563992856647?text=Ol%C3%A1!%20N%C3%A3o%20tenho%20CNH%20v%C3%A1lida%20e%20preciso%20do%20atendimento%20presencial%20para%20o%20certificado.','_blank');};
+    } else {
+      if(aviso)aviso.remove();
+      bt.disabled=false;
+      bt.textContent='Continuar para o pagamento →';
+      bt.onclick=function(){ir(2);};
+    }
+  };
+});
 document.querySelectorAll('#fc .tp').forEach(function(o){
   o.onclick=function(){
     document.querySelectorAll('#fc .tp').forEach(function(x){x.classList.remove('sel');});
@@ -188,7 +225,6 @@ function validaCNPJ(c){c=c.replace(/\D/g,'');if(c.length!==14||/^(\d)\1{13}$/.te
 document.getElementById('cpf').oninput=function(e){e.target.value=maskCPF(e.target.value);};
 document.getElementById('cnpj').oninput=function(e){e.target.value=maskCNPJ(e.target.value);};
 document.getElementById('tel').oninput=function(e){e.target.value=maskTel(e.target.value);};
-document.getElementById('cnhnum').oninput=function(e){e.target.value=e.target.value.replace(/\D/g,'').slice(0,11);};
 document.getElementById('cnhfile').onchange=function(e){
   var f=e.target.files&&e.target.files[0];
   if(!f)return;
@@ -208,7 +244,7 @@ function validar(){
   if(document.getElementById('tel').value.replace(/\D/g,'').length<10){mostrar('mtel',false);ok=false;}else{mostrar('mtel',true);}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(document.getElementById('email').value)){mostrar('memail',false);ok=false;}else{mostrar('memail',true);}
   if(st.tipo==='Pessoa Jurídica'){if(!validaCNPJ(document.getElementById('cnpj').value)){mostrar('mcnpj',false);ok=false;}else{mostrar('mcnpj',true);}}
-  if(document.getElementById('cnhnum').value.replace(/\D/g,'').length!==11){mostrar('mcnhnum',false);ok=false;}else{mostrar('mcnhnum',true);}
+  if(!st.cnhok){mostrar('mcnhok',false);ok=false;}else{mostrar('mcnhok',true);}
   var val=document.getElementById('cnhval').value;
   if(!val){mostrar('mcnhval',false);ok=false;}
   else{var dv=new Date(val+'T23:59:59');if(dv<=new Date()){mostrar('mcnhval',false);ok=false;}else{mostrar('mcnhval',true);}}
@@ -225,7 +261,6 @@ function dados(){
     tel:maskTel(document.getElementById('tel').value),
     email:document.getElementById('email').value.trim(),
     cnpj:maskCNPJ(document.getElementById('cnpj').value),
-    cnh:document.getElementById('cnhnum').value.replace(/\D/g,''),
     cnhValBR:d?d[2]+'/'+d[1]+'/'+d[0]:''
   };
 }
@@ -236,7 +271,7 @@ function resumo(){
     +'<div class="l"><span>Titular</span><span>'+x.nome+'</span></div>'
     +'<div class="l"><span>CPF</span><span>'+x.cpf+'</span></div>'
     +'<div class="l"><span>WhatsApp</span><span>'+x.tel+'</span></div>'
-    +'<div class="l"><span>CNH</span><span>'+x.cnhValBR+'</span></div>'
+    +'<div class="l"><span>CNH válida</span><span>'+(st.cnhok==='sim'?'Sim':'Não')+' · vence '+x.cnhValBR+'</span></div>'
     +'<div class="l"><span>Total</span><span>R$ '+st.preco+',00</span></div>';
 }
 function ir(n){
@@ -265,7 +300,7 @@ function finalizar(){
     '*CPF:* '+x.cpf,
     '*E-mail:* '+x.email,
     '*Celular:* '+x.tel,
-    '*CNH registro:* '+x.cnh,
+    '*CNH válida:* '+(st.cnhok==='sim'?'SIM':'NÃO tenho'),
     '*CNH validade:* '+x.cnhValBR,'',
     '*Valor:* R$ '+st.preco+',00',
     '*Pagamento:* PIX '+PIX,'',
