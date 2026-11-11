@@ -109,8 +109,7 @@ footer b{color:var(--prata)}
 <div class="f"><label>Nº de registro da CNH <span class="req">*</span></label><input id="cnhnum" placeholder="11 dígitos" inputmode="numeric" maxlength="11"><div class="msg" id="mcnhnum">Informe os 11 números.</div></div>
 <div class="f"><label>Validade da CNH <span class="req">*</span></label><input type="date" id="cnhval"><div class="msg" id="mcnhval">Informe a validade.</div></div>
 </div>
-<label class="check"><input type="checkbox" id="cnhfoto"><span>Vou enviar a <b>foto da CNH</b> no WhatsApp. <span class="req">*</span></span></label>
-<div class="msg" id="mcnhfoto">Confirme o envio da foto.</div>
+<div class="okbox" style="text-align:left;margin-bottom:0"><b>📎 Foto da CNH:</b> ao finalizar, você envia a <b>foto da CNH (frente e verso)</b> no WhatsApp, junto com o comprovante do PIX.</div>
 </div>
 <button class="btn" onclick="ir(2)">Continuar →</button>
 </div>
@@ -134,9 +133,10 @@ footer b{color:var(--prata)}
 <div class="card" style="text-align:center">
 <div class="big">✓</div>
 <h2 style="text-align:center">Pedido enviado!</h2>
-<p class="hint" style="margin-bottom:16px">Abrimos o WhatsApp. <b>Envie a mensagem, o comprovante do PIX e a foto da CNH.</b></p>
+<p class="hint" style="margin-bottom:14px">Abrimos o WhatsApp com o seu pedido. <b>Agora envie nesta conversa:</b></p>
+<div class="okbox" style="text-align:left;margin-bottom:16px"><b>1.</b> Comprovante do PIX<br><b>2.</b> Foto da CNH — frente e verso</div>
 <div class="resumo" id="resumoFinal" style="text-align:left"></div>
-<div class="okbox" style="text-align:left">Assim que conferirmos o pagamento, você recebe no WhatsApp o link para agendar a videoconferência.</div>
+<div class="okbox" style="text-align:left">Conferimos o pagamento, emitimos o seu pedido e você recebe <b>aqui no WhatsApp o link de agendamento</b> da videoconferência.</div>
 <p class="hint" style="margin:10px 0 0">Não abriu? <a href="#" id="wame" style="color:var(--amarelo);font-weight:600">Clique aqui</a> ou chame no (63) 99285-6647.</p>
 </div>
 </div>
@@ -183,7 +183,6 @@ function validar(){
   var val=document.getElementById('cnhval').value;
   if(!val){mostrar('mcnhval',false);ok=false;}
   else{var dv=new Date(val+'T00:00:00');if(dv<=new Date()){mostrar('mcnhval',false);ok=false;}else{mostrar('mcnhval',true);}}
-  if(!document.getElementById('cnhfoto').checked){mostrar('mcnhfoto',false);ok=false;}else{mostrar('mcnhfoto',true);}
   return ok;
 }
 function dados(){
@@ -231,7 +230,7 @@ function finalizar(){
     '*CNH validade:* '+x.cnhValBR,'',
     '*Valor:* R$ '+st.preco+',00',
     '*Pagamento:* PIX '+PIX,'',
-    'Enviando agora: comprovante do PIX + foto da CNH.'
+    'Enviando agora: comprovante do PIX + foto da CNH (frente e verso).'
   ].filter(Boolean).join('\n');
   var url='https://wa.me/'+WA+'?text='+encodeURIComponent(linhas);
   document.getElementById('wame').href=url;
