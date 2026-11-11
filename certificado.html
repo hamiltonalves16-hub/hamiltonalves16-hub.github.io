@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Certificado Digital A1 — CGE EMITTA</title>
-<meta name="description" content="Certificado Digital A1 por videoconferência, com CNH. Pessoa Física R$ 160, Pessoa Jurídica R$ 190. Pedidos 24 horas.">
+<meta name="description" content="Certificado Digital A1 por videoconferencia. Escolha o dia e a hora na hora. PF R$ 160, PJ R$ 190.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--preto:#0A0A0A;--preto2:#161615;--dourado:#CA983B;--amarelo:#E6AD41;--prata:#AAAAAC;--branco:#fff;--display:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;--verde:#6EE7B7}
+:root{--preto:#0A0A0A;--preto2:#161615;--dourado:#CA983B;--amarelo:#E6AD41;--prata:#AAAAAC;--branco:#fff;--display:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;--verde:#6EE7B7;--erro:#EF4444}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--preto);color:var(--branco);font-family:var(--body);line-height:1.6}
 .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
@@ -25,43 +25,68 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:36px 0 28px;text-align:
 footer b{color:var(--prata)}
 .wa{position:fixed;right:22px;bottom:22px;background:#25D366;color:#fff;font-weight:700;text-decoration:none;border-radius:999px;padding:14px 24px;font-size:15px;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:60}
 @media(max-width:700px){.nav a:not(.cta){display:none}}
-#pc{max-width:620px;margin:0 auto;padding:26px 22px 60px}
-#pc h1{font-family:var(--display);font-size:clamp(26px,5vw,34px);margin-bottom:6px}
-#pc h1 span{color:var(--amarelo)}
-#pc .lead{color:var(--prata);font-size:14.5px;margin-bottom:22px}
-.precos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
-.preco{background:var(--preto2);border:1px solid rgba(202,152,59,.35);border-radius:16px;padding:18px 14px;text-align:center}
-.preco .t{font-weight:700;font-size:14px;color:#E8E8E8}
-.preco .v{font-family:var(--display);font-weight:700;color:var(--amarelo);font-size:30px;line-height:1.1;margin:4px 0 2px}
-.preco .d{color:var(--prata);font-size:11.5px}
-.passos{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:16px;padding:20px;margin-top:4px}
-.passos h2{font-family:var(--display);font-size:17px;margin-bottom:14px}
-.passos ol{list-style:none;counter-reset:s}
-.passos li{counter-increment:s;position:relative;padding-left:34px;margin-bottom:13px;font-size:13.5px;color:#DDD}
-.passos li:last-child{margin-bottom:0}
-.passos li::before{content:counter(s);position:absolute;left:0;top:0;width:23px;height:23px;border-radius:7px;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);font-weight:700;font-size:12.5px;display:flex;align-items:center;justify-content:center}
-.passos li b{color:#fff}
-.checklist{background:var(--preto2);border:1px solid rgba(202,152,59,.45);border-radius:16px;padding:20px;margin-top:18px}
-.checklist h2{font-family:var(--display);font-size:17px;margin-bottom:4px}
-.checklist .sub{color:var(--prata);font-size:12.5px;margin-bottom:14px}
-.item{border:1px solid #333;border-radius:12px;padding:14px;margin-bottom:12px}
-.item:last-of-type{margin-bottom:0}
-.item .q{font-size:13.5px;font-weight:600;color:#fff;margin-bottom:10px}
-.item .q span{color:var(--amarelo)}
-.opts{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.opt{cursor:pointer;border:1px solid #444;border-radius:10px;padding:11px;text-align:center;font-size:13.5px;font-weight:700;color:#CCC;transition:.15s}
-.opt:hover{border-color:var(--dourado)}
-.opt.sel{border-color:var(--amarelo);background:rgba(202,152,59,.15);color:var(--amarelo)}
-.item.ok{border-color:rgba(5,150,105,.6);background:rgba(5,150,105,.07)}
-.msg{font-size:11.5px;color:#EF4444;margin-top:8px;display:none}
+#app{max-width:640px;margin:0 auto;padding:24px 22px 60px}
+#app h1{font-family:var(--display);font-size:clamp(25px,5vw,33px);margin-bottom:4px}
+#app h1 span{color:var(--amarelo)}
+#app .lead{color:var(--prata);font-size:14px;margin-bottom:18px}
+.steps{display:flex;gap:5px;margin-bottom:6px}
+.steps div{flex:1;height:5px;background:#232323;border-radius:99px;transition:.3s}
+.steps div.on{background:linear-gradient(90deg,var(--dourado),var(--amarelo))}
+.stepslbl{display:flex;justify-content:space-between;font-size:9.5px;color:#777;font-weight:600;text-transform:uppercase;margin-bottom:20px}
+.stepslbl span{flex:1;text-align:center}
+.stepslbl span:first-child{text-align:left}
+.stepslbl span:last-child{text-align:right}
+.card{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:16px;padding:20px;margin-bottom:14px}
+.card h2{font-family:var(--display);font-size:18px;margin-bottom:12px}
+.card h2 .n{display:inline-flex;width:25px;height:25px;align-items:center;justify-content:center;border-radius:8px;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);font-size:13px;margin-right:8px;vertical-align:middle}
+.hint{color:var(--prata);font-size:12.5px;margin-bottom:14px}
+.tipos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tp{cursor:pointer;border:1px solid #333;border-radius:12px;padding:13px;text-align:center;transition:.15s}
+.tp:hover{border-color:var(--dourado)}
+.tp.sel{border-color:var(--amarelo);background:rgba(202,152,59,.1)}
+.tp .t{font-weight:700;font-size:13px}
+.tp .p{font-family:var(--display);font-weight:700;color:var(--amarelo);font-size:18px;margin-top:2px}
+label{display:block;font-size:12.5px;font-weight:600;color:#DDD;margin:0 0 5px}
+input,select{width:100%;background:#0F0F0F;border:1px solid #333;color:#fff;border-radius:10px;padding:11px 13px;font-size:15px;font-family:var(--body);outline:none}
+input:focus{border-color:var(--dourado)}
+.f{margin-bottom:12px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+.msg{font-size:11.5px;color:var(--erro);margin-top:4px;display:none}
 .msg.show{display:block}
-.btn{width:100%;border:0;border-radius:999px;padding:17px;font-size:16.5px;font-weight:700;font-family:var(--body);cursor:pointer;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);display:block;text-align:center;text-decoration:none}
-.btn:disabled{opacity:.4;cursor:not-allowed;background:#2a2a2a;color:#888}
-.btn.ghost{background:transparent;border:2px solid var(--dourado);color:var(--amarelo);margin-top:10px;font-size:14.5px;padding:14px}
-.dica{font-size:12px;color:#777;text-align:center;margin-top:10px}
-.aviso{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.45);border-radius:12px;padding:14px 16px;font-size:13px;color:#FCA5A5;margin-top:16px}
-.aviso b{color:#fff}
-.ctas{margin-top:20px}
+.req{color:var(--amarelo)}
+.btn{width:100%;border:0;border-radius:999px;padding:16px;font-size:16px;font-weight:700;font-family:var(--body);cursor:pointer;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);display:block;text-align:center;text-decoration:none;transition:.15s}
+.btn:disabled{opacity:.45;cursor:not-allowed;background:#2a2a2a;color:#888}
+.btn.ghost{background:transparent;border:2px solid var(--dourado);color:var(--amarelo);margin-top:9px;font-size:14px;padding:13px}
+.warn{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.45);border-radius:12px;padding:13px 15px;font-size:13px;color:#FCA5A5;margin-bottom:14px}
+.warn b{color:#fff}
+.okbox{background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.5);border-radius:12px;padding:13px 15px;font-size:13px;color:var(--verde);margin-bottom:14px}
+.okbox b{color:#fff}
+.pixbox{background:#0F0F0F;border:1px dashed var(--dourado);border-radius:12px;padding:15px;text-align:center;margin-bottom:14px}
+.pixbox .l{font-size:11.5px;color:var(--prata);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.pixbox .k{font-family:var(--display);font-size:18px;font-weight:700;color:var(--amarelo);word-break:break-all}
+.copy{margin-top:10px;background:#1E1E1E;border:1px solid #333;color:#fff;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer}
+.resumo{background:#0F0F0F;border-radius:12px;padding:15px;font-size:13.5px;margin-bottom:14px}
+.resumo .l{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1E1E1E;gap:12px}
+.resumo .l:last-child{border:0;padding-top:11px;font-family:var(--display);font-size:16px}
+.resumo .l span:last-child{font-weight:700;text-align:right}
+.resumo .l:last-child span:last-child{color:var(--amarelo)}
+.dias{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin-bottom:14px}
+.dia{border:1px solid #333;border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;font-size:12.5px;transition:.15s}
+.dia:hover{border-color:var(--dourado)}
+.dia.sel{border-color:var(--amarelo);background:rgba(202,152,59,.15);color:var(--amarelo);font-weight:700}
+.dia .dw{font-size:10px;color:var(--prata);text-transform:uppercase}
+.horas{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px;max-height:240px;overflow-y:auto;padding-right:4px}
+.hora{border:1px solid #333;border-radius:9px;padding:10px;text-align:center;cursor:pointer;font-size:13px;font-weight:600;transition:.15s}
+.hora:hover{border-color:var(--dourado)}
+.hora.sel{background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);border-color:var(--amarelo)}
+.arq{background:#0F0F0F;border:1px dashed #555;border-radius:10px;padding:12px;font-size:13px;color:#ccc;width:100%}
+.prev{margin-top:9px}
+.prev img{max-width:100%;border-radius:10px;border:1px solid #333}
+.big{display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:18px;background:rgba(5,150,105,.15);border:1px solid rgba(5,150,105,.5);color:var(--verde);font-size:30px;margin:0 auto 14px}
+.hide{display:none!important}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(202,152,59,.35);border-top-color:var(--amarelo);border-radius:50%;animation:g 1s linear infinite;vertical-align:-3px;margin-right:8px}
+@keyframes g{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -77,96 +102,348 @@ footer b{color:var(--prata)}
 </div>
 </div>
 </header>
-<div id="pc">
+<div id="app">
+<div id="pedeToken" class="hide">
+<div class="card">
+<h2>Chave de acesso</h2>
+<p class="hint">Cole a chave de integracao do CertControl para ativar o sistema neste aparelho. Ela fica salva so no seu navegador.</p>
+<div class="f"><label>Chave</label><input type="text" id="tokIn" placeholder="eyJ0eXAiOiJKV1Qi..."><div class="msg" id="mTok">Chave invalida ou sem permissao.</div></div>
+<button class="btn" onclick="salvarToken()">Ativar sistema</button>
+</div>
+</div>
+<div id="conteudo">
 <h1>Certificado Digital <span>A1</span></h1>
-<p class="lead">Emissão por videoconferência, na sua casa. <b style="color:var(--amarelo)">Pedidos 24 horas.</b></p>
-<div class="precos">
-<div class="preco"><div class="t">Pessoa Física</div><div class="v">R$ 160</div><div class="d">CPF A1</div></div>
-<div class="preco"><div class="t">Pessoa Jurídica</div><div class="v">R$ 190</div><div class="d">CNPJ A1</div></div>
+<p class="lead">Por videoconferencia. <b style="color:var(--amarelo)">Pedidos 24 horas.</b></p>
+<div class="steps"><div class="on" id="s1"></div><div id="s2"></div><div id="s3"></div><div id="s4"></div></div>
+<div class="stepslbl"><span>1 · Dados</span><span>2 · CNH</span><span>3 · Pagamento</span><span>4 · Agendar</span></div>
+<div id="e1">
+<div class="card">
+<h2><span class="n">1</span>Seus dados</h2>
+<div class="tipos">
+<div class="tp sel" data-tipo="PF" data-prod="prod_anj2GYLPSwixbL" data-preco="160"><div class="t">Pessoa Física</div><div class="p">R$ 160</div></div>
+<div class="tp" data-tipo="PJ" data-prod="prod_anj2H8wVzAjWJo" data-preco="190"><div class="t">Pessoa Jurídica</div><div class="p">R$ 190</div></div>
 </div>
-<div class="passos">
-<h2>Como funciona</h2>
-<ol>
-<li><b>Faça seu pedido</b> — preencha seus dados e escolha o pagamento (Pix, cartão ou boleto).</li>
-<li><b>Anexe seus documentos</b> — na etapa "Documentos" você envia a <b>foto ou PDF da CNH</b>. É obrigatório.</li>
-<li><b>Agende a videoconferência</b> — o sistema mostra a data e a sala. No dia, tenha a CNH em mãos.</li>
-</ol>
+<div class="f"><label>Nome completo <span class="req">*</span></label><input type="text" id="nome" placeholder="Como consta na CNH"><div class="msg" id="mNome">Informe nome e sobrenome.</div></div>
+<div class="row">
+<div class="f"><label>CPF <span class="req">*</span></label><input type="text" id="cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14"><div class="msg" id="mCpf">CPF invalido.</div></div>
+<div class="f"><label>Celular (WhatsApp) <span class="req">*</span></label><input type="text" id="tel" placeholder="(63) 99285-6647" inputmode="numeric" maxlength="16"><div class="msg" id="mTel">Informe o celular com DDD.</div></div>
 </div>
-<div class="checklist">
-<h2>Antes de começar</h2>
-<p class="sub">Confirme os dois itens para liberar o pedido:</p>
-<div class="item" id="itemCnh">
-<div class="q">1. Você tem <span>CNH válida</span> e vai anexá-la no pedido?</div>
-<div class="opts">
-<div class="opt" data-cnh="sim">Sim, tenho CNH válida</div>
-<div class="opt" data-cnh="nao">Não tenho CNH válida</div>
+<div class="f"><label>E-mail <span class="req">*</span></label><input type="email" id="email" placeholder="seu@email.com"><div class="msg" id="mEmail">E-mail invalido.</div></div>
+<div class="f hide" id="wrapCnpj"><label>CNPJ <span class="req">*</span></label><input type="text" id="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18"><div class="msg" id="mCnpj">CNPJ invalido.</div></div>
+<div class="row">
+<div class="f"><label>CEP <span class="req">*</span></label><input type="text" id="cep" placeholder="00000-000" inputmode="numeric" maxlength="9"><div class="msg" id="mCep">CEP invalido.</div></div>
+<div class="f"><label>Cidade <span class="req">*</span></label><input type="text" id="cidade" placeholder="Preenchido pelo CEP"><div class="msg" id="mCidade">Informe a cidade.</div></div>
 </div>
-<div class="msg" id="mCnh">Confirme a CNH para continuar.</div>
+<div class="row">
+<div class="f"><label>Rua / Logradouro <span class="req">*</span></label><input type="text" id="rua" placeholder="Preenchido pelo CEP"><div class="msg" id="mRua">Informe a rua.</div></div>
+<div class="f"><label>Numero <span class="req">*</span></label><input type="text" id="num" placeholder="123"><div class="msg" id="mNum">Informe o numero.</div></div>
 </div>
-<div class="item" id="itemSenha">
-<div class="q">2. Você vai <span>anotar a senha</span> que criar no pedido? (guarde com segurança)</div>
-<div class="opts">
-<div class="opt" data-senha="sim">Sim, vou anotar</div>
-<div class="opt" data-senha="nao">Ainda tenho dúvida</div>
+<div class="row">
+<div class="f"><label>Bairro <span class="req">*</span></label><input type="text" id="bairro" placeholder="Preenchido pelo CEP"><div class="msg" id="mBairro">Informe o bairro.</div></div>
+<div class="f"><label>UF <span class="req">*</span></label><input type="text" id="uf" placeholder="RO" maxlength="2" style="text-transform:uppercase"><div class="msg" id="mUf">Informe a UF.</div></div>
 </div>
-<div class="msg" id="mSenha">Você precisa confirmar que vai anotar a senha.</div>
+<div class="f"><label>Senha do certificado <span class="req">*</span></label><input type="text" id="senha" placeholder="Minimo 8 caracteres, com maiuscula, numero e simbolo"><div class="msg" id="mSenha">Senha fraca: use 8+ caracteres, com maiuscula, numero e simbolo.</div>
+<div class="okbox" style="margin-top:8px;margin-bottom:0"><b>Anote esta senha!</b> Ela sera usada para instalar o certificado. Se perder, precisara comprar outro.</div>
 </div>
-<div class="msg" id="mGeral">Responda os dois itens acima para liberar o pedido.</div>
 </div>
-<div class="aviso" id="avisoPresencial" style="display:none">
-<b>Sem CNH válida não é possível emitir por vídeo.</b><br>
-Chame no WhatsApp para o atendimento presencial:
-<a href="https://wa.me/5563992856647?text=Ol%C3%A1!%20N%C3%A3o%20tenho%20CNH%20v%C3%A1lida%20e%20preciso%20do%20atendimento%20presencial%20para%20o%20certificado." target="_blank" style="color:#fff;font-weight:700;text-decoration:underline">(63) 99285-6647</a>
+<button class="btn" onclick="ir(2)">Continuar</button>
 </div>
-<div class="ctas">
-<button class="btn" id="btnPedido" disabled onclick="abrirPedido()">Fazer meu pedido →</button>
-<p class="dica" id="dicaBtn">Responda os dois itens acima para liberar.</p>
-<a class="btn ghost" href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Tenho%20uma%20d%C3%BAvida%20sobre%20o%20certificado%20digital." target="_blank" rel="noopener">Falar no WhatsApp</a>
+<div id="e2" class="hide">
+<div class="card">
+<h2><span class="n">2</span>Foto da CNH</h2>
+<div class="warn"><b>CNH valida e obrigatoria.</b><br>Na videoconferencia seu rosto e comparado com a foto da CNH emitida pelo Detran.</div>
+<div class="f">
+<label>Anexe a CNH - frente e verso (JPG, PNG ou PDF) <span class="req">*</span></label>
+<input type="file" id="cnhfile" accept="image/*,application/pdf" class="arq">
+<div class="msg" id="mCnh">Anexe o arquivo da CNH.</div>
+<div class="prev hide" id="prev"><img id="preview" alt="CNH"></div>
+</div>
+</div>
+<button class="btn" onclick="enviarCnh()">Continuar</button>
+<button class="btn ghost" onclick="ir(1)">Voltar</button>
+</div>
+<div id="e3" class="hide">
+<div class="card">
+<h2><span class="n">3</span>Pagamento</h2>
+<p class="hint">Pague o PIX e envie o comprovante no WhatsApp.</p>
+<div class="resumo" id="resumo"></div>
+<div class="pixbox">
+<div class="l">Chave PIX (CNPJ)</div>
+<div class="k">19.819.476/0001-87</div>
+<button class="copy" onclick="copiarPix()">Copiar chave PIX</button>
+</div>
+<label style="display:flex;gap:10px;align-items:center;padding:13px 15px;background:rgba(202,152,59,.07);border:1px solid rgba(202,152,59,.35);border-radius:12px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="pagou" style="width:19px;height:19px;accent-color:var(--amarelo)"><span>Ja fiz o PIX e vou enviar o comprovante</span></label>
+</div>
+<button class="btn" onclick="if(!document.getElementById('pagou').checked){alert('Marque que ja fez o PIX.');return;} irPara4();">Ja paguei - escolher horario</button>
+<button class="btn ghost" onclick="ir(2)">Voltar</button>
+</div>
+<div id="e4" class="hide">
+<div class="card">
+<h2><span class="n">4</span>Escolha o dia e a hora</h2>
+<p class="hint" id="hintDias">Carregando horarios...</p>
+<div id="boxDias"></div>
+<div id="boxHoras" class="hide"><label>Horarios disponiveis</label><div class="horas" id="horas"></div></div>
+</div>
+<button class="btn" id="btnAgendar" disabled onclick="agendar()">Confirmar agendamento</button>
+<button class="btn ghost" onclick="ir(3)">Voltar</button>
+</div>
+<div id="ok" class="hide">
+<div class="card" style="text-align:center">
+<div class="big">+</div>
+<h2 style="text-align:center">Agendamento confirmado!</h2>
+<div class="resumo" id="resumoFinal" style="text-align:left"></div>
+<a class="btn" id="sala" href="#" target="_blank" rel="noopener">Entrar na sala da videoconferencia</a>
+<div class="okbox" style="text-align:left;margin-top:14px"><b>No dia:</b> esteja em lugar iluminado, com a <b>CNH em maos</b> e documento oficial com foto.</div>
+<a class="btn ghost" id="zapOk" href="#" target="_blank" rel="noopener">Enviar comprovante no WhatsApp</a>
+</div>
+</div>
+<div id="erro" class="hide">
+<div class="card">
+<h2>Nao foi possivel concluir</h2>
+<p class="hint" id="erroTxt"></p>
+<a class="btn" href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Tive%20um%20problema%20no%20pedido%20do%20certificado." target="_blank">Falar no WhatsApp</a>
+</div>
+</div>
 </div>
 </div>
 <div class="wrap">
 <footer>
-<p><b>CGE EMITTA</b> · CGE Contabilidade &amp; Gestão Empresarial</p>
-<p style="margin-top:5px">Hamilton Alves — Contador · CRC 004878/O-7</p>
-<p style="margin-top:9px"><b style="color:var(--amarelo)">Pedidos 24 horas</b> · <b style="color:var(--amarelo)">Atendimento:</b> seg a sex, 08h às 18h</p>
+<p><b>CGE EMITTA</b> · CGE Contabilidade &amp; Gestao Empresarial</p>
+<p style="margin-top:5px">Hamilton Alves - Contador · CRC 004878/O-7</p>
+<p style="margin-top:9px"><b style="color:var(--amarelo)">Pedidos 24 horas</b> · <b style="color:var(--amarelo)">Atendimento:</b> seg a sex, 08h as 18h</p>
 <p style="margin-top:4px">WhatsApp (63) 99285-6647 · Vilhena/RO</p>
 </footer>
 </div>
-<a class="wa" href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site">💬 Fale conosco</a>
+<a class="wa" href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site">Fale conosco</a>
 <script>
-var LINKPEDIDO="https://certcontrol.com.br/web/venda-rapida/01a1c81a-6146-71fa-b8a5-2b9f63397c4b";
-var st={cnh:"",senha:""};
-function libera(){
-  var ok = (st.cnh==='sim' && st.senha==='sim');
-  document.getElementById('btnPedido').disabled = !ok;
-  document.getElementById('dicaBtn').style.display = ok ? 'none' : 'block';
-  document.getElementById('mGeral').classList.remove('show');
-  document.getElementById('itemCnh').classList[st.cnh==='sim'?'add':'remove']('ok');
-  document.getElementById('itemSenha').classList[st.senha==='sim'?'add':'remove']('ok');
+var TOKEN=localStorage.getItem("cge_cc_token")||"";
+var API="https://service.certcontrol.com.br/api/integracao";
+var TABELA="16615";
+var PIX="19.819.476/0001-87", WA="5563992856647";
+var st={tipo:"PF",prod:"prod_anj2GYLPSwixbL",preco:160,cnhFile:null,uuid:null,dia:null,hora:null};
+function $(id){return document.getElementById(id);}
+function mostrar(id,ok){$(id).classList[ok?'remove':'add']('show');}
+function precoFmt(v){return 'R$ '+v.toFixed(2).replace('.',',');}
+function maskCPF(v){return v.replace(/\D/g,'').slice(0,11).replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');}
+function maskCNPJ(v){return v.replace(/\D/g,'').slice(0,14).replace(/^(\d{2})(\d)/,'$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3').replace(/\.(\d{3})(\d)/,'.$1/$2').replace(/(\d{4})(\d)/,'$1-$2');}
+function maskTel(v){var d=v.replace(/\D/g,'').slice(0,11);return d.length<=10?d.replace(/^(\d{2})(\d)/,'($1) $2').replace(/(\d{4})(\d{1,4})$/,'$1-$2'):d.replace(/^(\d{2})(\d)/,'($1) $2').replace(/(\d{5})(\d{1,4})$/,'$1-$2');}
+function maskCEP(v){return v.replace(/\D/g,'').slice(0,8).replace(/(\d{5})(\d)/,'$1-$2');}
+function validaCPF(c){c=c.replace(/\D/g,'');if(c.length!==11||/^(\d)\1{10}$/.test(c))return false;var s=0,i,d;for(i=0;i<9;i++)s+=+c[i]*(10-i);d=(s*10)%11;if(d===10)d=0;if(d!==+c[9])return false;s=0;for(i=0;i<10;i++)s+=+c[i]*(11-i);d=(s*10)%11;if(d===10)d=0;return d===+c[10];}
+function validaCNPJ(c){c=c.replace(/\D/g,'');if(c.length!==14||/^(\d)\1{13}$/.test(c))return false;var f=function(b){var p=b.length-7,s=0,i,d;for(i=0;i<b.length;i++){s+=+b[i]*p--;if(p<2)p=9;}d=s%11;return d<2?0:11-d;};return f(c.slice(0,12))===+c[12]&&f(c.slice(0,13))===+c[13];}
+function senhaForte(s){return s.length>=8 && /[A-Z]/.test(s) && /[0-9]/.test(s) && /[^A-Za-z0-9]/.test(s);}
+function api(path,opts){
+  opts=opts||{};
+  var h={"Authorization":"Bearer "+TOKEN,"Accept":"application/json"};
+  if(!(opts.body instanceof FormData)) h["Content-Type"]="application/json";
+  return fetch(API+path,{method:opts.method||'GET',headers:h,body:opts.body}).then(function(r){
+    return r.text().then(function(t){var j={};try{j=JSON.parse(t);}catch(e){j={raw:t};}return {status:r.status,ok:r.ok,data:j};});
+  });
 }
-document.querySelectorAll('[data-cnh]').forEach(function(o){
+function salvarToken(){
+  var t=$('tokIn').value.trim();
+  if(!t){mostrar('mTok',false);return;}
+  localStorage.setItem('cge_cc_token',t);
+  localStorage.removeItem('cge_cc_ok');
+  location.reload();
+}
+function checarToken(){
+  if(!TOKEN){ $('pedeToken').classList.remove('hide'); $('conteudo').classList.add('hide'); return; }
+  if(localStorage.getItem('cge_cc_ok')==='1'){ $('pedeToken').classList.add('hide'); $('conteudo').classList.remove('hide'); return; }
+  fetch(API+'/tabelas',{headers:{Authorization:'Bearer '+TOKEN,Accept:'application/json'}}).then(function(r){
+    if(r.ok){ localStorage.setItem('cge_cc_ok','1'); $('pedeToken').classList.add('hide'); $('conteudo').classList.remove('hide'); }
+    else { $('pedeToken').classList.remove('hide'); $('conteudo').classList.add('hide'); mostrar('mTok',false); }
+  }).catch(function(){ $('pedeToken').classList.remove('hide'); $('conteudo').classList.add('hide'); });
+}
+document.querySelectorAll('.tp').forEach(function(o){
   o.onclick=function(){
-    document.querySelectorAll('[data-cnh]').forEach(function(x){x.classList.remove('sel');});
-    o.classList.add('sel'); st.cnh=o.dataset.cnh;
-    document.getElementById('mCnh').classList.remove('show');
-    var av=document.getElementById('avisoPresencial');
-    av.style.display = (st.cnh==='nao') ? 'block' : 'none';
-    libera();
+    document.querySelectorAll('.tp').forEach(function(x){x.classList.remove('sel');});
+    o.classList.add('sel');
+    st.tipo=o.dataset.tipo; st.prod=o.dataset.prod; st.preco=+o.dataset.preco;
+    $('wrapCnpj').classList[st.tipo==='PF'?'add':'remove']('hide');
   };
 });
-document.querySelectorAll('[data-senha]').forEach(function(o){
-  o.onclick=function(){
-    document.querySelectorAll('[data-senha]').forEach(function(x){x.classList.remove('sel');});
-    o.classList.add('sel'); st.senha=o.dataset.senha;
-    document.getElementById('mSenha').classList.remove('show');
-    libera();
-  };
-});
-function abrirPedido(){
-  if(st.cnh!=='sim'){document.getElementById('mCnh').classList.add('show');document.getElementById('itemCnh').scrollIntoView({block:'center'});return;}
-  if(st.senha!=='sim'){document.getElementById('mSenha').classList.add('show');document.getElementById('itemSenha').scrollIntoView({block:'center'});return;}
-  window.open(LINKPEDIDO,'_blank');
+$('cpf').oninput=function(e){e.target.value=maskCPF(e.target.value);};
+$('cnpj').oninput=function(e){e.target.value=maskCNPJ(e.target.value);};
+$('tel').oninput=function(e){e.target.value=maskTel(e.target.value);};
+var ibgeAtual="";
+$('cep').oninput=function(e){
+  e.target.value=maskCEP(e.target.value);
+  if(e.target.value.replace(/\D/g,'').length===8) buscarCep();
+};
+function buscarCep(){
+  var cep=$('cep').value.replace(/\D/g,'');
+  if(cep.length!==8) return;
+  fetch('https://brasilapi.com.br/api/cep/v2/'+cep).then(function(r){return r.json();}).then(function(d){
+    if(d.errors||d.name) throw new Error('cep');
+    if(d.street) $('rua').value=d.street;
+    if(d.neighborhood) $('bairro').value=d.neighborhood;
+    if(d.city) $('cidade').value=d.city;
+    if(d.state) $('uf').value=d.state;
+    if(d.ibge && d.ibge.city) ibgeAtual=String(d.ibge.city);
+    if(!ibgeAtual) buscarIbge();
+  }).catch(function(){ buscarIbge(); });
 }
+function buscarIbge(){
+  var uf=$('uf').value.trim().toUpperCase();
+  var cidade=$('cidade').value.trim();
+  if(uf.length!==2||!cidade) return;
+  fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/'+uf+'/municipios').then(function(r){return r.json();}).then(function(arr){
+    if(!Array.isArray(arr)) return;
+    var alvo=cidade.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    for(var i=0;i<arr.length;i++){
+      var n=arr[i].nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+      if(n===alvo){ ibgeAtual=String(arr[i].id); return; }
+    }
+  }).catch(function(){});
+}
+$('cnhfile').onchange=function(e){
+  var f=e.target.files&&e.target.files[0];
+  if(!f) return;
+  st.cnhFile=f; mostrar('mCnh',true);
+  if(f.type.indexOf('image')===0){
+    var r=new FileReader();
+    r.onload=function(ev){$('preview').src=ev.target.result;$('prev').classList.remove('hide');};
+    r.readAsDataURL(f);
+  } else { $('prev').classList.add('hide'); }
+};
+function ir(n){
+  if(n===2){ if(!validar1()) return; $('resumo').innerHTML=montarResumo(); }
+  [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
+  $('ok').classList.add('hide'); $('erro').classList.add('hide');
+  $('e'+n).classList.remove('hide');
+  for(var i=1;i<=n;i++) $('s'+i).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function validar1(){
+  var ok=true;
+  if($('nome').value.trim().split(' ').filter(Boolean).length<2){mostrar('mNome',false);ok=false;}else{mostrar('mNome',true);}
+  if(!validaCPF($('cpf').value)){mostrar('mCpf',false);ok=false;}else{mostrar('mCpf',true);}
+  if($('tel').value.replace(/\D/g,'').length<10){mostrar('mTel',false);ok=false;}else{mostrar('mTel',true);}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value)){mostrar('mEmail',false);ok=false;}else{mostrar('mEmail',true);}
+  if(st.tipo==='PJ'){ if(!validaCNPJ($('cnpj').value)){mostrar('mCnpj',false);ok=false;}else{mostrar('mCnpj',true);} }
+  if($('cep').value.replace(/\D/g,'').length!==8){mostrar('mCep',false);ok=false;}else{mostrar('mCep',true);}
+  if(!$('cidade').value.trim()){mostrar('mCidade',false);ok=false;}else{mostrar('mCidade',true);}
+  if(!$('rua').value.trim()){mostrar('mRua',false);ok=false;}else{mostrar('mRua',true);}
+  if(!$('num').value.trim()){mostrar('mNum',false);ok=false;}else{mostrar('mNum',true);}
+  if(!$('bairro').value.trim()){mostrar('mBairro',false);ok=false;}else{mostrar('mBairro',true);}
+  if($('uf').value.trim().length!==2){mostrar('mUf',false);ok=false;}else{mostrar('mUf',true);}
+  if(!senhaForte($('senha').value)){mostrar('mSenha',false);ok=false;}else{mostrar('mSenha',true);}
+  if(!ok) window.scrollTo({top:0,behavior:'smooth'});
+  return ok;
+}
+function montarResumo(){
+  return '<div class="l"><span>Produto</span><span>Certificado A1 '+st.tipo+'</span></div>'
+    +'<div class="l"><span>Titular</span><span>'+$('nome').value.trim()+'</span></div>'
+    +'<div class="l"><span>CPF/CNPJ</span><span>'+(st.tipo==='PJ'?$('cnpj').value:$('cpf').value)+'</span></div>'
+    +'<div class="l"><span>Cidade</span><span>'+$('cidade').value+' / '+$('uf').value.toUpperCase()+'</span></div>'
+    +'<div class="l"><span>Total</span><span>'+precoFmt(st.preco)+'</span></div>';
+}
+function enviarCnh(){
+  if(!st.cnhFile){mostrar('mCnh',false);$('cnhfile').scrollIntoView({block:'center'});return;}
+  if(!ibgeAtual){ alert('Preencha o CEP para localizarmos sua cidade.'); buscarCep(); return; }
+  var btn=document.querySelector('#e2 .btn');
+  btn.disabled=true; btn.innerHTML='<span class="spin"></span>Enviando...';
+  var cep=$('cep').value.replace(/\D/g,'');
+  var tel=$('tel').value.replace(/\D/g,'');
+  var body={
+    venda:{tipo_lancamento_id:7,tabela_id:TABELA,produto_id:st.prod,valor_total:st.preco},
+    certificado:{
+      nome:$('nome').value.trim(),
+      documento:(st.tipo==='PJ'?$('cnpj').value:$('cpf').value).replace(/\D/g,''),
+      documento_tipo:st.tipo==='PJ'?'CNPJ':'CPF',
+      emails:[$('email').value.trim()],
+      celular:{numero:tel.slice(2),codigo_area:tel.slice(0,2)},
+      endereco:{cep:cep,uf:$('uf').value.toUpperCase(),municipio:$('cidade').value.trim(),codigo_ibge:ibgeAtual,logradouro:$('rua').value.trim(),numero:$('num').value.trim(),bairro:$('bairro').value.trim()}
+    }
+  };
+  api('/vendas',{method:'POST',body:JSON.stringify(body)}).then(function(r){
+    if(!r.ok){ btn.disabled=false; btn.textContent='Continuar'; falhar('Nao conseguimos registrar seu pedido. Detalhe: '+JSON.stringify(r.data).slice(0,250)); return; }
+    st.uuid=r.data.data.uuid;
+    return api('/vendas/'+st.uuid+'/senha',{method:'POST',body:JSON.stringify({senha:$('senha').value})}).then(function(s){
+      if(!s.ok){ btn.disabled=false; btn.textContent='Continuar'; falhar('Pedido criado, mas a senha foi recusada. Detalhe: '+JSON.stringify(s.data).slice(0,250)); return; }
+      var fd=new FormData(); fd.append('files[]',st.cnhFile);
+      return api('/vendas/'+st.uuid+'/documentos',{method:'POST',body:fd}).then(function(d){
+        btn.disabled=false; btn.textContent='Continuar';
+        if(!d.ok){ falhar('Pedido e senha ok, mas o anexo da CNH falhou. Detalhe: '+JSON.stringify(d.data).slice(0,250)); return; }
+        ir(3);
+      });
+    });
+  }).catch(function(e){ btn.disabled=false; btn.textContent='Continuar'; falhar('Falha de conexao: '+e.message); });
+}
+function falhar(msg){
+  $('erroTxt').textContent=msg;
+  ['e1','e2','e3','e4'].forEach(function(i){$(i).classList.add('hide');});
+  $('erro').classList.remove('hide');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function copiarPix(){
+  function run(){var b=document.querySelector('.copy'),t=b.textContent;b.textContent='Copiado!';setTimeout(function(){b.textContent=t;},1800);}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(PIX).then(run,run);}
+  else{var ta=document.createElement('textarea');ta.value=PIX;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);run();}
+}
+function irPara4(){ ir(4); carregarDias(); }
+function carregarDias(){
+  var box=$('boxDias'); box.innerHTML='';
+  var hoje=new Date();
+  var nomes=['dom','seg','ter','qua','qui','sex','sab'];
+  for(var i=1;i<=16;i++){
+    var d=new Date(hoje.getTime()+i*86400000);
+    var dw=d.getDay();
+    if(dw===0) continue;
+    var iso=d.toISOString().slice(0,10);
+    var el=document.createElement('div');
+    el.className='dia';
+    el.innerHTML='<div class="dw">'+nomes[dw]+'</div><div>'+String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'</div>';
+    el.dataset.iso=iso;
+    el.onclick=function(){
+      document.querySelectorAll('.dia').forEach(function(x){x.classList.remove('sel');});
+      this.classList.add('sel'); st.dia=this.dataset.iso; carregarHoras(st.dia);
+    };
+    box.appendChild(el);
+  }
+  $('hintDias').textContent='Escolha um dia:';
+}
+function carregarHoras(iso){
+  $('hintDias').textContent='Carregando horarios de '+iso.split('-').reverse().join('/')+'...';
+  $('boxHoras').classList.add('hide'); $('horas').innerHTML=''; $('btnAgendar').disabled=true; st.hora=null;
+  api('/vendas/'+st.uuid+'/agenda/horarios-disponiveis?date='+iso).then(function(r){
+    var box=$('horas'); box.innerHTML='';
+    if(!r.ok || !r.data.data || !r.data.data.length){
+      $('hintDias').textContent='Sem horario neste dia. Escolha outro dia acima.';
+      $('boxHoras').classList.remove('hide'); return;
+    }
+    $('hintDias').textContent='Escolha o dia:';
+    r.data.data.forEach(function(h){
+      var el=document.createElement('div');
+      el.className='hora'; el.textContent=h;
+      el.onclick=function(){document.querySelectorAll('.hora').forEach(function(x){x.classList.remove('sel');});this.classList.add('sel');st.hora=h;$('btnAgendar').disabled=false;};
+      box.appendChild(el);
+    });
+    $('boxHoras').classList.remove('hide');
+  }).catch(function(){$('hintDias').textContent='Erro ao carregar horarios. Tente outro dia.';});
+}
+function agendar(){
+  if(!st.dia||!st.hora) return;
+  var b=$('btnAgendar'); b.disabled=true; b.innerHTML='<span class="spin"></span>Agendando...';
+  api('/vendas/'+st.uuid+'/agenda',{method:'POST',body:JSON.stringify({date:st.dia+' '+st.hora})}).then(function(r){
+    b.disabled=false; b.textContent='Confirmar agendamento';
+    if(!r.ok){ falhar('Nao foi possivel agendar. Detalhe: '+JSON.stringify(r.data).slice(0,250)); return; }
+    var d=r.data.data;
+    $('resumoFinal').innerHTML='<div class="l"><span>Pedido</span><span>#'+d.venda_id+'</span></div>'
+      +'<div class="l"><span>Titular</span><span>'+d.cliente+'</span></div>'
+      +'<div class="l"><span>Certificado</span><span>'+d.produto+'</span></div>'
+      +'<div class="l"><span>Data e hora</span><span>'+st.dia.split('-').reverse().join('/')+' as '+st.hora+'</span></div>'
+      +'<div class="l"><span>Atendente</span><span>'+d.agente+'</span></div>';
+    var dataBR=st.dia.split('-').reverse().join('/')+' as '+st.hora;
+    $('sala').href=d.link;
+    $('zapOk').href='https://wa.me/'+WA+'?text='+encodeURIComponent('Ola! Pedido #'+d.venda_id+' ('+d.produto+' - '+st.tipo+') agendado para '+dataBR+'.\nEnviando agora o comprovante do PIX de '+precoFmt(st.preco)+'.');
+    ['e1','e2','e3','e4'].forEach(function(i){$(i).classList.add('hide');});
+    $('ok').classList.remove('hide');
+    for(var i=1;i<=4;i++) $('s'+i).classList.add('on');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }).catch(function(e){ b.disabled=false; b.textContent='Confirmar agendamento'; falhar('Erro de conexao ao agendar: '+e.message); });
+}
+checarToken();
 </script>
 </body>
 </html>
