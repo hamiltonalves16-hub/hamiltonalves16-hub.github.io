@@ -55,6 +55,10 @@ footer b{color:var(--prata)}
 .aviso{background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.5);border-radius:12px;padding:13px 15px;font-size:13px;color:var(--verde);margin-top:12px}
 .aviso b{color:#fff}
 .dica{font-size:12px;color:#777;margin-top:9px;text-align:center}
+.ck{display:flex;gap:10px;align-items:center;margin-top:14px;padding:13px 15px;background:rgba(202,152,59,.07);border:1px solid rgba(202,152,59,.35);border-radius:12px;cursor:pointer;font-size:13.5px;color:#E8E8E8}
+.ck input{width:19px;height:19px;flex-shrink:0;accent-color:var(--amarelo);cursor:pointer}
+.ck b{color:var(--amarelo)}
+.btn:disabled{opacity:.4;cursor:not-allowed;background:#2a2a2a;color:#888}
 </style>
 </head>
 <body>
@@ -90,14 +94,15 @@ footer b{color:var(--prata)}
 <div style="margin-top:14px">
 <div class="valor"><span>Valor a pagar</span><b id="vvalor">R$ 160,00</b></div>
 </div>
+<label class="ck"><input type="checkbox" id="pago"><span>Já fiz o PIX de <b id="vvalor2">R$ 160,00</b></span></label>
 </div>
 </div>
 <div class="passo">
 <div class="top"><span class="num">2</span><h2>Faça seu pedido</h2></div>
 <p>Clique no botão, preencha seus dados e <b style="color:#fff">anexe a foto da CNH</b> (frente e verso) na etapa "Documentos".</p>
 <div class="acao">
-<a class="btn" id="btnpedido" href="https://certcontrol.com.br/web/venda-rapida/01a1c81a-6146-71fa-b8a5-2b9f63397c4b" target="_blank" rel="noopener">Fazer meu pedido →</a>
-<p class="dica">Você será direcionado ao sistema de emissão do certificado.</p>
+<button class="btn" id="btnpedido" disabled>Fazer meu pedido →</button>
+<p class="dica" id="dicabtn">🔒 Marque acima que já fez o PIX para liberar o pedido.</p>
 </div>
 </div>
 <div class="passo">
@@ -128,10 +133,23 @@ document.querySelectorAll('.tp').forEach(function(o){
     o.classList.add('sel');
     tipo=o.dataset.tipo; preco=+o.dataset.preco;
     document.getElementById('vvalor').textContent='R$ '+preco+',00';
+    document.getElementById('vvalor2').textContent='R$ '+preco+',00';
     document.getElementById('btnzap').href='https://wa.me/5563992856647?text='+
       encodeURIComponent('Olá! Fiz o pedido do Certificado A1 '+tipo+' (R$ '+preco+',00) e vou enviar o comprovante.');
   };
 });
+var LINKPEDIDO="https://certcontrol.com.br/web/venda-rapida/01a1c81a-6146-71fa-b8a5-2b9f63397c4b";
+function atualizaBotao(){
+  var ok=document.getElementById('pago').checked;
+  var b=document.getElementById('btnpedido');
+  b.disabled=!ok;
+  document.getElementById('dicabtn').style.display=ok?'none':'block';
+}
+document.getElementById('pago').onchange=atualizaBotao;
+document.getElementById('btnpedido').onclick=function(){
+  if(!document.getElementById('pago').checked)return;
+  window.open(LINKPEDIDO,'_blank');
+};
 function copiarPix(){
   function run(){var b=document.querySelector('.copy'),t=b.textContent;b.textContent='✓ Copiado!';setTimeout(function(){b.textContent=t;},1800);}
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(PIX).then(run,run);}
