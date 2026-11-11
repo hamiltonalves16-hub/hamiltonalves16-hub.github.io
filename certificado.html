@@ -109,7 +109,12 @@ footer b{color:var(--prata)}
 <div class="f"><label>Nº de registro da CNH <span class="req">*</span></label><input id="cnhnum" placeholder="11 dígitos" inputmode="numeric" maxlength="11"><div class="msg" id="mcnhnum">Informe os 11 números.</div></div>
 <div class="f"><label>Validade da CNH <span class="req">*</span></label><input type="date" id="cnhval"><div class="msg" id="mcnhval">Informe a validade.</div></div>
 </div>
-<div class="okbox" style="text-align:left;margin-bottom:0"><b>📎 Foto da CNH:</b> ao finalizar, você envia a <b>foto da CNH (frente e verso)</b> no WhatsApp, junto com o comprovante do PIX.</div>
+<div class="f"><label>Foto da CNH — frente e verso <span class="req">*</span></label>
+<input type="file" id="cnhfile" accept="image/*" style="background:#0F0F0F;border:1px dashed #555;padding:10px;font-size:13px">
+<div class="msg" id="mcnhfile">Anexe a foto da CNH.</div>
+<div id="cnhprev" class="hide" style="margin-top:8px"><img id="cnhimg" alt="CNH" style="max-width:100%;border-radius:10px;border:1px solid #333"></div>
+</div>
+<div class="okbox" style="text-align:left;margin-bottom:0"><b>📎 Atenção:</b> a foto acima serve para conferência. Ao finalizar, <b>anexe a mesma foto na conversa do WhatsApp</b> junto com o comprovante do PIX.</div>
 </div>
 <button class="btn" onclick="ir(2)">Continuar →</button>
 </div>
@@ -171,6 +176,17 @@ document.getElementById('cpf').oninput=function(e){e.target.value=maskCPF(e.targ
 document.getElementById('cnpj').oninput=function(e){e.target.value=maskCNPJ(e.target.value);};
 document.getElementById('tel').oninput=function(e){e.target.value=maskTel(e.target.value);};
 document.getElementById('cnhnum').oninput=function(e){e.target.value=e.target.value.replace(/\D/g,'').slice(0,11);};
+document.getElementById('cnhfile').onchange=function(e){
+  var f=e.target.files&&e.target.files[0];
+  if(!f)return;
+  var r=new FileReader();
+  r.onload=function(ev){
+    document.getElementById('cnhimg').src=ev.target.result;
+    document.getElementById('cnhprev').classList.remove('hide');
+    document.getElementById('mcnhfile').classList.remove('show');
+  };
+  r.readAsDataURL(f);
+};
 function mostrar(id,ok){document.getElementById(id).classList[ok?'remove':'add']('show');}
 function validar(){
   var ok=true;
@@ -183,6 +199,8 @@ function validar(){
   var val=document.getElementById('cnhval').value;
   if(!val){mostrar('mcnhval',false);ok=false;}
   else{var dv=new Date(val+'T00:00:00');if(dv<=new Date()){mostrar('mcnhval',false);ok=false;}else{mostrar('mcnhval',true);}}
+  var fi=document.getElementById('cnhfile');
+  if(!fi.files||!fi.files.length){mostrar('mcnhfile',false);ok=false;}else{mostrar('mcnhfile',true);}
   return ok;
 }
 function dados(){
