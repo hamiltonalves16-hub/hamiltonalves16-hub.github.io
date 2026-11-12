@@ -24,7 +24,7 @@ h1{font-family:var(--display);font-size:clamp(22px,4vw,30px);margin:0 0 4px}
 .periodo{display:flex;gap:6px;flex-wrap:wrap}
 .periodo button{background:var(--preto2);border:1px solid #333;color:#CCC;border-radius:99px;padding:8px 15px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:var(--body)}
 .periodo button.on{background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);border-color:var(--amarelo)}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:11px;margin-bottom:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:11px;margin-bottom:16px}
 .kpi{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:14px;padding:15px}
 .kpi .l{font-size:10.5px;color:var(--prata);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:4px}
 .kpi .v{font-family:var(--display);font-size:23px;font-weight:700;color:#fff;line-height:1.15}
@@ -32,8 +32,9 @@ h1{font-family:var(--display);font-size:clamp(22px,4vw,30px);margin:0 0 4px}
 .kpi.dest{background:linear-gradient(135deg,rgba(202,152,59,.18),rgba(202,152,59,.05));border-color:rgba(202,152,59,.6)}
 .kpi.dest .v{color:var(--amarelo)}
 .kpi.ok .v{color:var(--verde)}
+.kpi.alerta .v{color:#FCA5A5}
 .painel{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:14px;padding:16px;margin-bottom:16px}
-.painel h2{font-family:var(--display);font-size:15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.painel h2{font-family:var(--display);font-size:15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .painel h2 span{font-size:11px;color:#777;font-weight:600;font-family:var(--body)}
 .graf{display:flex;align-items:flex-end;gap:5px;height:130px;padding-top:10px}
 .graf .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end}
@@ -45,12 +46,12 @@ th{text-align:left;color:#888;font-size:10px;text-transform:uppercase;letter-spa
 td{padding:9px 6px;border-bottom:1px solid #1a1a1a;vertical-align:top}
 tr:last-child td{border-bottom:0}
 td.num{text-align:right;font-weight:700;white-space:nowrap}
-.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700}
+.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700;white-space:nowrap}
 .b-pago{background:rgba(5,150,105,.18);color:#6EE7B7;border:1px solid rgba(5,150,105,.5)}
 .b-pend{background:rgba(202,152,59,.15);color:#E6AD41;border:1px solid rgba(202,152,59,.5)}
 .b-canc{background:rgba(239,68,68,.12);color:#FCA5A5;border:1px solid rgba(239,68,68,.4)}
 .b-out{background:#222;color:#999;border:1px solid #333}
-.tabela-scroll{max-height:420px;overflow-y:auto}
+.tabela-scroll{max-height:430px;overflow-y:auto}
 .vazio{text-align:center;color:#777;padding:26px;font-size:13px}
 .spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(202,152,59,.35);border-top-color:var(--amarelo);border-radius:50%;animation:g 1s linear infinite;vertical-align:-3px;margin-right:7px}
 @keyframes g{to{transform:rotate(360deg)}}
@@ -62,7 +63,29 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:26px 0 30px;text-align:
 .setup p{color:var(--prata);font-size:13px;margin-bottom:14px}
 .setup input{width:100%;background:var(--preto3);border:1px solid #333;color:#fff;border-radius:10px;padding:12px;font-size:14px;margin-bottom:12px}
 .setup button{width:100%;border:0;border-radius:99px;padding:14px;font-size:15px;font-weight:700;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);cursor:pointer;font-family:var(--body)}
-@media(max-width:640px){.kpis{grid-template-columns:1fr 1fr}.kpi .v{font-size:19px}th:nth-child(3),td:nth-child(3){display:none}}
+.venc-lista{display:grid;gap:9px}
+.venc{display:flex;align-items:center;gap:12px;background:var(--preto3);border:1px solid #262626;border-radius:11px;padding:12px 14px}
+.venc.v30{border-color:rgba(239,68,68,.55);background:rgba(239,68,68,.06)}
+.venc.v60{border-color:rgba(202,152,59,.5);background:rgba(202,152,59,.05)}
+.venc .dias{font-family:var(--display);font-size:19px;font-weight:700;min-width:62px;text-align:center;line-height:1.05}
+.venc.v30 .dias{color:#FCA5A5}
+.venc.v60 .dias{color:var(--amarelo)}
+.venc .dias small{display:block;font-size:9px;color:#777;font-weight:600;letter-spacing:.05em}
+.venc .info{flex:1;min-width:0}
+.venc .nome{font-weight:700;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.venc .meta{font-size:11.5px;color:#888}
+.venc .acao{flex-shrink:0}
+.venc a{display:inline-block;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.5);color:#6EE7B7;border-radius:8px;padding:7px 12px;font-size:11.5px;font-weight:700;text-decoration:none;white-space:nowrap}
+.venc a:hover{background:rgba(37,211,102,.25)}
+.tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.tabs button{background:var(--preto2);border:1px solid #333;color:#CCC;border-radius:10px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--body)}
+.tabs button.on{background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);border-color:var(--amarelo)}
+@media(max-width:640px){
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi .v{font-size:19px}
+  th:nth-child(3),td:nth-child(3){display:none}
+  .venc{flex-wrap:wrap}
+}
 </style>
 </head>
 <body>
@@ -80,9 +103,9 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:26px 0 30px;text-align:
 <div id="setup" class="hide">
 <div class="setup">
 <h2>Chave de acesso</h2>
-<p>Cole a chave de integracao do CertControl para ver o painel neste aparelho.</p>
+<p>Cole a chave de integração do CertControl para ver o painel neste aparelho. Ela fica salva aqui.</p>
 <input type="text" id="tokIn" placeholder="eyJ0eXAiOiJKV1Qi...">
-<div class="msg" id="mTok">Chave invalida.</div>
+<div class="msg" id="mTok">Chave inválida.</div>
 <button onclick="salvarToken()">Entrar no painel</button>
 </div>
 </div>
@@ -92,7 +115,7 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:26px 0 30px;text-align:
 <h1>Painel de Vendas</h1>
 <p style="color:var(--prata);font-size:13px">Certificados digitais · <span id="lblPeriodo">7 dias</span></p>
 </div>
-<div class="periodo">
+<div class="periodo" id="filtroPeriodo">
 <button data-p="hoje">Hoje</button>
 <button data-p="7" class="on">7 dias</button>
 <button data-p="30">30 dias</button>
@@ -100,6 +123,11 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:26px 0 30px;text-align:
 <button data-p="ano">Ano</button>
 </div>
 </div>
+<div class="tabs">
+<button class="on" data-tab="vendas">Vendas</button>
+<button data-tab="venc">Vencimentos</button>
+</div>
+<div id="tabVendas">
 <div class="kpis">
 <div class="kpi"><div class="l">Faturamento</div><div class="v" id="kFat">—</div><div class="s" id="kFatQtd">—</div></div>
 <div class="kpi dest"><div class="l">Lucro (venda - custo)</div><div class="v" id="kMargem">—</div><div class="s" id="kMargemInfo">—</div></div>
@@ -120,18 +148,54 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:26px 0 30px;text-align:
 </div>
 </div>
 </div>
+<div id="tabVenc" class="hide">
+<div class="kpis">
+<div class="kpi ok"><div class="l">Ativos</div><div class="v" id="vAtivos">—</div><div class="s">certificados validos</div></div>
+<div class="kpi alerta"><div class="l">Vence em 30 dias</div><div class="v" id="v30">—</div><div class="s">renovar agora</div></div>
+<div class="kpi"><div class="l">Vence em 31-60 dias</div><div class="v" id="v60">—</div><div class="s">proximo da renovacao</div></div>
+<div class="kpi alerta"><div class="l">Vencidos</div><div class="v" id="vVenc">—</div><div class="s">cliente sem certificado</div></div>
+</div>
+<div class="painel">
+<h2>Renovacao — quem avisar <span id="vencInfo"></span></h2>
+<p style="color:#888;font-size:12px;margin-bottom:12px">Validade de 1 ano a partir da emissao. O botao abre o WhatsApp do cliente com a mensagem de renovacao pronta.</p>
+<div class="venc-lista" id="vencLista"><div class="vazio"><span class="spin"></span>Carregando vencimentos...</div></div>
+</div>
+</div>
+</div>
 <footer>
 <p><b style="color:var(--prata)">CGE EMITTA</b> · Painel interno · Hamilton Alves — CRC 004878/O-7</p>
 <p style="margin-top:4px">Fonte: API CertControl · tempo real</p>
 </footer>
 </div>
 <script>
-var TOKEN=localStorage.getItem('cge_cc_token')||'';
 var API='https://service.certcontrol.com.br/api/integracao';
 var PERIODO='7';
+var WA='5563992856647';
+var LINK='https://hamiltonalves16-hub.github.io/certificado.html';
+(function(){
+  var q=new URLSearchParams(location.search);
+  var k=q.get('k');
+  if(!k){ var m=location.hash.match(/k=([^&]+)/); if(m) k=decodeURIComponent(m[1]); }
+  if(k){
+    localStorage.setItem('cge_cc_token',k);
+    try{ history.replaceState(null,'',location.pathname); }catch(e){}
+  }
+})();
+var TOKEN=localStorage.getItem('cge_cc_token')||'';
 function $(id){return document.getElementById(id);}
 function brl(v){return 'R$ '+(v||0).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
 function iso(d){return d.toISOString().slice(0,10);}
+function brData(isoStr){
+  if(!isoStr) return '-';
+  var p=isoStr.slice(0,10).split('-');
+  return p[2]+'/'+p[1]+'/'+p[0];
+}
+function diasAte(isoStr){
+  if(!isoStr) return null;
+  var alvo=new Date(isoStr.slice(0,10)+'T12:00:00');
+  var hoje=new Date(); hoje.setHours(12,0,0,0);
+  return Math.round((alvo-hoje)/86400000);
+}
 function salvarToken(){
   var t=$('tokIn').value.trim();
   if(!t){$('mTok').classList.add('show');return;}
@@ -139,8 +203,16 @@ function salvarToken(){
   location.reload();
 }
 function checarToken(){
-  if(!TOKEN){ $('setup').classList.remove('hide'); $('conteudo').classList.add('hide'); return; }
+  if(!TOKEN){ $('setup').classList.remove('hide'); $('conteudo').classList.add('hide'); return false; }
   $('setup').classList.add('hide'); $('conteudo').classList.remove('hide');
+  return true;
+}
+function fetchJSON(path){
+  return fetch(API+path,{headers:{Authorization:'Bearer '+TOKEN,Accept:'application/json'}})
+    .then(function(r){
+      if(r.status===401||r.status===403) throw new Error('Chave sem permissao ou expirada.');
+      return r.json();
+    });
 }
 function intervalo(p){
   var hoje=new Date();
@@ -153,16 +225,20 @@ function intervalo(p){
   else if(p==='ano'){ ini=new Date(hoje.getFullYear(),0,1); }
   return {ini:iso(ini), fim:fim};
 }
-function carregar(){
+function carregarVendas(){
   var r=intervalo(PERIODO);
   $('corpo').innerHTML='<tr><td colspan="7" class="vazio"><span class="spin"></span>Buscando pedidos...</td></tr>';
   $('lblPeriodo').textContent=(PERIODO==='hoje'?'hoje':PERIODO==='mes'?'este mes':PERIODO==='ano'?'este ano':'ultimos '+PERIODO+' dias');
-  fetch(API+'/vendas?data_venda_inicio='+r.ini+'&data_venda_fim='+r.fim+'&per_page=200',{headers:{Authorization:'Bearer '+TOKEN,Accept:'application/json'}})
-  .then(function(res){ if(res.status===401||res.status===403) throw new Error('Chave sem permissao ou expirada.'); return res.json(); })
-  .then(function(j){ var itens=(j.data||[]).slice().sort(function(a,b){ return (b.data_venda||'').localeCompare(a.data_venda||''); }); render(itens,r); })
-  .catch(function(e){ $('corpo').innerHTML='<tr><td colspan="7" class="vazio" style="color:#FCA5A5">'+e.message+'</td></tr>'; });
+  fetchJSON('/vendas?data_venda_inicio='+r.ini+'&data_venda_fim='+r.fim+'&per_page=200')
+  .then(function(j){
+    var itens=(j.data||[]).slice().sort(function(a,b){ return (b.data_venda||'').localeCompare(a.data_venda||''); });
+    renderVendas(itens,r);
+  })
+  .catch(function(e){
+    $('corpo').innerHTML='<tr><td colspan="7" class="vazio" style="color:#FCA5A5">'+e.message+'</td></tr>';
+  });
 }
-function render(itens,r){
+function renderVendas(itens,r){
   var fat=0,pago=0,pend=0,qPago=0,qPend=0,q=0,porDia={};
   itens.forEach(function(v){
     var valor=parseFloat(v.valor_total||0);
@@ -174,10 +250,9 @@ function render(itens,r){
     if(d) porDia[d]=(porDia[d]||0)+valor;
   });
   var custo=q*50;
-  var margem=fat-custo;
   $('kFat').textContent=brl(fat);
   $('kFatQtd').textContent=q+' pedido'+(q===1?'':'s');
-  $('kMargem').textContent=brl(margem);
+  $('kMargem').textContent=brl(fat-custo);
   $('kMargemInfo').textContent='custo '+brl(custo)+' ja descontado';
   $('kPago').textContent=brl(pago);
   $('kPagoQtd').textContent=qPago+' confirmado'+(qPago===1?'':'s');
@@ -189,10 +264,9 @@ function render(itens,r){
   $('corpo').innerHTML=itens.map(function(v){
     var st=(v.status||'');
     var cls=/pago/i.test(st)?'b-pago':/cancel|estorn/i.test(st)?'b-canc':/pend/i.test(st)?'b-pend':'b-out';
-    var nome=(v.cliente_certificado&&v.cliente_certificado.nome_razao)||'—';
-    var prod=(v.produto&&(v.produto['descrição']||v.produto.descricao))||'—';
-    var dt=(v.data_venda||'').slice(0,10).split('-').reverse().join('/');
-    return '<tr><td><b>#'+(v.pedido||'')+'</b></td><td>'+nome+'</td><td style="color:#AAA">'+prod+'</td><td style="color:#888;font-size:11.5px">'+(v.tipo||'')+'</td><td class="num">'+brl(parseFloat(v.valor_total||0))+'</td><td><span class="badge '+cls+'">'+st+'</span></td><td style="color:#888">'+dt+'</td></tr>';
+    var nome=(v.cliente_certificado&&v.cliente_certificado.nome_razao)||'-';
+    var prod=(v.produto&&(v.produto['descrição']||v.produto.descricao))||'-';
+    return '<tr><td><b>#'+(v.pedido||'')+'</b></td><td>'+nome+'</td><td style="color:#AAA">'+prod+'</td><td style="color:#888;font-size:11.5px">'+(v.tipo||'')+'</td><td class="num">'+brl(parseFloat(v.valor_total||0))+'</td><td><span class="badge '+cls+'">'+st+'</span></td><td style="color:#888">'+brData(v.data_venda)+'</td></tr>';
   }).join('');
 }
 function desenharGrafico(porDia,r){
@@ -211,22 +285,107 @@ function desenharGrafico(porDia,r){
   $('graf').innerHTML=dias.map(function(x){
     var h=Math.round(x.v/max*100);
     var lbl=x.d.slice(8,10)+'/'+x.d.slice(5,7);
-    var mostrarLbl = (dias.length<=10 || x.d===r.fim) ? lbl : '';
+    var mostrarLbl=(dias.length<=10||x.d===r.fim)?lbl:'';
     return '<div class="col'+(x.v===0?' zero':'')+'" title="'+lbl+': '+brl(x.v)+'"><div class="barra" style="height:'+h+'%"></div><div class="rot">'+mostrarLbl+'</div></div>';
   }).join('');
   var total=dias.reduce(function(a,b){return a+b.v;},0);
   $('grafInfo').textContent=brl(total)+' em '+dias.length+' dia'+(dias.length===1?'':'s');
 }
-document.querySelectorAll('.periodo button').forEach(function(b){
+function carregarVencimentos(){
+  var hoje=new Date();
+  var ini=new Date(); ini.setMonth(ini.getMonth()-14);
+  var r={ini:iso(ini),fim:iso(hoje)};
+  $('vencLista').innerHTML='<div class="vazio"><span class="spin"></span>Buscando certificados...</div>';
+  fetchJSON('/vendas?data_venda_inicio='+r.ini+'&data_venda_fim='+r.fim+'&per_page=200')
+  .then(function(j){
+    var itens=j.data||[];
+    var emitidos=[];
+    itens.forEach(function(v){
+      if((v.status||'').toLowerCase()==='cancelado') return;
+      var s=v.soluti||{};
+      var fim=(s.validade&&s.validade.data_fim)||null;
+      if(!fim) return;
+      emitidos.push({
+        pedido:v.pedido,
+        cliente:(v.cliente_certificado&&v.cliente_certificado.nome_razao)||'-',
+        doc:(v.cliente_certificado&&v.cliente_certificado.documento)||'',
+        celular:(v.cliente_certificado&&v.cliente_certificado.celular)||'',
+        produto:(v.produto&&(v.produto['descrição']||v.produto.descricao))||'-',
+        situacao:s.situação||'',
+        vence:fim,
+        dias:diasAte(fim)
+      });
+    });
+    emitidos.sort(function(a,b){ return (a.dias||0)-(b.dias||0); });
+    renderVencimentos(emitidos);
+  })
+  .catch(function(e){
+    $('vencLista').innerHTML='<div class="vazio" style="color:#FCA5A5">'+e.message+'</div>';
+  });
+}
+function renderVencimentos(lista){
+  var ativos=0,c30=0,c60=0,venc=0;
+  lista.forEach(function(x){
+    if(x.dias<0) venc++;
+    else if(x.dias<=30) c30++;
+    else if(x.dias<=60) c60++;
+    else ativos++;
+  });
+  $('vAtivos').textContent=ativos;
+  $('v30').textContent=c30;
+  $('v60').textContent=c60;
+  $('vVenc').textContent=venc;
+  var alerta=lista.filter(function(x){ return x.dias<=60; });
+  if(!alerta.length){
+    $('vencInfo').textContent=lista.length+' certificados emitidos';
+    $('vencLista').innerHTML='<div class="vazio">Nenhum certificado vencendo nos proximos 60 dias.</div>';
+    return;
+  }
+  $('vencInfo').textContent=alerta.length+' para avisar de '+lista.length+' emitidos';
+  $('vencLista').innerHTML=alerta.map(function(x){
+    var cls = x.dias<=30 ? 'v30' : 'v60';
+    var diasTxt = x.dias<0 ? Math.abs(x.dias) : x.dias;
+    var legenda = x.dias<0 ? 'VENCIDO' : x.dias===0 ? 'HOJE' : 'DIAS';
+    var num=String(x.celular||'').replace(/\D/g,'');
+    var zap=num?('https://wa.me/55'+num+'?text='+encodeURIComponent(msgRenovacao(x))):null;
+    return '<div class="venc '+cls+'">'
+      +'<div class="dias">'+diasTxt+'<small>'+legenda+'</small></div>'
+      +'<div class="info"><div class="nome">'+x.cliente+'</div>'
+      +'<div class="meta">#'+x.pedido+' - '+x.produto+' - vence '+brData(x.vence)+'</div></div>'
+      +'<div class="acao">'+(zap?'<a href="'+zap+'" target="_blank" rel="noopener">Avisar</a>':'<span style="font-size:11px;color:#777">sem celular</span>')+'</div>'
+      +'</div>';
+  }).join('');
+}
+function msgRenovacao(x){
+  var primeiro=(x.cliente||'').split(' ')[0];
+  var vence=brData(x.vence);
+  if(x.dias<0){
+    return 'Oi '+(primeiro||'tudo bem')+'! Seu certificado digital ('+x.produto+') venceu em '+vence+'. Sem ele, a emissao de nota pode travar. Consigo renovar por videoconferencia, sem voce sair de casa: '+LINK+' - qualquer duvida me chama aqui.';
+  }
+  return 'Oi '+(primeiro||'tudo bem')+'! Passando para avisar que seu certificado digital ('+x.produto+') vence em '+vence+'. A renovacao tambem e por videoconferencia, rapidinho. Pode fazer pelo link: '+LINK+' - se preferir, me responde aqui que eu te ajudo.';
+}
+document.querySelectorAll('.tabs button').forEach(function(b){
   b.onclick=function(){
-    document.querySelectorAll('.periodo button').forEach(function(x){x.classList.remove('on');});
+    document.querySelectorAll('.tabs button').forEach(function(x){x.classList.remove('on');});
     this.classList.add('on');
-    PERIODO=this.dataset.p;
-    carregar();
+    var t=this.dataset.tab;
+    $('tabVendas').classList.toggle('hide', t!=='vendas');
+    $('tabVenc').classList.toggle('hide', t!=='venc');
+    if(t==='venc' && !$('vencLista').dataset.carregado){
+      $('vencLista').dataset.carregado='1';
+      carregarVencimentos();
+    }
   };
 });
-checarToken();
-if(TOKEN) carregar();
+document.querySelectorAll('#filtroPeriodo button').forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll('#filtroPeriodo button').forEach(function(x){x.classList.remove('on');});
+    this.classList.add('on');
+    PERIODO=this.dataset.p;
+    carregarVendas();
+  };
+});
+if(checarToken()) carregarVendas();
 </script>
 </body>
 </html>
