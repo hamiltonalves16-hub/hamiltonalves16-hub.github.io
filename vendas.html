@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de Vendas — CGE EMITTA</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--preto:#0A0A0A;--preto2:#161615;--preto3:#0F0F0F;--dourado:#CA983B;--amarelo:#E6AD41;--prata:#AAAAAC;--branco:#fff;--display:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;--verde:#6EE7B7;--erro:#EF4444}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--preto);color:var(--branco);font-family:var(--body);line-height:1.55}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;background:rgba(10,10,10,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(202,152,59,.25);z-index:50}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:13px 0}
+.brand{display:block;line-height:1;text-decoration:none}
+.brand .cge{display:block;font-family:var(--display);font-weight:700;font-size:25px;letter-spacing:.5px;background:linear-gradient(160deg,#F0C463,#E6AD41 40%,#CA983B 70%,#8C6521);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .sis{display:flex;align-items:center;gap:7px;font-size:9px;letter-spacing:.32em;color:#E8E8E8;margin-top:2px;font-weight:600}
+.nav a{color:var(--prata);text-decoration:none;font-weight:600;font-size:14px;margin-left:18px}
+.nav a:hover{color:var(--amarelo)}
+h1{font-family:var(--display);font-size:clamp(22px,4vw,30px);margin:0 0 4px}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:22px 0 14px}
+.periodo{display:flex;gap:6px;flex-wrap:wrap}
+.periodo button{background:var(--preto2);border:1px solid #333;color:#CCC;border-radius:99px;padding:8px 15px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:var(--body)}
+.periodo button.on{background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);border-color:var(--amarelo)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:11px;margin-bottom:16px}
+.kpi{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:14px;padding:15px}
+.kpi .l{font-size:10.5px;color:var(--prata);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:4px}
+.kpi .v{font-family:var(--display);font-size:23px;font-weight:700;color:#fff;line-height:1.15}
+.kpi .s{font-size:11.5px;color:#777;margin-top:2px}
+.kpi.dest{background:linear-gradient(135deg,rgba(202,152,59,.18),rgba(202,152,59,.05));border-color:rgba(202,152,59,.6)}
+.kpi.dest .v{color:var(--amarelo)}
+.kpi.ok .v{color:var(--verde)}
+.painel{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:14px;padding:16px;margin-bottom:16px}
+.painel h2{font-family:var(--display);font-size:15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.painel h2 span{font-size:11px;color:#777;font-weight:600;font-family:var(--body)}
+.graf{display:flex;align-items:flex-end;gap:5px;height:130px;padding-top:10px}
+.graf .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end}
+.graf .barra{width:100%;background:linear-gradient(180deg,var(--amarelo),var(--dourado));border-radius:5px 5px 0 0;min-height:3px;transition:.3s}
+.graf .rot{font-size:9.5px;color:#888;font-weight:600}
+.graf .col.zero .barra{background:#2a2a2a}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;color:#888;font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;padding:8px 6px;border-bottom:1px solid #262626}
+td{padding:9px 6px;border-bottom:1px solid #1a1a1a;vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num{text-align:right;font-weight:700;white-space:nowrap}
+.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:10px;font-weight:700}
+.b-pago{background:rgba(5,150,105,.18);color:#6EE7B7;border:1px solid rgba(5,150,105,.5)}
+.b-pend{background:rgba(202,152,59,.15);color:#E6AD41;border:1px solid rgba(202,152,59,.5)}
+.b-canc{background:rgba(239,68,68,.12);color:#FCA5A5;border:1px solid rgba(239,68,68,.4)}
+.b-out{background:#222;color:#999;border:1px solid #333}
+.tabela-scroll{max-height:420px;overflow-y:auto}
+.vazio{text-align:center;color:#777;padding:26px;font-size:13px}
+.spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(202,152,59,.35);border-top-color:var(--amarelo);border-radius:50%;animation:g 1s linear infinite;vertical-align:-3px;margin-right:7px}
+@keyframes g{to{transform:rotate(360deg)}}
+footer{border-top:1px solid rgba(202,152,59,.25);padding:26px 0 30px;text-align:center;color:#666;font-size:12px;margin-top:10px}
+.msg{font-size:12px;color:var(--erro);margin-top:6px;display:none}
+.msg.show{display:block}
+.setup{max-width:440px;margin:60px auto;background:var(--preto2);border:1px solid rgba(202,152,59,.4);border-radius:16px;padding:26px}
+.setup h2{font-family:var(--display);font-size:19px;margin-bottom:8px}
+.setup p{color:var(--prata);font-size:13px;margin-bottom:14px}
+.setup input{width:100%;background:var(--preto3);border:1px solid #333;color:#fff;border-radius:10px;padding:12px;font-size:14px;margin-bottom:12px}
+.setup button{width:100%;border:0;border-radius:99px;padding:14px;font-size:15px;font-weight:700;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);cursor:pointer;font-family:var(--body)}
+@media(max-width:640px){.kpis{grid-template-columns:1fr 1fr}.kpi .v{font-size:19px}th:nth-child(3),td:nth-child(3){display:none}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap nav">
+<a href="index.html" class="brand"><span class="cge">CGE</span><span class="sis">SISTEMAS</span></a>
+<div>
+<a href="certificado.html">Certificado</a>
+<a href="vendas.html" style="color:var(--amarelo)">Painel</a>
+<a href="index.html">Site</a>
+</div>
+</div>
+</header>
+<div class="wrap">
+<div id="setup" class="hide">
+<div class="setup">
+<h2>Chave de acesso</h2>
+<p>Cole a chave de integracao do CertControl para ver o painel neste aparelho.</p>
+<input type="text" id="tokIn" placeholder="eyJ0eXAiOiJKV1Qi...">
+<div class="msg" id="mTok">Chave invalida.</div>
+<button onclick="salvarToken()">Entrar no painel</button>
+</div>
+</div>
+<div id="conteudo" class="hide">
+<div class="top">
+<div>
+<h1>Painel de Vendas</h1>
+<p style="color:var(--prata);font-size:13px">Certificados digitais · <span id="lblPeriodo">7 dias</span></p>
+</div>
+<div class="periodo">
+<button data-p="hoje">Hoje</button>
+<button data-p="7" class="on">7 dias</button>
+<button data-p="30">30 dias</button>
+<button data-p="mes">Mes</button>
+<button data-p="ano">Ano</button>
+</div>
+</div>
+<div class="kpis">
+<div class="kpi"><div class="l">Faturamento</div><div class="v" id="kFat">—</div><div class="s" id="kFatQtd">—</div></div>
+<div class="kpi dest"><div class="l">Lucro (venda - custo)</div><div class="v" id="kMargem">—</div><div class="s" id="kMargemInfo">—</div></div>
+<div class="kpi ok"><div class="l">Recebido</div><div class="v" id="kPago">—</div><div class="s" id="kPagoQtd">—</div></div>
+<div class="kpi"><div class="l">Aguardando</div><div class="v" id="kPend">—</div><div class="s" id="kPendQtd">—</div></div>
+</div>
+<div class="painel">
+<h2>Faturamento por dia <span id="grafInfo"></span></h2>
+<div class="graf" id="graf"></div>
+</div>
+<div class="painel">
+<h2>Pedidos <span id="contPedidos"></span></h2>
+<div class="tabela-scroll">
+<table>
+<thead><tr><th>Pedido</th><th>Cliente</th><th>Produto</th><th>Tipo</th><th style="text-align:right">Valor</th><th>Situacao</th><th>Data</th></tr></thead>
+<tbody id="corpo"><tr><td colspan="7" class="vazio">Carregando...</td></tr></tbody>
+</table>
+</div>
+</div>
+</div>
+<footer>
+<p><b style="color:var(--prata)">CGE EMITTA</b> · Painel interno · Hamilton Alves — CRC 004878/O-7</p>
+<p style="margin-top:4px">Fonte: API CertControl · tempo real</p>
+</footer>
+</div>
+<script>
+var TOKEN=localStorage.getItem('cge_cc_token')||'';
+var API='https://service.certcontrol.com.br/api/integracao';
+var PERIODO='7';
+function $(id){return document.getElementById(id);}
+function brl(v){return 'R$ '+(v||0).toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
+function iso(d){return d.toISOString().slice(0,10);}
+function salvarToken(){
+  var t=$('tokIn').value.trim();
+  if(!t){$('mTok').classList.add('show');return;}
+  localStorage.setItem('cge_cc_token',t);
+  location.reload();
+}
+function checarToken(){
+  if(!TOKEN){ $('setup').classList.remove('hide'); $('conteudo').classList.add('hide'); return; }
+  $('setup').classList.add('hide'); $('conteudo').classList.remove('hide');
+}
+function intervalo(p){
+  var hoje=new Date();
+  var fim=iso(hoje);
+  var ini=new Date(hoje);
+  if(p==='hoje'){ }
+  else if(p==='7'){ ini.setDate(ini.getDate()-6); }
+  else if(p==='30'){ ini.setDate(ini.getDate()-29); }
+  else if(p==='mes'){ ini=new Date(hoje.getFullYear(),hoje.getMonth(),1); }
+  else if(p==='ano'){ ini=new Date(hoje.getFullYear(),0,1); }
+  return {ini:iso(ini), fim:fim};
+}
+function carregar(){
+  var r=intervalo(PERIODO);
+  $('corpo').innerHTML='<tr><td colspan="7" class="vazio"><span class="spin"></span>Buscando pedidos...</td></tr>';
+  $('lblPeriodo').textContent=(PERIODO==='hoje'?'hoje':PERIODO==='mes'?'este mes':PERIODO==='ano'?'este ano':'ultimos '+PERIODO+' dias');
+  fetch(API+'/vendas?data_venda_inicio='+r.ini+'&data_venda_fim='+r.fim+'&per_page=200',{headers:{Authorization:'Bearer '+TOKEN,Accept:'application/json'}})
+  .then(function(res){ if(res.status===401||res.status===403) throw new Error('Chave sem permissao ou expirada.'); return res.json(); })
+  .then(function(j){ var itens=(j.data||[]).slice().sort(function(a,b){ return (b.data_venda||'').localeCompare(a.data_venda||''); }); render(itens,r); })
+  .catch(function(e){ $('corpo').innerHTML='<tr><td colspan="7" class="vazio" style="color:#FCA5A5">'+e.message+'</td></tr>'; });
+}
+function render(itens,r){
+  var fat=0,pago=0,pend=0,qPago=0,qPend=0,q=0,porDia={};
+  itens.forEach(function(v){
+    var valor=parseFloat(v.valor_total||0);
+    var st=(v.status||'').toLowerCase();
+    if(st==='cancelado') return;
+    q++; fat+=valor;
+    if(st==='pago'){ pago+=valor; qPago++; } else { pend+=valor; qPend++; }
+    var d=(v.data_venda||'').slice(0,10);
+    if(d) porDia[d]=(porDia[d]||0)+valor;
+  });
+  var custo=q*50;
+  var margem=fat-custo;
+  $('kFat').textContent=brl(fat);
+  $('kFatQtd').textContent=q+' pedido'+(q===1?'':'s');
+  $('kMargem').textContent=brl(margem);
+  $('kMargemInfo').textContent='custo '+brl(custo)+' ja descontado';
+  $('kPago').textContent=brl(pago);
+  $('kPagoQtd').textContent=qPago+' confirmado'+(qPago===1?'':'s');
+  $('kPend').textContent=brl(pend);
+  $('kPendQtd').textContent=qPend+' a conferir';
+  $('contPedidos').textContent=q+' no periodo';
+  desenharGrafico(porDia,r);
+  if(!itens.length){ $('corpo').innerHTML='<tr><td colspan="7" class="vazio">Nenhum pedido no periodo.</td></tr>'; return; }
+  $('corpo').innerHTML=itens.map(function(v){
+    var st=(v.status||'');
+    var cls=/pago/i.test(st)?'b-pago':/cancel|estorn/i.test(st)?'b-canc':/pend/i.test(st)?'b-pend':'b-out';
+    var nome=(v.cliente_certificado&&v.cliente_certificado.nome_razao)||'—';
+    var prod=(v.produto&&(v.produto['descrição']||v.produto.descricao))||'—';
+    var dt=(v.data_venda||'').slice(0,10).split('-').reverse().join('/');
+    return '<tr><td><b>#'+(v.pedido||'')+'</b></td><td>'+nome+'</td><td style="color:#AAA">'+prod+'</td><td style="color:#888;font-size:11.5px">'+(v.tipo||'')+'</td><td class="num">'+brl(parseFloat(v.valor_total||0))+'</td><td><span class="badge '+cls+'">'+st+'</span></td><td style="color:#888">'+dt+'</td></tr>';
+  }).join('');
+}
+function desenharGrafico(porDia,r){
+  var dias=[];
+  var ini=new Date(r.ini+'T12:00:00');
+  var fim=new Date(r.fim+'T12:00:00');
+  var n=Math.round((fim-ini)/86400000)+1;
+  if(n>31) n=31;
+  for(var i=n-1;i>=0;i--){
+    var d=new Date(fim); d.setDate(d.getDate()-i);
+    var k=iso(d);
+    dias.push({d:k,v:porDia[k]||0});
+  }
+  var max=Math.max.apply(null,dias.map(function(x){return x.v;}));
+  if(!max) max=1;
+  $('graf').innerHTML=dias.map(function(x){
+    var h=Math.round(x.v/max*100);
+    var lbl=x.d.slice(8,10)+'/'+x.d.slice(5,7);
+    var mostrarLbl = (dias.length<=10 || x.d===r.fim) ? lbl : '';
+    return '<div class="col'+(x.v===0?' zero':'')+'" title="'+lbl+': '+brl(x.v)+'"><div class="barra" style="height:'+h+'%"></div><div class="rot">'+mostrarLbl+'</div></div>';
+  }).join('');
+  var total=dias.reduce(function(a,b){return a+b.v;},0);
+  $('grafInfo').textContent=brl(total)+' em '+dias.length+' dia'+(dias.length===1?'':'s');
+}
+document.querySelectorAll('.periodo button').forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll('.periodo button').forEach(function(x){x.classList.remove('on');});
+    this.classList.add('on');
+    PERIODO=this.dataset.p;
+    carregar();
+  };
+});
+checarToken();
+if(TOKEN) carregar();
+</script>
+</body>
+</html>
