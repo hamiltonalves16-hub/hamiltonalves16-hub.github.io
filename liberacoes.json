@@ -1,4 +1,10 @@
 {
- "liberados": [],
- "atualizado": "2026-11-12 22:30"
+ "liberados": [
+  {
+   "pedido": 779483,
+   "uuid": "01a1d06d-b784-702f-bf7e-962a22a93750",
+   "codigo": "YBC73W"
+  }
+ ],
+ "atualizado": "2026-11-12 12:52"
 }
