@@ -198,6 +198,7 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:cente
 <p class="hint" style="text-align:center" id="textoTrava">Enviamos seu comprovante para conferencia.</p>
 <a class="btn" id="btnZapComp" href="#" target="_blank" rel="noopener">Enviar comprovante no WhatsApp</a>
 <p class="hint" style="text-align:center;margin:9px 0 14px;font-size:11.5px">Se ja enviou, aguarde a confirmacao.</p>
+<div class="warn" id="avisoNaoAchou" style="display:none;text-align:left"></div>
 <div class="f" style="text-align:left"><label>Recebeu o codigo? Digite aqui</label>
 <input id="codLib" placeholder="Ex.: YBC73W" maxlength="6" style="text-transform:uppercase;letter-spacing:3px;font-weight:700;text-align:center;font-size:18px">
 <div class="msg" id="mCod">Codigo invalido para este pedido.</div></div>
@@ -512,14 +513,36 @@ function carregaLib(){
 }
 function pedirLiberacao(){
   if(!$('pagou').checked){alert('Marque que ja fez o PIX.');return;}
-  var msg='Ola! Fiz o PIX'+(st.pedidoCriado?' do pedido *#'+st.pedidoCriado+'*':'')+'.\nCertificado A1 '+st.tipo+' - '+precoFmt(st.precoFinal)+'\n\nEnviando o comprovante agora.';
+  var msg='*COMPROVANTE DE PAGAMENTO*\n\n'
+    +'Ola! Acabei de fazer o PIX'+(st.pedidoCriado?' do pedido *#'+st.pedidoCriado+'*':'')+'.\n'
+    +'*Certificado:* A1 '+st.tipo+' - '+precoFmt(st.precoFinal)+'\n'
+    +'*Nome:* '+($('nome').value.trim()||'-')+'\n'
+    +'*CPF/CNPJ:* '+(st.docFmt||'-')+'\n\n'
+    +'Vou enviar o comprovante agora para conferencia.';
   $('btnZapComp').href='https://wa.me/'+WA+'?text='+encodeURIComponent(msg);
+
+  try{
+    var pend=JSON.parse(localStorage.getItem('cge_cc_pendentes')||'[]');
+    var item={pedido:st.pedidoCriado||null, nome:$('nome').value.trim(), doc:st.docFmt,
+      tipo:st.tipo, valor:st.precoFinal, quando:new Date().toISOString()};
+    var jaTem=false;
+    for(var i=0;i<pend.length;i++){ if(pend[i].pedido===item.pedido && item.pedido) jaTem=true; }
+    if(!jaTem){ pend.push(item); localStorage.setItem('cge_cc_pendentes',JSON.stringify(pend)); }
+  }catch(e){}
+
   [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
   ['eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
   $('s1').classList.add('on');$('s2').classList.add('on');$('s3').classList.add('on');
   $('textoTrava').innerHTML='Enviamos seu comprovante para conferencia. Confirmado o PIX'+(st.pedidoCriado?' do pedido <b style="color:#fff">#'+st.pedidoCriado+'</b>':'')+', voce recebe <b style="color:#fff">no WhatsApp o codigo de liberacao</b>.';
   $('eTrava').classList.remove('hide');etapaAtual=3;salvarRascunho();
   window.scrollTo({top:0,behavior:'smooth'});
+}
+function naoAcheiSeuPix(){
+  var box=$('avisoNaoAchou');
+  box.style.display='block';
+  box.innerHTML='<b>Nao localizamos o seu PIX automaticamente.</b><br>'
+    +'Envie o <b>comprovante</b> no WhatsApp para conferirmos e liberarmos. '
+    +'<a href="https://wa.me/'+WA+'?text='+encodeURIComponent('Ola! Meu PIX nao foi localizado. Pedido '+(st.pedidoCriado||'')+'. Vou enviar o comprovante.')+'" target="_blank" style="color:#fff;font-weight:700;text-decoration:underline">Enviar comprovante</a>';
 }
 function validarLiberacao(){
   var cod=($('codLib').value||'').trim().toUpperCase(),m=$('mCod');
