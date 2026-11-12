@@ -96,7 +96,6 @@ input:focus{border-color:var(--dourado)}
 <div>
 <a href="index.html#servicos">Servicos</a>
 <a href="certificado.html" style="color:var(--amarelo)">Certificado</a>
-<a href="vendas.html">Painel</a>
 <a href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site" class="cta">WhatsApp</a>
 </div>
 </div>
@@ -105,7 +104,7 @@ input:focus{border-color:var(--dourado)}
 <div id="pedeToken" class="hide">
 <div class="card">
 <h2>Chave de acesso</h2>
-<p class="hint">Cole a chave de integracao do CertControl para ativar o sistema neste aparelho.</p>
+<p class="hint">Cole a chave de integracao do CertControl.</p>
 <div class="f"><label>Chave</label><input type="text" id="tokIn" placeholder="eyJ0eXAiOiJKV1Qi..." style="text-transform:none;letter-spacing:0"><div class="msg" id="mTok">Chave invalida.</div></div>
 <button class="btn" onclick="salvarToken()">Ativar sistema</button>
 </div>
@@ -122,7 +121,7 @@ input:focus{border-color:var(--dourado)}
 <div class="tp sel" data-tipo="PF" data-prod="prod_anj2GYLPSwixbL" data-preco="160"><div class="t">Pessoa Fisica</div><div class="p">R$ 160</div></div>
 <div class="tp" data-tipo="PJ" data-prod="prod_anj2H8wVzAjWJo" data-preco="190"><div class="t">Pessoa Juridica</div><div class="p">R$ 190</div></div>
 </div>
-<div class="f"><label>Nome completo <span class="req">*</span></label><input type="text" id="nome" placeholder="Como consta na CNH"><div class="msg" id="mNome">Informe nome e sobrenome.</div></div>
+<div class="f"><label>Nome completo <span class="req">*</span></label><input type="text" id="nome" placeholder="Como consta na CNH" style="text-transform:none;letter-spacing:0"><div class="msg" id="mNome">Informe nome e sobrenome.</div></div>
 <div class="row">
 <div class="f"><label>CPF <span class="req">*</span></label><input type="text" id="cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14"><div class="msg" id="mCpf">CPF invalido.</div></div>
 <div class="f"><label>Celular (WhatsApp) <span class="req">*</span></label><input type="text" id="tel" placeholder="(63) 99285-6647" inputmode="numeric" maxlength="16"><div class="msg" id="mTel">Informe o celular com DDD.</div></div>
@@ -151,7 +150,7 @@ input:focus{border-color:var(--dourado)}
 <div class="okbox hide" id="okCupom" style="margin-top:8px;margin-bottom:0;font-size:12.5px"></div>
 </div>
 <div class="f"><label>Senha do certificado <span class="req">*</span></label><input type="text" id="senha" placeholder="8+ caracteres, maiuscula, numero e simbolo" style="text-transform:none;letter-spacing:0"><div class="msg" id="mSenha">Senha fraca.</div>
-<div class="okbox" style="margin-top:8px;margin-bottom:0"><b>Anote esta senha!</b> Sera usada para instalar o certificado. Enviaremos tambem por WhatsApp.</div>
+<div class="okbox" style="margin-top:8px;margin-bottom:0"><b>Anote esta senha!</b> Sera usada para instalar o certificado.</div>
 </div>
 </div>
 <button class="btn" onclick="ir(2)">Continuar</button>
@@ -173,8 +172,8 @@ input:focus{border-color:var(--dourado)}
 <div id="eSenha" class="hide">
 <div class="card" style="text-align:center">
 <div class="big" style="background:rgba(202,152,59,.15);border-color:rgba(202,152,59,.6);color:var(--amarelo)">&#128273;</div>
-<h2 style="text-align:center">Pedido #<span id="numPedido">-</span> criado!</h2>
-<p class="hint" style="text-align:center">Agora envie para o seu WhatsApp a <b style="color:#fff">senha do certificado</b>. Voce vai precisar dela na instalacao.</p>
+<h2 style="text-align:center">Pedido #<span id="numPedido">-</span></h2>
+<p class="hint" style="text-align:center">Guarde a sua <b style="color:#fff">senha do certificado</b>.</p>
 <div class="okbox" style="text-align:left">
 <b>Sua senha:</b><br>
 <span id="senhaMostra" style="font-family:var(--display);font-size:20px;color:#fff;letter-spacing:1px">-</span><br>
@@ -261,7 +260,7 @@ var API="https://service.certcontrol.com.br/api/integracao";
 var TABELA="16615";
 var CUSTO=50;
 var PIX="19.819.476/0001-87", WA="5563992856647";
-var st={tipo:"PF",prod:"prod_anj2GYLPSwixbL",preco:160,precoFinal:160,cnhFile:null,uuid:null,dia:null,hora:null,senha:"",telDigits:"",telFmt:"",email:"",docFmt:"",cupom:null,liberado:false};
+var st={tipo:"PF",prod:"prod_anj2GYLPSwixbL",preco:160,precoFinal:160,cnhFile:null,uuid:null,dia:null,hora:null,senha:"",telDigits:"",telFmt:"",email:"",docFmt:"",cupom:null,liberado:false,modoApi:false};
 
 var CUPONS = [];
 function $(id){return document.getElementById(id);}
@@ -329,12 +328,15 @@ function salvarToken(){
   var t=$('tokIn').value.trim();
   if(!t){mostrar('mTok',false);return;}
   localStorage.setItem('cge_cc_token',t);
-  localStorage.removeItem('cge_cc_ok');
   location.reload();
 }
 function checarToken(){
-  if(!TOKEN){ $('pedeToken').classList.remove('hide'); $('conteudo').classList.add('hide'); return; }
-  $('pedeToken').classList.add('hide'); $('conteudo').classList.remove('hide');
+  /* O CLIENTE NUNCA ve tela de chave. A pagina funciona sempre.
+     Com chave: cria o pedido na API (automatico).
+     Sem chave: monta o pedido e envia no WhatsApp do escritorio (manual). */
+  $('pedeToken').classList.add('hide');
+  $('conteudo').classList.remove('hide');
+  st.modoApi = !!TOKEN;
 }
 document.querySelectorAll('.tp').forEach(function(o){
   o.onclick=function(){
@@ -390,6 +392,18 @@ $('cnhfile').onchange=function(e){
     r.readAsDataURL(f);
   } else { $('prev').classList.add('hide'); }
 };
+function mostrarSenhaManual(urlW){
+  $('numPedido').textContent='pedido em aberto';
+  [1,2,3,4].forEach(function(i){var s=$('s'+i);if(s)s.classList.remove('on');});
+  ['e1','e2','e3','e4','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
+  $('ok').classList.add('hide'); $('erro').classList.add('hide');
+  $('s1').classList.add('on'); $('s2').classList.add('on');
+  $('eSenha').classList.remove('hide');
+  $('btnZapSenha').textContent='Enviar meu pedido + senha no WhatsApp';
+  $('btnZapSenha').href=urlW;
+  $('avisoSenha').innerHTML='<b style="color:#fff">Envie a mensagem e depois a foto da CNH</b> aqui no WhatsApp. O escritorio confirma o pagamento e libera o agendamento.';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 function mostrarSenha(){
   $('numPedido').textContent=st.pedidoCriado||'-';
   $('senhaMostra').textContent=st.senha;
@@ -446,11 +460,41 @@ function montarResumo(){
 }
 function enviarCnh(){
   if(!st.cnhFile){mostrar('mCnh',false);$('cnhfile').scrollIntoView({block:'center'});return;}
-  if(!ibgeAtual){ alert('Preencha o CEP para localizarmos sua cidade.'); buscarCep(); return; }
   var btn=document.querySelector('#e2 .btn');
   btn.disabled=true; btn.innerHTML='<span class="spin"></span>Enviando...';
   var cep=$('cep').value.replace(/\D/g,'');
   var tel=$('tel').value.replace(/\D/g,'');
+
+  /* ---- MODO MANUAL: sem chave de API, envia o pedido no WhatsApp ---- */
+  if(!st.modoApi){
+    btn.disabled=false; btn.textContent='Continuar';
+    st.telDigits='55'+tel;
+    st.telFmt=$('tel').value;
+    st.email=$('email').value.trim();
+    st.senha=$('senha').value;
+    st.docFmt=(st.tipo==='PJ'?$('cnpj').value:$('cpf').value);
+    var lin=[
+      '*NOVO PEDIDO DE CERTIFICADO A1*','',
+      '*Tipo:* '+st.tipo+' - '+precoFmt(st.precoFinal),
+      (st.tipo==='PJ'?'*CNPJ:* '+$('cnpj').value:'*CPF:* '+$('cpf').value),
+      '*Nome:* '+$('nome').value.trim(),
+      '*Celular:* '+$('tel').value,
+      '*E-mail:* '+$('email').value.trim(),
+      '*Endereco:* '+$('rua').value.trim()+', '+$('num').value.trim()+' - '+$('bairro').value.trim(),
+      '*Cidade:* '+$('cidade').value.trim()+' / '+$('uf').value.toUpperCase()+' - CEP '+$('cep').value,
+      '*Senha criada:* '+$('senha').value,
+      (st.cupom?'*Cupom:* '+st.cupom.codigo:''),
+      '',
+      'Estou enviando a CNH agora.'
+    ].filter(Boolean);
+    var urlW='https://wa.me/'+WA+'?text='+encodeURIComponent(lin.join('\n'));
+    $('numPedido').textContent='pedido em aberto';
+    $('senhaMostra').textContent=$('senha').value;
+    mostrarSenhaManual(urlW);
+    return;
+  }
+
+  if(!ibgeAtual){ btn.disabled=false; btn.textContent='Continuar'; alert('Preencha o CEP para localizarmos sua cidade.'); buscarCep(); return; }
   var body={
     venda:{tipo_lancamento_id:7,tabela_id:TABELA,produto_id:st.prod,valor_total:CUSTO,cupom:st.cupom?st.cupom.codigo:null},
     certificado:{
@@ -542,7 +586,13 @@ function validarLiberacao(){
   });
 }
 
-function irPara4(){ ir(4); carregarDias(); }
+function irPara4(){
+  if(!st.modoApi){
+    alert('Seu pedido esta em conferencia pelo escritorio.\nAssim que o pagamento for confirmado, voce recebe o codigo de liberacao.');
+    return;
+  }
+  ir(4); carregarDias();
+}
 function carregarDias(){
   var box=$('boxDias'); box.innerHTML='';
   var hoje=new Date();
