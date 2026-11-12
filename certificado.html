@@ -95,7 +95,6 @@ input:focus{border-color:var(--dourado)}
 <a href="index.html" class="brand"><span class="cge">CGE</span><span class="sis">SISTEMAS</span></a>
 <div>
 <a href="index.html#servicos">Servicos</a>
-<a href="index.html#precos">Planos</a>
 <a href="certificado.html" style="color:var(--amarelo)">Certificado</a>
 <a href="vendas.html">Painel</a>
 <a href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site" class="cta">WhatsApp</a>
@@ -141,6 +140,15 @@ input:focus{border-color:var(--dourado)}
 <div class="row">
 <div class="f"><label>Bairro <span class="req">*</span></label><input type="text" id="bairro" placeholder="Pelo CEP"><div class="msg" id="mBairro">Informe o bairro.</div></div>
 <div class="f"><label>UF <span class="req">*</span></label><input type="text" id="uf" placeholder="RO" maxlength="2" style="text-transform:uppercase"><div class="msg" id="mUf">Informe a UF.</div></div>
+</div>
+<div class="f" id="wrapCupom">
+<label>Codigo de desconto <span style="color:#777;font-weight:400">(opcional)</span></label>
+<div style="display:flex;gap:8px">
+<input type="text" id="cupom" placeholder="Ex.: 2WNY6G" maxlength="6" style="text-transform:uppercase;letter-spacing:2px;font-weight:700;flex:1">
+<button type="button" id="btnCupom" onclick="aplicarCupom()" style="border:0;border-radius:10px;padding:0 18px;font-size:13.5px;font-weight:700;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);cursor:pointer;white-space:nowrap">Aplicar</button>
+</div>
+<div class="msg" id="mCupom">Codigo invalido, expirado ou ja usado.</div>
+<div class="okbox hide" id="okCupom" style="margin-top:8px;margin-bottom:0;font-size:12.5px"></div>
 </div>
 <div class="f"><label>Senha do certificado <span class="req">*</span></label><input type="text" id="senha" placeholder="8+ caracteres, maiuscula, numero e simbolo"><div class="msg" id="mSenha">Senha fraca.</div>
 <div class="okbox" style="margin-top:8px;margin-bottom:0"><b>Anote esta senha!</b> Sera usada para instalar o certificado. Enviaremos tambem por WhatsApp.</div>
@@ -245,7 +253,10 @@ var API="https://service.certcontrol.com.br/api/integracao";
 var TABELA="16615";
 var CUSTO=50;
 var PIX="19.819.476/0001-87", WA="5563992856647";
-var st={tipo:"PF",prod:"prod_anj2GYLPSwixbL",preco:160,cnhFile:null,uuid:null,dia:null,hora:null,senha:"",telDigits:"",telFmt:"",email:"",docFmt:""};
+var st={tipo:"PF",prod:"prod_anj2GYLPSwixbL",preco:160,precoFinal:160,cnhFile:null,uuid:null,dia:null,hora:null,senha:"",telDigits:"",telFmt:"",email:"",docFmt:"",cupom:null};
+
+/* Lista de cupons por campanha — gerada por Bob (skills/bob-comercial-certificado/scripts/cupons.py) */
+var CUPONS = [];
 function $(id){return document.getElementById(id);}
 function mostrar(id,ok){$(id).classList[ok?'remove':'add']('show');}
 function precoFmt(v){return 'R$ '+v.toFixed(2).replace('.',',');}
@@ -256,6 +267,64 @@ function maskCEP(v){return v.replace(/\D/g,'').slice(0,8).replace(/(\d{5})(\d)/,
 function validaCPF(c){c=c.replace(/\D/g,'');if(c.length!==11||/^(\d)\1{10}$/.test(c))return false;var s=0,i,d;for(i=0;i<9;i++)s+=+c[i]*(10-i);d=(s*10)%11;if(d===10)d=0;if(d!==+c[9])return false;s=0;for(i=0;i<10;i++)s+=+c[i]*(11-i);d=(s*10)%11;if(d===10)d=0;return d===+c[10];}
 function validaCNPJ(c){c=c.replace(/\D/g,'');if(c.length!==14||/^(\d)\1{13}$/.test(c))return false;var f=function(b){var p=b.length-7,s=0,i,d;for(i=0;i<b.length;i++){s+=+b[i]*p--;if(p<2)p=9;}d=s%11;return d<2?0:11-d;};return f(c.slice(0,12))===+c[12]&&f(c.slice(0,13))===+c[13];}
 function senhaForte(s){return s.length>=8 && /[A-Z]/.test(s) && /[0-9]/.test(s) && /[^A-Za-z0-9]/.test(s);}
+
+function aplicaDesconto(preco, c){
+  if(!c) return preco;
+  var d = parseFloat(c.desconto||0);
+  var final = (c.tipo==='percent') ? preco - (preco*d/100) : preco - d;
+  if(final<0) final=0;
+  return Math.round(final*100)/100;
+}
+
+function pintaCupom(){
+  if(!st.cupom) return;
+  var el=document.getElementById('okCupom');
+  var desc = st.cupom.desconto>0
+    ? (st.cupom.tipo==='percent' ? st.cupom.desconto+'%' : 'R$ '+st.cupom.desconto.toFixed(2).replace('.',','))
+    : 'aplicado';
+  el.innerHTML='<b>Cupom '+st.cupom.codigo+' aplicado</b> — desconto '+desc+'. Voce paga <b>'+precoFmt(st.precoFinal)+'</b>.';
+  el.classList.remove('hide');
+}
+
+function aplicarCupom(){
+  var cod=(document.getElementById('cupom').value||'').trim().toUpperCase();
+  var mCupom=document.getElementById('mCupom');
+  var okCupom=document.getElementById('okCupom');
+  mCupom.classList.remove('show'); okCupom.classList.add('hide');
+
+  if(!cod){ st.cupom=null; st.precoFinal=st.preco; atualizaValores(); return; }
+  if(cod.length!==6){ mCupom.classList.add('show'); return; }
+
+  var achou=null;
+  for(var i=0;i<CUPONS.length;i++){ if(CUPONS[i].codigo===cod){ achou=CUPONS[i]; break; } }
+
+  if(CUPONS.length===0){ achou={codigo:cod,campanha:'manual',tipo:'valor',desconto:0,status:'ativo'}; }
+
+  if(!achou){ mCupom.classList.add('show'); return; }
+  if(achou.status && achou.status!=='ativo'){ mCupom.classList.add('show'); return; }
+  if(achou.validade && achou.validade < new Date().toISOString().slice(0,10)){ mCupom.classList.add('show'); return; }
+  if(achou.produto && achou.produto!=='todos' && achou.produto!==st.tipo){ mCupom.classList.add('show'); return; }
+
+  st.cupom=achou;
+  st.precoFinal=aplicaDesconto(st.preco, achou);
+  atualizaValores();
+  pintaCupom();
+}
+
+function removerCupom(){
+  st.cupom=null; st.precoFinal=st.preco;
+  document.getElementById('cupom').value='';
+  document.getElementById('okCupom').classList.add('hide');
+  atualizaValores();
+}
+
+function atualizaValores(){
+  var r1=document.getElementById('resumo');
+  if(r1 && r1.innerHTML) r1.innerHTML=montarResumo();
+  var r2=document.getElementById('resumoFinal');
+  if(r2 && r2.innerHTML) r2.innerHTML=montarResumo();
+}
+
 function api(path,opts){
   opts=opts||{};
   var h={"Authorization":"Bearer "+TOKEN,"Accept":"application/json"};
@@ -280,6 +349,8 @@ document.querySelectorAll('.tp').forEach(function(o){
     document.querySelectorAll('.tp').forEach(function(x){x.classList.remove('sel');});
     o.classList.add('sel');
     st.tipo=o.dataset.tipo; st.prod=o.dataset.prod; st.preco=+o.dataset.preco;
+    st.precoFinal = st.cupom ? aplicaDesconto(st.preco, st.cupom) : st.preco;
+    if(st.cupom) pintaCupom();
     $('wrapCnpj').classList[st.tipo==='PF'?'add':'remove']('hide');
   };
 });
@@ -369,11 +440,16 @@ function validar1(){
   return ok;
 }
 function montarResumo(){
-  return '<div class="l"><span>Produto</span><span>Certificado A1 '+st.tipo+'</span></div>'
+  var html='<div class="l"><span>Produto</span><span>Certificado A1 '+st.tipo+'</span></div>'
     +'<div class="l"><span>Titular</span><span>'+$('nome').value.trim()+'</span></div>'
     +'<div class="l"><span>CPF/CNPJ</span><span>'+(st.tipo==='PJ'?$('cnpj').value:$('cpf').value)+'</span></div>'
-    +'<div class="l"><span>Cidade</span><span>'+$('cidade').value+' / '+$('uf').value.toUpperCase()+'</span></div>'
-    +'<div class="l"><span>Total</span><span>'+precoFmt(st.preco)+'</span></div>';
+    +'<div class="l"><span>Cidade</span><span>'+$('cidade').value+' / '+$('uf').value.toUpperCase()+'</span></div>';
+  if(st.cupom && st.precoFinal<st.preco){
+    html+='<div class="l"><span>Subtotal</span><span>'+precoFmt(st.preco)+'</span></div>'
+      +'<div class="l"><span>Cupom '+st.cupom.codigo+'</span><span style="color:var(--verde)">- '+precoFmt(st.preco-st.precoFinal)+'</span></div>';
+  }
+  html+='<div class="l"><span>Total</span><span>'+precoFmt(st.precoFinal)+'</span></div>';
+  return html;
 }
 function enviarCnh(){
   if(!st.cnhFile){mostrar('mCnh',false);$('cnhfile').scrollIntoView({block:'center'});return;}
@@ -383,7 +459,7 @@ function enviarCnh(){
   var cep=$('cep').value.replace(/\D/g,'');
   var tel=$('tel').value.replace(/\D/g,'');
   var body={
-    venda:{tipo_lancamento_id:7,tabela_id:TABELA,produto_id:st.prod,valor_total:CUSTO},
+    venda:{tipo_lancamento_id:7,tabela_id:TABELA,produto_id:st.prod,valor_total:CUSTO,cupom:st.cupom?st.cupom.codigo:null},
     certificado:{
       nome:$('nome').value.trim(),
       documento:(st.tipo==='PJ'?$('cnpj').value:$('cpf').value).replace(/\D/g,''),
@@ -411,7 +487,7 @@ function enviarCnh(){
         var msgS='*SEU CERTIFICADO DIGITAL - CGE EMITTA*\n\n'
           +'Pedido: *#'+st.pedidoCriado+'*\n'
           +'Titular: '+$('nome').value.trim()+'\n'
-          +'Certificado: '+st.tipo+' - '+precoFmt(st.preco)+'\n\n'
+          +'Certificado: '+st.tipo+' - '+precoFmt(st.precoFinal)+(st.cupom?'  (cupom '+st.cupom.codigo+')':'')+'\n\n'
           +'*SUA SENHA DO CERTIFICADO:*\n'+$('senha').value+'\n\n'
           +'Anote e guarde. Sera pedida na instalacao.\n'
           +'Se perder, sera necessario comprar outro certificado.';
@@ -487,11 +563,11 @@ function agendar(){
       +'<div class="l"><span>Certificado</span><span>'+d.produto+'</span></div>'
       +'<div class="l"><span>Data e hora</span><span>'+st.dia.split('-').reverse().join('/')+' as '+st.hora+'</span></div>'
       +'<div class="l"><span>Atendente</span><span>'+d.agente+'</span></div>'
-      +'<div class="l"><span>Total</span><span>'+precoFmt(st.preco)+'</span></div>';
+      +'<div class="l"><span>Total</span><span>'+precoFmt(st.precoFinal)+'</span></div>';
     var dataBR=st.dia.split('-').reverse().join('/')+' as '+st.hora;
     st.pedido=d.venda_id; st.salaLink=d.link;
     $('sala').href=d.link;
-    var msgComp='Ola! Pedido *#'+d.venda_id+'* feito no site.\nCertificado '+d.produto+' ('+st.tipo+') - '+precoFmt(st.preco)+'\nVideoconferencia: '+dataBR+'\n\nEnviando agora o comprovante do PIX.';
+    var msgComp='Ola! Pedido *#'+d.venda_id+'* feito no site.\nCertificado '+d.produto+' ('+st.tipo+') - '+precoFmt(st.precoFinal)+'\nVideoconferencia: '+dataBR+'\n\nEnviando agora o comprovante do PIX.';
     $('zapCliente').href='https://wa.me/'+WA+'?text='+encodeURIComponent(msgComp);
     var msgH='*NOVO PEDIDO PAGO - CONFERIR*\n\n'
       +'*Pedido:* #'+d.venda_id+'\n'
@@ -500,7 +576,8 @@ function agendar(){
       +'*Celular:* '+st.telFmt+'\n'
       +'*E-mail:* '+st.email+'\n'
       +'*Produto:* '+d.produto+' ('+st.tipo+')\n'
-      +'*Valor cobrado:* '+precoFmt(st.preco)+'\n'
+      +'*Valor cobrado:* '+precoFmt(st.precoFinal)+'\n'
+      +(st.cupom?'*Cupom:* '+st.cupom.codigo+'\n':'')
       +'*Videoconferencia:* '+dataBR+'\n'
       +'*Atendente:* '+d.agente+'\n\n'
       +'*Senha do cliente:* '+st.senha+'\n\n'
