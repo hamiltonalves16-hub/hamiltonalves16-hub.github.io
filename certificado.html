@@ -229,6 +229,7 @@ input:focus{border-color:var(--dourado)}
 var TOKEN=localStorage.getItem("cge_cc_token")||"";
 var API="https://service.certcontrol.com.br/api/integracao";
 var TABELA="16615";
+var CUSTO=50;
 var PIX="19.819.476/0001-87", WA="5563992856647";
 var st={tipo:"PF",prod:"prod_anj2GYLPSwixbL",preco:160,cnhFile:null,uuid:null,dia:null,hora:null,senha:"",telDigits:"",telFmt:"",email:"",docFmt:""};
 function $(id){return document.getElementById(id);}
@@ -356,7 +357,7 @@ function enviarCnh(){
   var cep=$('cep').value.replace(/\D/g,'');
   var tel=$('tel').value.replace(/\D/g,'');
   var body={
-    venda:{tipo_lancamento_id:7,tabela_id:TABELA,produto_id:st.prod,valor_total:st.preco},
+    venda:{tipo_lancamento_id:7,tabela_id:TABELA,produto_id:st.prod,valor_total:CUSTO},
     certificado:{
       nome:$('nome').value.trim(),
       documento:(st.tipo==='PJ'?$('cnpj').value:$('cpf').value).replace(/\D/g,''),
@@ -458,7 +459,8 @@ function agendar(){
       +'<div class="l"><span>Titular</span><span>'+d.cliente+'</span></div>'
       +'<div class="l"><span>Certificado</span><span>'+d.produto+'</span></div>'
       +'<div class="l"><span>Data e hora</span><span>'+st.dia.split('-').reverse().join('/')+' as '+st.hora+'</span></div>'
-      +'<div class="l"><span>Atendente</span><span>'+d.agente+'</span></div>';
+      +'<div class="l"><span>Atendente</span><span>'+d.agente+'</span></div>'
+      +'<div class="l"><span>Total</span><span>'+precoFmt(st.preco)+'</span></div>';
     var dataBR=st.dia.split('-').reverse().join('/')+' as '+st.hora;
     st.pedido=d.venda_id;
     st.salaLink=d.link;
@@ -475,7 +477,7 @@ function agendar(){
       +'*Celular:* '+st.telFmt+'\n'
       +'*E-mail:* '+st.email+'\n'
       +'*Produto:* '+d.produto+' ('+st.tipo+')\n'
-      +'*Valor:* '+precoFmt(st.preco)+'\n'
+      +'*Valor cobrado do cliente:* '+precoFmt(st.preco)+'\n'
       +'*Videoconferencia:* '+dataBR+'\n'
       +'*Atendente:* '+d.agente+'\n\n'
       +'*Senha do cliente:* '+st.senha+'\n\n'
