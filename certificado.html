@@ -4,116 +4,115 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Certificado Digital A1 — CGE EMITTA</title>
-<meta name="description" content="Certificado Digital A1 por videoconferencia. PF R$ 160, PJ R$ 190.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--preto:#0A0A0A;--preto2:#161615;--dourado:#CA983B;--amarelo:#E6AD41;--prata:#AAAAAC;--branco:#fff;--display:'Space Grotesk',sans-serif;--body:'Inter',sans-serif;--verde:#6EE7B7;--erro:#EF4444}
+:root{--preto:#0A0A0A;--p2:#161615;--our:#CA983B;--ama:#E6AD41;--pra:#AAAAAC;--dis:'Space Grotesk',sans-serif;--bod:'Inter',sans-serif;--ver:#6EE7B7;--err:#EF4444}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--preto);color:var(--branco);font-family:var(--body);line-height:1.6}
-.wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+body{background:var(--preto);color:#fff;font-family:var(--bod);line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto;padding:0 22px}
 header{position:sticky;top:0;background:rgba(10,10,10,.97);backdrop-filter:blur(8px);border-bottom:1px solid rgba(202,152,59,.25);z-index:50}
-.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
-.brand{display:block;line-height:1;text-decoration:none}
-.brand .cge{display:block;font-family:var(--display);font-weight:700;font-size:27px;letter-spacing:.5px;background:linear-gradient(160deg,#F0C463,#E6AD41 40%,#CA983B 70%,#8C6521);-webkit-background-clip:text;background-clip:text;color:transparent}
-.brand .sis{display:flex;align-items:center;gap:7px;font-size:9.5px;letter-spacing:.34em;color:#E8E8E8;margin-top:3px;font-weight:600}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:13px 0}
+.brand{text-decoration:none;line-height:1}
+.brand .cge{display:block;font-family:var(--dis);font-weight:700;font-size:26px;letter-spacing:.5px;background:linear-gradient(160deg,#F0C463,#E6AD41 40%,#CA983B 70%,#8C6521);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .sis{display:flex;align-items:center;gap:7px;font-size:9px;letter-spacing:.32em;color:#E8E8E8;margin-top:2px;font-weight:600}
 .brand .sis::before,.brand .sis::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#CA983B)}
-.nav a{color:var(--prata);text-decoration:none;font-weight:600;font-size:15px;margin-left:22px}
-.nav a:hover{color:var(--amarelo)}
-.nav .cta{background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);padding:10px 20px;border-radius:999px;font-weight:700}
-footer{border-top:1px solid rgba(202,152,59,.25);padding:36px 0 28px;text-align:center;color:#777;font-size:13.5px}
-footer b{color:var(--prata)}
-.wa{position:fixed;right:22px;bottom:22px;background:#25D366;color:#fff;font-weight:700;text-decoration:none;border-radius:999px;padding:14px 24px;font-size:15px;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:60}
+.nav a{color:var(--pra);text-decoration:none;font-weight:600;font-size:14px;margin-left:18px}
+.nav .cta{background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto);padding:9px 18px;border-radius:99px;font-weight:700}
 @media(max-width:700px){.nav a:not(.cta){display:none}}
-#app{max-width:640px;margin:0 auto;padding:24px 22px 60px}
-#app h1{font-family:var(--display);font-size:clamp(25px,5vw,33px);margin-bottom:4px}
-#app h1 span{color:var(--amarelo)}
-#app .lead{color:var(--prata);font-size:14px;margin-bottom:18px}
-.steps{display:flex;gap:5px;margin-bottom:6px}
+#app{max-width:640px;margin:0 auto;padding:22px 20px 56px}
+h1{font-family:var(--dis);font-size:clamp(24px,5vw,32px);margin-bottom:4px}
+h1 span{color:var(--ama)}
+.lead{color:var(--pra);font-size:14px;margin-bottom:16px}
+.steps{display:flex;gap:5px;margin-bottom:5px}
 .steps div{flex:1;height:5px;background:#232323;border-radius:99px;transition:.3s}
-.steps div.on{background:linear-gradient(90deg,var(--dourado),var(--amarelo))}
-.stepslbl{display:flex;justify-content:space-between;font-size:9.5px;color:#777;font-weight:600;text-transform:uppercase;margin-bottom:20px}
-.stepslbl span{flex:1;text-align:center}
-.stepslbl span:first-child{text-align:left}
-.stepslbl span:last-child{text-align:right}
-.card{background:var(--preto2);border:1px solid rgba(202,152,59,.3);border-radius:16px;padding:20px;margin-bottom:14px}
-.card h2{font-family:var(--display);font-size:18px;margin-bottom:12px}
-.card h2 .n{display:inline-flex;width:25px;height:25px;align-items:center;justify-content:center;border-radius:8px;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);font-size:13px;margin-right:8px;vertical-align:middle}
-.hint{color:var(--prata);font-size:12.5px;margin-bottom:14px}
-.tipos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.tp{cursor:pointer;border:1px solid #333;border-radius:12px;padding:13px;text-align:center;transition:.15s}
-.tp:hover{border-color:var(--dourado)}
-.tp.sel{border-color:var(--amarelo);background:rgba(202,152,59,.1)}
+.steps div.on{background:linear-gradient(90deg,var(--our),var(--ama))}
+.slbl{display:flex;justify-content:space-between;font-size:9px;color:#777;font-weight:600;text-transform:uppercase;margin-bottom:18px}
+.slbl span{flex:1;text-align:center}.slbl span:first-child{text-align:left}.slbl span:last-child{text-align:right}
+.card{background:var(--p2);border:1px solid rgba(202,152,59,.3);border-radius:16px;padding:18px;margin-bottom:13px}
+.card h2{font-family:var(--dis);font-size:17px;margin-bottom:11px}
+.card h2 .n{display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center;border-radius:7px;background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto);font-size:13px;margin-right:8px;vertical-align:middle}
+.hint{color:var(--pra);font-size:12.5px;margin-bottom:12px}
+.tipos{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.tp{cursor:pointer;border:1px solid #333;border-radius:12px;padding:12px;text-align:center}
+.tp.sel{border-color:var(--ama);background:rgba(202,152,59,.1)}
 .tp .t{font-weight:700;font-size:13px}
-.tp .p{font-family:var(--display);font-weight:700;color:var(--amarelo);font-size:18px;margin-top:2px}
+.tp .p{font-family:var(--dis);font-weight:700;color:var(--ama);font-size:17px}
 label{display:block;font-size:12.5px;font-weight:600;color:#DDD;margin:0 0 5px}
-input,select{width:100%;background:#0F0F0F;border:1px solid #333;color:#fff;border-radius:10px;padding:11px 13px;font-size:15px;font-family:var(--body);outline:none}
-input:focus{border-color:var(--dourado)}
-.f{margin-bottom:12px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input{width:100%;background:#0F0F0F;border:1px solid #333;color:#fff;border-radius:10px;padding:11px 13px;font-size:15px;font-family:var(--bod);outline:none}
+input:focus{border-color:var(--our)}
+.f{margin-bottom:11px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 @media(max-width:560px){.row{grid-template-columns:1fr}}
-.msg{font-size:11.5px;color:var(--erro);margin-top:4px;display:none}
+.msg{font-size:11.5px;color:var(--err);margin-top:4px;display:none}
 .msg.show{display:block}
-.req{color:var(--amarelo)}
-.btn{width:100%;border:0;border-radius:999px;padding:16px;font-size:16px;font-weight:700;font-family:var(--body);cursor:pointer;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);display:block;text-align:center;text-decoration:none;transition:.15s}
+.req{color:var(--ama)}
+.btn{width:100%;border:0;border-radius:99px;padding:15px;font-size:15.5px;font-weight:700;font-family:var(--bod);cursor:pointer;background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto);display:block;text-align:center;text-decoration:none}
 .btn:disabled{opacity:.45;cursor:not-allowed;background:#2a2a2a;color:#888}
-.btn.ghost{background:transparent;border:2px solid var(--dourado);color:var(--amarelo);margin-top:9px;font-size:14px;padding:13px}
-.warn{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.45);border-radius:12px;padding:13px 15px;font-size:13px;color:#FCA5A5;margin-bottom:14px}
+.btn.ghost{background:transparent;border:2px solid var(--our);color:var(--ama);margin-top:9px;font-size:14px;padding:13px}
+.warn{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.45);border-radius:12px;padding:12px 14px;font-size:12.5px;color:#FCA5A5;margin-bottom:12px}
 .warn b{color:#fff}
-.okbox{background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.5);border-radius:12px;padding:13px 15px;font-size:13px;color:var(--verde);margin-bottom:14px}
+.okbox{background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.5);border-radius:12px;padding:12px 14px;font-size:12.5px;color:var(--ver);margin-bottom:12px}
 .okbox b{color:#fff}
-.pixbox{background:#0F0F0F;border:1px dashed var(--dourado);border-radius:12px;padding:15px;text-align:center;margin-bottom:14px}
-.pixbox .l{font-size:11.5px;color:var(--prata);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
-.pixbox .k{font-family:var(--display);font-size:18px;font-weight:700;color:var(--amarelo);word-break:break-all}
-.copy{margin-top:10px;background:#1E1E1E;border:1px solid #333;color:#fff;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:600;cursor:pointer}
-.resumo{background:#0F0F0F;border-radius:12px;padding:15px;font-size:13.5px;margin-bottom:14px}
-.resumo .l{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #1E1E1E;gap:12px}
-.resumo .l:last-child{border:0;padding-top:11px;font-family:var(--display);font-size:16px}
+.pixbox{background:#0F0F0F;border:1px dashed var(--our);border-radius:12px;padding:14px;text-align:center;margin-bottom:12px}
+.pixbox .l{font-size:11px;color:var(--pra);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.pixbox .k{font-family:var(--dis);font-size:17px;font-weight:700;color:var(--ama);word-break:break-all}
+.copy{margin-top:9px;background:#1E1E1E;border:1px solid #333;color:#fff;border-radius:9px;padding:9px 15px;font-size:12.5px;font-weight:600;cursor:pointer}
+.resumo{background:#0F0F0F;border-radius:12px;padding:14px;font-size:13px;margin-bottom:12px}
+.resumo .l{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #1E1E1E;gap:10px}
+.resumo .l:last-child{border:0;padding-top:10px;font-family:var(--dis);font-size:15px}
 .resumo .l span:last-child{font-weight:700;text-align:right}
-.resumo .l:last-child span:last-child{color:var(--amarelo)}
-.dias{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin-bottom:14px}
-.dia{border:1px solid #333;border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;font-size:12.5px;transition:.15s}
-.dia:hover{border-color:var(--dourado)}
-.dia.sel{border-color:var(--amarelo);background:rgba(202,152,59,.15);color:var(--amarelo);font-weight:700}
-.dia .dw{font-size:10px;color:var(--prata);text-transform:uppercase}
-.horas{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px;max-height:240px;overflow-y:auto;padding-right:4px}
-.hora{border:1px solid #333;border-radius:9px;padding:10px;text-align:center;cursor:pointer;font-size:13px;font-weight:600;transition:.15s}
-.hora:hover{border-color:var(--dourado)}
-.hora.sel{background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);border-color:var(--amarelo)}
+.resumo .l:last-child span:last-child{color:var(--ama)}
+.dias{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-bottom:12px}
+.dia{border:1px solid #333;border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;font-size:12.5px}
+.dia.sel{border-color:var(--ama);background:rgba(202,152,59,.15);color:var(--ama);font-weight:700}
+.dia .dw{font-size:10px;color:var(--pra);text-transform:uppercase}
+.horas{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;max-height:230px;overflow-y:auto}
+.hora{border:1px solid #333;border-radius:9px;padding:10px;text-align:center;cursor:pointer;font-size:13px;font-weight:600}
+.hora.sel{background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto);border-color:var(--ama)}
 .arq{background:#0F0F0F;border:1px dashed #555;border-radius:10px;padding:12px;font-size:13px;color:#ccc;width:100%}
-.prev{margin-top:9px}
-.prev img{max-width:100%;border-radius:10px;border:1px solid #333}
-.big{display:flex;align-items:center;justify-content:center;width:60px;height:60px;border-radius:18px;background:rgba(5,150,105,.15);border:1px solid rgba(5,150,105,.5);color:var(--verde);font-size:30px;margin:0 auto 14px}
+.prev img{max-width:100%;border-radius:10px;border:1px solid #333;margin-top:8px}
+.big{display:flex;align-items:center;justify-content:center;width:58px;height:58px;border-radius:18px;background:rgba(5,150,105,.15);border:1px solid rgba(5,150,105,.5);color:var(--ver);font-size:28px;margin:0 auto 12px}
+.big.ama{background:rgba(202,152,59,.15);border-color:rgba(202,152,59,.6);color:var(--ama)}
 .hide{display:none!important}
-.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(202,152,59,.35);border-top-color:var(--amarelo);border-radius:50%;animation:g 1s linear infinite;vertical-align:-3px;margin-right:8px}
+.spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(202,152,59,.35);border-top-color:var(--ama);border-radius:50%;animation:g 1s linear infinite;vertical-align:-3px;margin-right:7px}
 @keyframes g{to{transform:rotate(360deg)}}
+footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:center;color:#777;font-size:12.5px}
+.wa{position:fixed;right:20px;bottom:20px;background:#25D366;color:#fff;font-weight:700;text-decoration:none;border-radius:99px;padding:13px 22px;font-size:14.5px;box-shadow:0 8px 24px rgba(0,0,0,.5);z-index:60}
 </style>
 </head>
 <body>
-<header>
-<div class="wrap nav">
+<header><div class="wrap nav">
 <a href="index.html" class="brand"><span class="cge">CGE</span><span class="sis">SISTEMAS</span></a>
-<div>
-<a href="index.html#servicos">Servicos</a>
-<a href="certificado.html" style="color:var(--amarelo)">Certificado</a>
-<a href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site" class="cta">WhatsApp</a>
-</div>
-</div>
-</header>
+<div><a href="index.html">Site</a><a href="certificado.html" style="color:var(--ama)">Certificado</a>
+<a href="https://wa.me/5563992856647?text=Ola!%20Vim%20do%20site" class="cta">WhatsApp</a></div>
+</div></header>
+
 <div id="app">
-<div id="pedeToken" class="hide">
-<div class="card">
-<h2>Chave de acesso</h2>
-<p class="hint">Cole a chave de integracao do CertControl.</p>
-<div class="f"><label>Chave</label><input type="text" id="tokIn" placeholder="eyJ0eXAiOiJKV1Qi..." style="text-transform:none;letter-spacing:0"><div class="msg" id="mTok">Chave invalida.</div></div>
-<button class="btn" onclick="salvarToken()">Ativar sistema</button>
-</div>
-</div>
-<div id="conteudo">
 <h1>Certificado Digital <span>A1</span></h1>
-<p class="lead">Por videoconferencia. <b style="color:var(--amarelo)">Pedidos 24 horas.</b></p>
+<p class="lead">Por videoconferencia. <b style="color:var(--ama)">Pedidos 24 horas.</b></p>
+
+<div id="avisoRascunho" class="okbox hide">
+<b>Voce tem um pedido em andamento.</b><br>
+<span id="txtRascunho" style="font-size:12px"></span><br>
+<a href="javascript:void(0)" onclick="retomarTudo()" style="color:#fff;font-weight:700;text-decoration:underline">Continuar de onde parei</a>
+&nbsp;·&nbsp;<a href="javascript:void(0)" onclick="descartarRascunho()" style="color:#FCA5A5;font-size:12px">Comecar de novo</a>
+</div>
+
+<div class="card" id="boxAcesso">
+<h2>Acesso rapido</h2>
+<p class="hint">Ja fez o pedido ou comecou a preencher? Informe seu <b style="color:#fff">CPF ou CNPJ</b> para continuar de onde parou.</p>
+<div style="display:flex;gap:8px">
+<input id="acessoDoc" placeholder="CPF ou CNPJ" inputmode="numeric" maxlength="18">
+<button type="button" onclick="acessarPedido()" style="border:0;border-radius:10px;padding:0 16px;font-size:13px;font-weight:700;background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto);cursor:pointer;white-space:nowrap">Acessar</button>
+</div>
+<div class="msg" id="mAcesso">Informe um CPF (11) ou CNPJ (14) digitos.</div>
+<div id="boxPedido" class="hide" style="margin-top:12px"></div>
+</div>
+
 <div class="steps"><div class="on" id="s1"></div><div id="s2"></div><div id="s3"></div><div id="s4"></div></div>
-<div class="stepslbl"><span>1 Dados</span><span>2 CNH</span><span>3 Pagamento</span><span>4 Agendar</span></div>
+<div class="slbl"><span>1 Dados</span><span>2 CNH</span><span>3 Pagamento</span><span>4 Agendar</span></div>
+
 <div id="e1">
 <div class="card">
 <h2><span class="n">1</span>Seus dados</h2>
@@ -121,512 +120,452 @@ input:focus{border-color:var(--dourado)}
 <div class="tp sel" data-tipo="PF" data-prod="prod_anj2GYLPSwixbL" data-preco="160"><div class="t">Pessoa Fisica</div><div class="p">R$ 160</div></div>
 <div class="tp" data-tipo="PJ" data-prod="prod_anj2H8wVzAjWJo" data-preco="190"><div class="t">Pessoa Juridica</div><div class="p">R$ 190</div></div>
 </div>
-<div class="f"><label>Nome completo <span class="req">*</span></label><input type="text" id="nome" placeholder="Como consta na CNH" style="text-transform:none;letter-spacing:0"><div class="msg" id="mNome">Informe nome e sobrenome.</div></div>
+<div class="f"><label>Nome completo <span class="req">*</span></label><input id="nome" placeholder="Como consta na CNH"><div class="msg" id="mNome">Informe nome e sobrenome.</div></div>
 <div class="row">
-<div class="f"><label>CPF <span class="req">*</span></label><input type="text" id="cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14"><div class="msg" id="mCpf">CPF invalido.</div></div>
-<div class="f"><label>Celular (WhatsApp) <span class="req">*</span></label><input type="text" id="tel" placeholder="(63) 99285-6647" inputmode="numeric" maxlength="16"><div class="msg" id="mTel">Informe o celular com DDD.</div></div>
+<div class="f"><label>CPF <span class="req">*</span></label><input id="cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14"><div class="msg" id="mCpf">CPF invalido.</div></div>
+<div class="f"><label>Celular (WhatsApp) <span class="req">*</span></label><input id="tel" placeholder="(63) 99285-6647" inputmode="numeric" maxlength="16"><div class="msg" id="mTel">Informe o celular com DDD.</div></div>
 </div>
-<div class="f"><label>E-mail <span class="req">*</span></label><input type="email" id="email" placeholder="seu@email.com" style="text-transform:none;letter-spacing:0"><div class="msg" id="mEmail">E-mail invalido.</div></div>
-<div class="f hide" id="wrapCnpj"><label>CNPJ <span class="req">*</span></label><input type="text" id="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18"><div class="msg" id="mCnpj">CNPJ invalido.</div></div>
+<div class="f"><label>E-mail <span class="req">*</span></label><input type="email" id="email" placeholder="seu@email.com"><div class="msg" id="mEmail">E-mail invalido.</div></div>
+<div class="f hide" id="wrapCnpj"><label>CNPJ <span class="req">*</span></label><input id="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18"><div class="msg" id="mCnpj">CNPJ invalido.</div></div>
 <div class="row">
-<div class="f"><label>CEP <span class="req">*</span></label><input type="text" id="cep" placeholder="00000-000" inputmode="numeric" maxlength="9"><div class="msg" id="mCep">CEP invalido.</div></div>
-<div class="f"><label>Cidade <span class="req">*</span></label><input type="text" id="cidade" placeholder="Pelo CEP" style="text-transform:none;letter-spacing:0"><div class="msg" id="mCidade">Informe a cidade.</div></div>
-</div>
-<div class="row">
-<div class="f"><label>Rua <span class="req">*</span></label><input type="text" id="rua" placeholder="Pelo CEP" style="text-transform:none;letter-spacing:0"><div class="msg" id="mRua">Informe a rua.</div></div>
-<div class="f"><label>Numero <span class="req">*</span></label><input type="text" id="num" placeholder="123"><div class="msg" id="mNum">Informe o numero.</div></div>
+<div class="f"><label>CEP <span class="req">*</span></label><input id="cep" placeholder="00000-000" inputmode="numeric" maxlength="9"><div class="msg" id="mCep">CEP invalido.</div></div>
+<div class="f"><label>Cidade <span class="req">*</span></label><input id="cidade" placeholder="Pelo CEP"><div class="msg" id="mCidade">Informe a cidade.</div></div>
 </div>
 <div class="row">
-<div class="f"><label>Bairro <span class="req">*</span></label><input type="text" id="bairro" placeholder="Pelo CEP" style="text-transform:none;letter-spacing:0"><div class="msg" id="mBairro">Informe o bairro.</div></div>
-<div class="f"><label>UF <span class="req">*</span></label><input type="text" id="uf" placeholder="RO" maxlength="2" style="text-transform:uppercase"><div class="msg" id="mUf">Informe a UF.</div></div>
+<div class="f"><label>Rua <span class="req">*</span></label><input id="rua" placeholder="Pelo CEP"><div class="msg" id="mRua">Informe a rua.</div></div>
+<div class="f"><label>Numero <span class="req">*</span></label><input id="num" placeholder="123"><div class="msg" id="mNum">Informe o numero.</div></div>
 </div>
-<div class="f" id="wrapCupom">
-<label>Codigo de desconto <span style="color:#777;font-weight:400">(opcional)</span></label>
-<div style="display:flex;gap:8px">
-<input type="text" id="cupom" placeholder="Ex.: 2WNY6G" maxlength="6" style="text-transform:uppercase;letter-spacing:2px;font-weight:700;flex:1">
-<button type="button" id="btnCupom" onclick="aplicarCupom()" style="border:0;border-radius:10px;padding:0 18px;font-size:13.5px;font-weight:700;background:linear-gradient(90deg,var(--dourado),var(--amarelo));color:var(--preto);cursor:pointer;white-space:nowrap">Aplicar</button>
+<div class="row">
+<div class="f"><label>Bairro <span class="req">*</span></label><input id="bairro" placeholder="Pelo CEP"><div class="msg" id="mBairro">Informe o bairro.</div></div>
+<div class="f"><label>UF <span class="req">*</span></label><input id="uf" placeholder="RO" maxlength="2" style="text-transform:uppercase"><div class="msg" id="mUf">Informe a UF.</div></div>
 </div>
-<div class="msg" id="mCupom">Codigo invalido, expirado ou ja usado.</div>
-<div class="okbox hide" id="okCupom" style="margin-top:8px;margin-bottom:0;font-size:12.5px"></div>
+<div class="f"><label>Codigo de desconto <span style="color:#777;font-weight:400">(opcional)</span></label>
+<div style="display:flex;gap:8px"><input id="cupom" placeholder="6 caracteres" maxlength="6" style="text-transform:uppercase;letter-spacing:2px;font-weight:700"><button type="button" onclick="aplicarCupom()" style="border:0;border-radius:10px;padding:0 16px;font-size:13px;font-weight:700;background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto);cursor:pointer">Aplicar</button></div>
+<div class="msg" id="mCupom">Codigo invalido ou expirado.</div>
+<div class="okbox hide" id="okCupom" style="margin-top:8px;margin-bottom:0;font-size:12px"></div>
 </div>
-<div class="f"><label>Senha do certificado <span class="req">*</span></label><input type="text" id="senha" placeholder="8+ caracteres, maiuscula, numero e simbolo" style="text-transform:none;letter-spacing:0"><div class="msg" id="mSenha">Senha fraca.</div>
-<div class="okbox" style="margin-top:8px;margin-bottom:0"><b>Anote esta senha!</b> Sera usada para instalar o certificado.</div>
-</div>
+<div class="f"><label>Senha do certificado <span class="req">*</span></label><input id="senha" placeholder="8+ com maiuscula, numero e simbolo"><div class="msg" id="mSenha">Senha fraca.</div>
+<div class="okbox" style="margin-top:8px;margin-bottom:0"><b>Anote esta senha!</b> Ela instala o certificado. Se perder, precisa comprar outro.</div></div>
 </div>
 <button class="btn" onclick="ir(2)">Continuar</button>
 </div>
+
 <div id="e2" class="hide">
 <div class="card">
 <h2><span class="n">2</span>Foto da CNH</h2>
 <div class="warn"><b>CNH valida e obrigatoria.</b><br>Na videoconferencia seu rosto e comparado com a foto da CNH.</div>
-<div class="f">
-<label>Anexe a CNH - frente e verso (JPG, PNG ou PDF) <span class="req">*</span></label>
+<div class="f"><label>Anexe a CNH - frente e verso (JPG, PNG ou PDF) <span class="req">*</span></label>
 <input type="file" id="cnhfile" accept="image/*,application/pdf" class="arq">
 <div class="msg" id="mCnh">Anexe o arquivo da CNH.</div>
-<div class="prev hide" id="prev"><img id="preview" alt="CNH"></div>
-</div>
+<div class="prev hide" id="prev"><img id="preview" alt="CNH"></div></div>
 </div>
 <button class="btn" onclick="enviarCnh()">Continuar</button>
 <button class="btn ghost" onclick="ir(1)">Voltar</button>
 </div>
+
 <div id="eSenha" class="hide">
 <div class="card" style="text-align:center">
-<div class="big" style="background:rgba(202,152,59,.15);border-color:rgba(202,152,59,.6);color:var(--amarelo)">&#128273;</div>
-<h2 style="text-align:center">Pedido #<span id="numPedido">-</span></h2>
+<div class="big ama">&#128273;</div>
+<h2 style="text-align:center">Pedido <span id="numPedido">-</span></h2>
 <p class="hint" style="text-align:center">Guarde a sua <b style="color:#fff">senha do certificado</b>.</p>
-<div class="okbox" style="text-align:left">
-<b>Sua senha:</b><br>
-<span id="senhaMostra" style="font-family:var(--display);font-size:20px;color:#fff;letter-spacing:1px">-</span><br>
-<span style="font-size:12px;color:var(--verde)">Anote tambem no papel. Se perder, sera preciso comprar outro certificado.</span>
-</div>
-<a class="btn" id="btnZapSenha" href="#" target="_blank" rel="noopener" onclick="senhaEnviada()">Enviar minha senha no WhatsApp</a>
-<p class="hint" style="text-align:center;margin:10px 0 0;font-size:12px" id="avisoSenha">O WhatsApp vai abrir com a mensagem pronta. Toque em enviar.</p>
+<div class="okbox" style="text-align:left"><b>Sua senha:</b><br>
+<span id="senhaMostra" style="font-family:var(--dis);font-size:19px;color:#fff;letter-spacing:1px">-</span><br>
+<span style="font-size:11.5px">Anote tambem no papel.</span></div>
+<a class="btn" id="btnZapSenha" href="#" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+<p class="hint" style="text-align:center;margin:9px 0 0;font-size:11.5px" id="avisoSenha">O WhatsApp abre com a mensagem pronta.</p>
 <button class="btn ghost" onclick="ir(3)">Ja enviei / continuar</button>
 </div>
 </div>
+
 <div id="e3" class="hide">
 <div class="card">
 <h2><span class="n">3</span>Pagamento</h2>
-<p class="hint">Pague o PIX e envie o comprovante no WhatsApp.</p>
+<p class="hint">Pague o PIX e envie o comprovante.</p>
 <div class="resumo" id="resumo"></div>
-<div class="pixbox">
-<div class="l">Chave PIX (CNPJ)</div>
-<div class="k">19.819.476/0001-87</div>
-<button class="copy" onclick="copiarPix()">Copiar chave PIX</button>
-</div>
-<label style="display:flex;gap:10px;align-items:center;padding:13px 15px;background:rgba(202,152,59,.07);border:1px solid rgba(202,152,59,.35);border-radius:12px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="pagou" style="width:19px;height:19px;accent-color:var(--amarelo)"><span>Ja fiz o PIX e vou enviar o comprovante</span></label>
-<div class="warn" style="margin-top:14px;margin-bottom:0"><b>O agendamento so e liberado apos conferirmos o seu pagamento.</b><br>Voce recebe um codigo de liberacao no WhatsApp.</div>
+<div class="pixbox"><div class="l">Chave PIX (CNPJ)</div><div class="k">19.819.476/0001-87</div>
+<button class="copy" onclick="copiarPix()">Copiar chave PIX</button></div>
+<label style="display:flex;gap:10px;align-items:center;padding:12px 14px;background:rgba(202,152,59,.07);border:1px solid rgba(202,152,59,.35);border-radius:12px;cursor:pointer;font-size:13px"><input type="checkbox" id="pagou" style="width:19px;height:19px;accent-color:var(--ama)"><span>Ja fiz o PIX e vou enviar o comprovante</span></label>
+<div class="warn" style="margin-top:12px;margin-bottom:0"><b>O agendamento so libera apos conferirmos o pagamento.</b><br>Voce recebe um codigo de liberacao no WhatsApp.</div>
 </div>
 <button class="btn" onclick="pedirLiberacao()">Ja paguei - enviar comprovante</button>
 <button class="btn ghost" onclick="ir(2)">Voltar</button>
 </div>
+
 <div id="eTrava" class="hide">
 <div class="card" style="text-align:center">
-<div class="big" style="background:rgba(202,152,59,.15);border-color:rgba(202,152,59,.6);color:var(--amarelo)">&#128274;</div>
-<h2 style="text-align:center">Aguardando confirmacao do pagamento</h2>
-<p class="hint" style="text-align:center" id="textoTrava">Enviamos o seu comprovante para conferencia.</p>
+<div class="big ama">&#128274;</div>
+<h2 style="text-align:center">Aguardando confirmacao</h2>
+<p class="hint" style="text-align:center" id="textoTrava">Enviamos seu comprovante para conferencia.</p>
 <a class="btn" id="btnZapComp" href="#" target="_blank" rel="noopener">Enviar comprovante no WhatsApp</a>
-<p class="hint" style="text-align:center;margin:10px 0 16px;font-size:12px">Se ja enviou, aguarde a confirmacao.</p>
-<div class="f" style="text-align:left">
-<label>Ja recebeu o codigo? Digite aqui</label>
-<input type="text" id="codLib" placeholder="Ex.: JWCEQE" maxlength="6" style="text-transform:uppercase;letter-spacing:3px;font-weight:700;text-align:center;font-size:18px">
-<div class="msg" id="mCod">Codigo invalido para este pedido.</div>
-</div>
+<p class="hint" style="text-align:center;margin:9px 0 14px;font-size:11.5px">Se ja enviou, aguarde a confirmacao.</p>
+<div class="f" style="text-align:left"><label>Recebeu o codigo? Digite aqui</label>
+<input id="codLib" placeholder="Ex.: YBC73W" maxlength="6" style="text-transform:uppercase;letter-spacing:3px;font-weight:700;text-align:center;font-size:18px">
+<div class="msg" id="mCod">Codigo invalido para este pedido.</div></div>
 <button class="btn" onclick="validarLiberacao()">Liberar agendamento</button>
 <button class="btn ghost" onclick="ir(3)">Voltar</button>
 </div>
 </div>
+
 <div id="e4" class="hide">
 <div class="card">
 <h2><span class="n">4</span>Escolha o dia e a hora</h2>
-<p class="hint" id="hintDias">Carregando horarios...</p>
+<p class="hint" id="hintDias">Carregando...</p>
 <div id="boxDias"></div>
 <div id="boxHoras" class="hide"><label>Horarios disponiveis</label><div class="horas" id="horas"></div></div>
 </div>
 <button class="btn" id="btnAgendar" disabled onclick="agendar()">Confirmar agendamento</button>
 <button class="btn ghost" onclick="ir(3)">Voltar</button>
 </div>
+
 <div id="ok" class="hide">
 <div class="card" style="text-align:center">
 <div class="big">&#10003;</div>
 <h2 style="text-align:center">Agendamento confirmado!</h2>
 <div class="resumo" id="resumoFinal" style="text-align:left"></div>
 <a class="btn" id="sala" href="#" target="_blank" rel="noopener">Entrar na sala da videoconferencia</a>
-<div class="okbox" style="text-align:left;margin-top:14px"><b>No dia:</b> esteja em lugar iluminado, com a <b>CNH em maos</b> e documento com foto.</div>
-<a class="btn ghost" id="zapCliente" href="#" target="_blank" rel="noopener">Enviar comprovante no WhatsApp</a>
+<div class="okbox" style="text-align:left;margin-top:12px"><b>No dia:</b> lugar iluminado, <b>CNH em maos</b> e documento com foto.</div>
 </div>
 </div>
-<div id="erro" class="hide">
-<div class="card">
-<h2>Nao foi possivel concluir</h2>
-<p class="hint" id="erroTxt"></p>
-<a class="btn" href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Tive%20um%20problema%20no%20pedido." target="_blank">Falar no WhatsApp</a>
+
+<div id="erro" class="hide"><div class="card">
+<h2>Nao foi possivel concluir</h2><p class="hint" id="erroTxt"></p>
+<a class="btn" href="https://wa.me/5563992856647?text=Ola!%20Tive%20um%20problema%20no%20pedido." target="_blank">Falar no WhatsApp</a>
+</div></div>
 </div>
-</div>
-</div>
-</div>
-<div class="wrap">
-<footer>
-<p><b>CGE EMITTA</b> · CGE Contabilidade &amp; Gestao Empresarial</p>
-<p style="margin-top:5px">Hamilton Alves - Contador · CRC 004878/O-7</p>
-<p style="margin-top:9px"><b style="color:var(--amarelo)">Pedidos 24 horas</b> · <b style="color:var(--amarelo)">Atendimento:</b> seg a sex, 08h as 18h</p>
-<p style="margin-top:4px">WhatsApp (63) 99285-6647 · Vilhena/RO</p>
-</footer>
-</div>
-<a class="wa" href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site">Fale conosco</a>
+
+<footer><div class="wrap">
+<p><b style="color:var(--pra)">CGE EMITTA</b> · CGE Contabilidade &amp; Gestao Empresarial</p>
+<p style="margin-top:4px">Hamilton Alves - Contador · CRC 004878/O-7</p>
+<p style="margin-top:8px"><b style="color:var(--ama)">Pedidos 24 horas</b> · Atendimento seg a sex, 08h as 18h</p>
+<p style="margin-top:3px">WhatsApp (63) 99285-6647 · Vilhena/RO</p>
+<p style="margin-top:14px"><a href="javascript:void(0)" onclick="modoEscritorio()" style="color:#555;font-size:10.5px;text-decoration:none">· escritorio ·</a></p>
+</div></footer>
+<a class="wa" href="https://wa.me/5563992856647?text=Ola!%20Vim%20do%20site">Fale conosco</a>
+
 <script>
+(function(){
+  var q=new URLSearchParams(location.search), k=q.get('k');
+  if(!k){var m=location.hash.match(/k=([^&]+)/); if(m) k=decodeURIComponent(m[1]);}
+  if(k){ localStorage.setItem('cge_cc_token',k); try{history.replaceState(null,'',location.pathname);}catch(e){} }
+})();
 var TOKEN=localStorage.getItem("cge_cc_token")||"";
 var API="https://service.certcontrol.com.br/api/integracao";
-var TABELA="16615";
-var CUSTO=50;
-var PIX="19.819.476/0001-87", WA="5563992856647";
-var st={tipo:"PF",prod:"prod_anj2GYLPSwixbL",preco:160,precoFinal:160,cnhFile:null,uuid:null,dia:null,hora:null,senha:"",telDigits:"",telFmt:"",email:"",docFmt:"",cupom:null,liberado:false,modoApi:false};
+var TABELA="16615", CUSTO=50, PIX="19.819.476/0001-87", WA="5563992856647";
+var CUPONS=[];
+var st={tipo:"PF",prod:"prod_anj2GYLPSwixbL",preco:160,precoFinal:160,cnhFile:null,uuid:null,
+        dia:null,hora:null,senha:"",telFmt:"",email:"",docFmt:"",docDigits:"",cupom:null,liberado:false,modoApi:false,pedidoCriado:null};
+var etapaAtual=1;
 
-var CUPONS = [];
 function $(id){return document.getElementById(id);}
 function mostrar(id,ok){$(id).classList[ok?'remove':'add']('show');}
 function precoFmt(v){return 'R$ '+v.toFixed(2).replace('.',',');}
+function digitos(v){return String(v||'').replace(/\D/g,'');}
 function maskCPF(v){return v.replace(/\D/g,'').slice(0,11).replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');}
 function maskCNPJ(v){return v.replace(/\D/g,'').slice(0,14).replace(/^(\d{2})(\d)/,'$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3').replace(/\.(\d{3})(\d)/,'.$1/$2').replace(/(\d{4})(\d)/,'$1-$2');}
 function maskTel(v){var d=v.replace(/\D/g,'').slice(0,11);return d.length<=10?d.replace(/^(\d{2})(\d)/,'($1) $2').replace(/(\d{4})(\d{1,4})$/,'$1-$2'):d.replace(/^(\d{2})(\d)/,'($1) $2').replace(/(\d{5})(\d{1,4})$/,'$1-$2');}
 function maskCEP(v){return v.replace(/\D/g,'').slice(0,8).replace(/(\d{5})(\d)/,'$1-$2');}
-function validaCPF(c){c=c.replace(/\D/g,'');if(c.length!==11||/^(\d)\1{10}$/.test(c))return false;var s=0,i,d;for(i=0;i<9;i++)s+=+c[i]*(10-i);d=(s*10)%11;if(d===10)d=0;if(d!==+c[9])return false;s=0;for(i=0;i<10;i++)s+=+c[i]*(11-i);d=(s*10)%11;if(d===10)d=0;return d===+c[10];}
-function validaCNPJ(c){c=c.replace(/\D/g,'');if(c.length!==14||/^(\d)\1{13}$/.test(c))return false;var f=function(b){var p=b.length-7,s=0,i,d;for(i=0;i<b.length;i++){s+=+b[i]*p--;if(p<2)p=9;}d=s%11;return d<2?0:11-d;};return f(c.slice(0,12))===+c[12]&&f(c.slice(0,13))===+c[13];}
-function senhaForte(s){return s.length>=8 && /[A-Z]/.test(s) && /[0-9]/.test(s) && /[^A-Za-z0-9]/.test(s);}
+function validaCPF(c){c=digitos(c);if(c.length!==11||/^(\d)\1{10}$/.test(c))return false;var s=0,i,d;for(i=0;i<9;i++)s+=+c[i]*(10-i);d=(s*10)%11;if(d===10)d=0;if(d!==+c[9])return false;s=0;for(i=0;i<10;i++)s+=+c[i]*(11-i);d=(s*10)%11;if(d===10)d=0;return d===+c[10];}
+function validaCNPJ(c){c=digitos(c);if(c.length!==14||/^(\d)\1{13}$/.test(c))return false;function f(b){var p=b.length-7,s=0,i,d;for(i=0;i<b.length;i++){s+=+b[i]*p--;if(p<2)p=9;}d=s%11;return d<2?0:11-d;}return f(c.slice(0,12))===+c[12]&&f(c.slice(0,13))===+c[13];}
+function senhaForte(s){return s.length>=8&&/[A-Z]/.test(s)&&/[0-9]/.test(s)&&/[^A-Za-z0-9]/.test(s);}
 
-function aplicaDesconto(preco, c){
-  if(!c) return preco;
-  var d = parseFloat(c.desconto||0);
-  var final = (c.tipo==='percent') ? preco - (preco*d/100) : preco - d;
-  if(final<0) final=0;
-  return Math.round(final*100)/100;
+var CAMPOS=['nome','cpf','tel','email','cnpj','cep','cidade','rua','num','bairro','uf','cupom','senha'];
+var DRAFT='cge_cc_draft';
+
+function salvarRascunho(){
+  try{
+    var d={etapa:etapaAtual,tipo:st.tipo,preco:st.preco,precoFinal:st.precoFinal,cupom:st.cupom,
+      uuid:st.uuid,pedidoCriado:st.pedidoCriado,liberado:st.liberado,dia:st.dia,hora:st.hora,
+      telFmt:st.telFmt,email:st.email,docFmt:st.docFmt,senha:st.senha,docDigits:st.docDigits,campos:{}};
+    CAMPOS.forEach(function(k){var el=$(k);if(el)d.campos[k]=el.value;});
+    localStorage.setItem(DRAFT,JSON.stringify(d));
+  }catch(e){}
 }
-function pintaCupom(){
-  if(!st.cupom) return;
-  var el=document.getElementById('okCupom');
-  var desc = st.cupom.desconto>0
-    ? (st.cupom.tipo==='percent' ? st.cupom.desconto+'%' : 'R$ '+st.cupom.desconto.toFixed(2).replace('.',','))
-    : 'aplicado';
-  el.innerHTML='<b>Cupom '+st.cupom.codigo+' aplicado</b> - desconto '+desc+'. Voce paga <b>'+precoFmt(st.precoFinal)+'</b>.';
-  el.classList.remove('hide');
+function lerRascunho(){try{var s=localStorage.getItem(DRAFT);return s?JSON.parse(s):null;}catch(e){return null;}}
+function descartarRascunho(){localStorage.removeItem(DRAFT);$('avisoRascunho').classList.add('hide');location.reload();}
+
+function preencher(d){
+  CAMPOS.forEach(function(k){var el=$(k);if(el&&d.campos&&d.campos[k]!==undefined)el.value=d.campos[k];});
+  if(d.tipo){st.tipo=d.tipo;st.preco=d.preco||160;st.precoFinal=d.precoFinal||st.preco;
+    document.querySelectorAll('.tp').forEach(function(x){x.classList.toggle('sel',x.dataset.tipo===d.tipo);});
+    $('wrapCnpj').classList[st.tipo==='PF'?'add':'remove']('hide');}
+  st.cupom=d.cupom||null;st.uuid=d.uuid||null;st.pedidoCriado=d.pedidoCriado||null;
+  st.liberado=d.liberado||false;st.senha=d.senha||'';st.telFmt=d.telFmt||'';
+  st.email=d.email||'';st.docFmt=d.docFmt||'';st.docDigits=d.docDigits||'';
+  if(st.cupom)pintaCupom();
 }
-function aplicarCupom(){
-  var cod=(document.getElementById('cupom').value||'').trim().toUpperCase();
-  var mCupom=document.getElementById('mCupom');
-  var okCupom=document.getElementById('okCupom');
-  mCupom.classList.remove('show'); okCupom.classList.add('hide');
-  if(!cod){ st.cupom=null; st.precoFinal=st.preco; atualizaValores(); return; }
-  if(cod.length!==6){ mCupom.classList.add('show'); return; }
-  var achou=null;
-  for(var i=0;i<CUPONS.length;i++){ if(CUPONS[i].codigo===cod){ achou=CUPONS[i]; break; } }
-  if(CUPONS.length===0){ achou={codigo:cod,campanha:'manual',tipo:'valor',desconto:0,status:'ativo'}; }
-  if(!achou){ mCupom.classList.add('show'); return; }
-  if(achou.status && achou.status!=='ativo'){ mCupom.classList.add('show'); return; }
-  if(achou.validade && achou.validade < new Date().toISOString().slice(0,10)){ mCupom.classList.add('show'); return; }
-  if(achou.produto && achou.produto!=='todos' && achou.produto!==st.tipo){ mCupom.classList.add('show'); return; }
-  st.cupom=achou;
-  st.precoFinal=aplicaDesconto(st.preco, achou);
-  atualizaValores();
-  pintaCupom();
+function retomarTudo(){
+  var d=lerRascunho();if(!d)return;
+  preencher(d);
+  if(d.pedidoCriado){
+    $('numPedido').textContent='#'+d.pedidoCriado;
+    $('senhaMostra').textContent=d.senha||'-';
+    if(d.senha){$('btnZapSenha').href='https://wa.me/'+(d.telFmt?'55'+digitos(d.telFmt):WA)+'?text='+encodeURIComponent('*SEU CERTIFICADO DIGITAL - CGE EMITTA*\n\nPedido: *#'+d.pedidoCriado+'*\n\n*SUA SENHA:*\n'+d.senha);}
+    $('avisoRascunho').classList.add('hide');
+    if(d.liberado){ir(4);carregarDias();}
+    else{ir(3);$('resumo').innerHTML=montarResumo();}
+    return;
+  }
+  ir(1);
 }
-function atualizaValores(){
-  var r1=document.getElementById('resumo');
-  if(r1 && r1.innerHTML) r1.innerHTML=montarResumo();
-  var r2=document.getElementById('resumoFinal');
-  if(r2 && r2.innerHTML) r2.innerHTML=montarResumo();
+function mostraAvisoRascunho(){
+  var d=lerRascunho();if(!d)return;
+  var n=(d.campos&&d.campos.nome)||'',doc=(d.campos&&(d.campos.cpf||d.campos.cnpj))||'';
+  if(!n&&!d.pedidoCriado)return;
+  $('txtRascunho').textContent=(n||'')+(doc?' — '+doc:'')+(d.pedidoCriado?' · pedido #'+d.pedidoCriado:' · nao finalizado');
+  $('avisoRascunho').classList.remove('hide');
+}
+function ligaAutoSave(){
+  CAMPOS.forEach(function(k){var el=$(k);if(el){el.addEventListener('input',salvarRascunho);el.addEventListener('change',salvarRascunho);}});
+}
+
+function acessarPedido(){
+  var doc=digitos($('acessoDoc').value),m=$('mAcesso');
+  m.classList.remove('show');
+  if(doc.length!==11&&doc.length!==14){m.classList.add('show');return;}
+
+  var d=lerRascunho();
+  if(d&&d.campos&&(digitos(d.campos.cpf)===doc||digitos(d.campos.cnpj)===doc)){retomarTudo();return;}
+
+  $('boxPedido').classList.remove('hide');
+  $('boxPedido').innerHTML='<div class="hint"><span class="spin"></span>Buscando seu pedido...</div>';
+
+  if(!TOKEN){
+    $('boxPedido').innerHTML='<div class="warn" style="margin:0">Para consultar um pedido anterior fale com o escritorio no WhatsApp: <a href="https://wa.me/'+WA+'" target="_blank" style="color:#fff;font-weight:700">(63) 99285-6647</a> — resolvemos na hora.</div>';
+    return;
+  }
+  var ini=new Date();ini.setMonth(ini.getMonth()-6);
+  fetch(API+'/vendas?data_venda_inicio='+ini.toISOString().slice(0,10)+'&data_venda_fim='+new Date().toISOString().slice(0,10)+'&per_page=200',
+    {headers:{Authorization:'Bearer '+TOKEN,Accept:'application/json'}})
+  .then(function(r){return r.json();})
+  .then(function(j){
+    var achou=(j.data||[]).filter(function(v){return digitos((v.cliente_certificado||{}).documento)===doc;});
+    if(!achou.length){
+      $('boxPedido').innerHTML='<div class="warn" style="margin:0">Nenhum pedido encontrado para este documento nos ultimos 6 meses. Preencha os dados abaixo para comecar.</div>';return;
+    }
+    achou.sort(function(a,b){return (b.data_venda||'').localeCompare(a.data_venda||'');});
+    var v=achou[0],c=v.cliente_certificado||{},sit=((v.soluti||{}).situação)||'';
+    st.uuid=v.uuid;st.pedidoCriado=v.pedido;st.docDigits=doc;
+    $('boxPedido').innerHTML='<div class="resumo" style="margin-bottom:10px">'
+      +'<div class="l"><span>Pedido</span><span>#'+(v.pedido||'')+'</span></div>'
+      +'<div class="l"><span>Titular</span><span>'+(c.nome_razao||'')+'</span></div>'
+      +'<div class="l"><span>Documento</span><span>'+(c.documento||'')+'</span></div>'
+      +'<div class="l"><span>Produto</span><span>'+(((v.produto||{})['descrição'])||'')+'</span></div>'
+      +'<div class="l"><span>Situacao</span><span>'+(v.status||'')+(sit?' · '+sit:'')+'</span></div></div>'
+      +'<button class="btn" onclick="continuarPedido(\''+v.uuid+'\','+(v.pedido||0)+')">Continuar este pedido</button>';
+  })
+  .catch(function(){$('boxPedido').innerHTML='<div class="warn" style="margin:0">Nao consegui consultar agora. Tente de novo.</div>';});
+}
+function continuarPedido(uuid,pedido){
+  st.uuid=uuid;st.pedidoCriado=pedido;salvarRascunho();
+  $('numPedido').textContent='#'+pedido;
+  ir(3);$('resumo').innerHTML=montarResumo();
 }
 
 function api(path,opts){
   opts=opts||{};
   var h={"Authorization":"Bearer "+TOKEN,"Accept":"application/json"};
-  if(!(opts.body instanceof FormData)) h["Content-Type"]="application/json";
-  return fetch(API+path,{method:opts.method||'GET',headers:h,body:opts.body}).then(function(r){
-    return r.text().then(function(t){var j={};try{j=JSON.parse(t);}catch(e){j={raw:t};}return {status:r.status,ok:r.ok,data:j};});
-  });
+  if(!(opts.body instanceof FormData))h["Content-Type"]="application/json";
+  return fetch(API+path,{method:opts.method||'GET',headers:h,body:opts.body})
+    .then(function(r){return r.text().then(function(t){var j={};try{j=JSON.parse(t);}catch(e){j={raw:t};}return {status:r.status,ok:r.ok,data:j};});});
 }
-function salvarToken(){
-  var t=$('tokIn').value.trim();
-  if(!t){mostrar('mTok',false);return;}
-  localStorage.setItem('cge_cc_token',t);
-  location.reload();
+
+function aplicaDesc(p,c){if(!c)return p;var d=parseFloat(c.desconto||0);var f=(c.tipo==='percent')?p-(p*d/100):p-d;if(f<0)f=0;return Math.round(f*100)/100;}
+function pintaCupom(){
+  if(!st.cupom)return;
+  var desc=st.cupom.desconto>0?(st.cupom.tipo==='percent'?st.cupom.desconto+'%':'R$ '+st.cupom.desconto.toFixed(2).replace('.',',')):'aplicado';
+  $('okCupom').innerHTML='<b>Cupom '+st.cupom.codigo+' aplicado</b> - desconto '+desc+'. Voce paga <b>'+precoFmt(st.precoFinal)+'</b>.';
+  $('okCupom').classList.remove('hide');
 }
-function checarToken(){
-  /* O CLIENTE NUNCA ve tela de chave. A pagina funciona sempre.
-     Com chave: cria o pedido na API (automatico).
-     Sem chave: monta o pedido e envia no WhatsApp do escritorio (manual). */
-  $('pedeToken').classList.add('hide');
-  $('conteudo').classList.remove('hide');
-  st.modoApi = !!TOKEN;
+function aplicarCupom(){
+  var cod=($('cupom').value||'').trim().toUpperCase();
+  $('mCupom').classList.remove('show');$('okCupom').classList.add('hide');
+  if(!cod){st.cupom=null;st.precoFinal=st.preco;salvarRascunho();return;}
+  if(cod.length!==6){$('mCupom').classList.add('show');return;}
+  var a=null;for(var i=0;i<CUPONS.length;i++){if(CUPONS[i].codigo===cod){a=CUPONS[i];break;}}
+  if(CUPONS.length===0){a={codigo:cod,campanha:'manual',tipo:'valor',desconto:0,status:'ativo'};}
+  if(!a||(a.status&&a.status!=='ativo')){$('mCupom').classList.add('show');return;}
+  st.cupom=a;st.precoFinal=aplicaDesc(st.preco,a);pintaCupom();salvarRascunho();
 }
-document.querySelectorAll('.tp').forEach(function(o){
-  o.onclick=function(){
-    document.querySelectorAll('.tp').forEach(function(x){x.classList.remove('sel');});
-    o.classList.add('sel');
-    st.tipo=o.dataset.tipo; st.prod=o.dataset.prod; st.preco=+o.dataset.preco;
-    st.precoFinal = st.cupom ? aplicaDesconto(st.preco, st.cupom) : st.preco;
-    if(st.cupom) pintaCupom();
-    $('wrapCnpj').classList[st.tipo==='PF'?'add':'remove']('hide');
-  };
-});
-$('cpf').oninput=function(e){e.target.value=maskCPF(e.target.value);};
-$('cnpj').oninput=function(e){e.target.value=maskCNPJ(e.target.value);};
-$('tel').oninput=function(e){e.target.value=maskTel(e.target.value);};
-var ibgeAtual="";
-$('cep').oninput=function(e){
-  e.target.value=maskCEP(e.target.value);
-  if(e.target.value.replace(/\D/g,'').length===8) buscarCep();
-};
-function buscarCep(){
-  var cep=$('cep').value.replace(/\D/g,'');
-  if(cep.length!==8) return;
-  fetch('https://brasilapi.com.br/api/cep/v2/'+cep).then(function(r){return r.json();}).then(function(d){
-    if(d.errors||d.name) throw new Error('cep');
-    if(d.street) $('rua').value=d.street;
-    if(d.neighborhood) $('bairro').value=d.neighborhood;
-    if(d.city) $('cidade').value=d.city;
-    if(d.state) $('uf').value=d.state;
-    if(d.ibge && d.ibge.city) ibgeAtual=String(d.ibge.city);
-    if(!ibgeAtual) buscarIbge();
-  }).catch(function(){ buscarIbge(); });
-}
-function buscarIbge(){
-  var uf=$('uf').value.trim().toUpperCase();
-  var cidade=$('cidade').value.trim();
-  if(uf.length!==2||!cidade) return;
-  fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados/'+uf+'/municipios').then(function(r){return r.json();}).then(function(arr){
-    if(!Array.isArray(arr)) return;
-    var alvo=cidade.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-    for(var i=0;i<arr.length;i++){
-      var n=arr[i].nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-      if(n===alvo){ ibgeAtual=String(arr[i].id); return; }
-    }
-  }).catch(function(){});
-}
-$('cnhfile').onchange=function(e){
-  var f=e.target.files&&e.target.files[0];
-  if(!f) return;
-  st.cnhFile=f; mostrar('mCnh',true);
-  if(f.type.indexOf('image')===0){
-    var r=new FileReader();
-    r.onload=function(ev){$('preview').src=ev.target.result;$('prev').classList.remove('hide');};
-    r.readAsDataURL(f);
-  } else { $('prev').classList.add('hide'); }
-};
-function mostrarSenhaManual(urlW){
-  $('numPedido').textContent='pedido em aberto';
-  [1,2,3,4].forEach(function(i){var s=$('s'+i);if(s)s.classList.remove('on');});
-  ['e1','e2','e3','e4','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
-  $('ok').classList.add('hide'); $('erro').classList.add('hide');
-  $('s1').classList.add('on'); $('s2').classList.add('on');
-  $('eSenha').classList.remove('hide');
-  $('btnZapSenha').textContent='Enviar meu pedido + senha no WhatsApp';
-  $('btnZapSenha').href=urlW;
-  $('avisoSenha').innerHTML='<b style="color:#fff">Envie a mensagem e depois a foto da CNH</b> aqui no WhatsApp. O escritorio confirma o pagamento e libera o agendamento.';
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function mostrarSenha(){
-  $('numPedido').textContent=st.pedidoCriado||'-';
-  $('senhaMostra').textContent=st.senha;
-  [1,2,3,4].forEach(function(i){var s=$('s'+i);if(s)s.classList.remove('on');});
-  ['e1','e2','e3','e4','eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
-  $('ok').classList.add('hide'); $('erro').classList.add('hide');
-  $('s1').classList.add('on'); $('s2').classList.add('on');
-  $('eSenha').classList.remove('hide');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function senhaEnviada(){
-  setTimeout(function(){
-    $('avisoSenha').innerHTML='<b style="color:var(--verde)">Se nao abriu, toque no botao acima novamente.</b>';
-  },1200);
-}
+
 function ir(n){
-  if(n===4 && !st.liberado){ pedirLiberacao(); return; }
-  if(n===2){ if(!validar1()) return; $('resumo').innerHTML=montarResumo(); }
+  if(n===4&&!st.liberado){pedirLiberacao();return;}
+  if(n===2&&!validar1())return;
   [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
   ['eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
-  $('ok').classList.add('hide'); $('erro').classList.add('hide');
+  $('ok').classList.add('hide');$('erro').classList.add('hide');
   $('e'+n).classList.remove('hide');
-  for(var i=1;i<=n;i++) $('s'+i).classList.add('on');
+  for(var i=1;i<=n;i++)$('s'+i).classList.add('on');
+  etapaAtual=n;salvarRascunho();
+  if(n===3)$('resumo').innerHTML=montarResumo();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function validar1(){
   var ok=true;
-  if($('nome').value.trim().split(' ').filter(Boolean).length<2){mostrar('mNome',false);ok=false;}else{mostrar('mNome',true);}
-  if(!validaCPF($('cpf').value)){mostrar('mCpf',false);ok=false;}else{mostrar('mCpf',true);}
-  if($('tel').value.replace(/\D/g,'').length<10){mostrar('mTel',false);ok=false;}else{mostrar('mTel',true);}
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value)){mostrar('mEmail',false);ok=false;}else{mostrar('mEmail',true);}
-  if(st.tipo==='PJ'){ if(!validaCNPJ($('cnpj').value)){mostrar('mCnpj',false);ok=false;}else{mostrar('mCnpj',true);} }
-  if($('cep').value.replace(/\D/g,'').length!==8){mostrar('mCep',false);ok=false;}else{mostrar('mCep',true);}
-  if(!$('cidade').value.trim()){mostrar('mCidade',false);ok=false;}else{mostrar('mCidade',true);}
-  if(!$('rua').value.trim()){mostrar('mRua',false);ok=false;}else{mostrar('mRua',true);}
-  if(!$('num').value.trim()){mostrar('mNum',false);ok=false;}else{mostrar('mNum',true);}
-  if(!$('bairro').value.trim()){mostrar('mBairro',false);ok=false;}else{mostrar('mBairro',true);}
-  if($('uf').value.trim().length!==2){mostrar('mUf',false);ok=false;}else{mostrar('mUf',true);}
-  if(!senhaForte($('senha').value)){mostrar('mSenha',false);ok=false;}else{mostrar('mSenha',true);}
-  if(!ok) window.scrollTo({top:0,behavior:'smooth'});
+  if($('nome').value.trim().split(' ').filter(Boolean).length<2){mostrar('mNome',false);ok=false;}else mostrar('mNome',true);
+  if(!validaCPF($('cpf').value)){mostrar('mCpf',false);ok=false;}else mostrar('mCpf',true);
+  if(digitos($('tel').value).length<10){mostrar('mTel',false);ok=false;}else mostrar('mTel',true);
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value)){mostrar('mEmail',false);ok=false;}else mostrar('mEmail',true);
+  if(st.tipo==='PJ'){if(!validaCNPJ($('cnpj').value)){mostrar('mCnpj',false);ok=false;}else mostrar('mCnpj',true);}
+  if(digitos($('cep').value).length!==8){mostrar('mCep',false);ok=false;}else mostrar('mCep',true);
+  if(!$('cidade').value.trim()){mostrar('mCidade',false);ok=false;}else mostrar('mCidade',true);
+  if(!$('rua').value.trim()){mostrar('mRua',false);ok=false;}else mostrar('mRua',true);
+  if(!$('num').value.trim()){mostrar('mNum',false);ok=false;}else mostrar('mNum',true);
+  if(!$('bairro').value.trim()){mostrar('mBairro',false);ok=false;}else mostrar('mBairro',true);
+  if($('uf').value.trim().length!==2){mostrar('mUf',false);ok=false;}else mostrar('mUf',true);
+  if(!senhaForte($('senha').value)){mostrar('mSenha',false);ok=false;}else mostrar('mSenha',true);
+  if(!ok)window.scrollTo({top:0,behavior:'smooth'});
   return ok;
 }
 function montarResumo(){
-  var html='<div class="l"><span>Produto</span><span>Certificado A1 '+st.tipo+'</span></div>'
-    +'<div class="l"><span>Titular</span><span>'+$('nome').value.trim()+'</span></div>'
-    +'<div class="l"><span>CPF/CNPJ</span><span>'+(st.tipo==='PJ'?$('cnpj').value:$('cpf').value)+'</span></div>'
-    +'<div class="l"><span>Cidade</span><span>'+$('cidade').value+' / '+$('uf').value.toUpperCase()+'</span></div>';
-  if(st.cupom && st.precoFinal<st.preco){
-    html+='<div class="l"><span>Subtotal</span><span>'+precoFmt(st.preco)+'</span></div>'
-      +'<div class="l"><span>Cupom '+st.cupom.codigo+'</span><span style="color:var(--verde)">- '+precoFmt(st.preco-st.precoFinal)+'</span></div>';
+  var doc=st.tipo==='PJ'?$('cnpj').value:$('cpf').value;
+  var h='<div class="l"><span>Produto</span><span>Certificado A1 '+st.tipo+'</span></div>'
+   +'<div class="l"><span>Titular</span><span>'+($('nome').value.trim()||'-')+'</span></div>'
+   +'<div class="l"><span>CPF/CNPJ</span><span>'+(doc||'-')+'</span></div>';
+  if($('cidade').value)h+='<div class="l"><span>Cidade</span><span>'+$('cidade').value+' / '+$('uf').value.toUpperCase()+'</span></div>';
+  if(st.cupom&&st.precoFinal<st.preco){
+    h+='<div class="l"><span>Subtotal</span><span>'+precoFmt(st.preco)+'</span></div>'
+     +'<div class="l"><span>Cupom '+st.cupom.codigo+'</span><span style="color:var(--ver)">- '+precoFmt(st.preco-st.precoFinal)+'</span></div>';
   }
-  html+='<div class="l"><span>Total</span><span>'+precoFmt(st.precoFinal)+'</span></div>';
-  return html;
+  h+='<div class="l"><span>Total</span><span>'+precoFmt(st.precoFinal)+'</span></div>';
+  return h;
 }
+
 function enviarCnh(){
   if(!st.cnhFile){mostrar('mCnh',false);$('cnhfile').scrollIntoView({block:'center'});return;}
-  var btn=document.querySelector('#e2 .btn');
-  btn.disabled=true; btn.innerHTML='<span class="spin"></span>Enviando...';
-  var cep=$('cep').value.replace(/\D/g,'');
-  var tel=$('tel').value.replace(/\D/g,'');
+  var btn=document.querySelector('#e2 .btn');btn.disabled=true;btn.innerHTML='<span class="spin"></span>Enviando...';
+  var cep=digitos($('cep').value),tel=digitos($('tel').value);
+  st.telFmt=$('tel').value;st.email=$('email').value.trim();st.senha=$('senha').value;
+  st.docFmt=(st.tipo==='PJ'?$('cnpj').value:$('cpf').value);st.docDigits=digitos(st.docFmt);
 
-  /* ---- MODO MANUAL: sem chave de API, envia o pedido no WhatsApp ---- */
   if(!st.modoApi){
-    btn.disabled=false; btn.textContent='Continuar';
-    st.telDigits='55'+tel;
-    st.telFmt=$('tel').value;
-    st.email=$('email').value.trim();
-    st.senha=$('senha').value;
-    st.docFmt=(st.tipo==='PJ'?$('cnpj').value:$('cpf').value);
-    var lin=[
-      '*NOVO PEDIDO DE CERTIFICADO A1*','',
+    btn.disabled=false;btn.textContent='Continuar';
+    var lin=['*NOVO PEDIDO DE CERTIFICADO A1*','',
       '*Tipo:* '+st.tipo+' - '+precoFmt(st.precoFinal),
       (st.tipo==='PJ'?'*CNPJ:* '+$('cnpj').value:'*CPF:* '+$('cpf').value),
-      '*Nome:* '+$('nome').value.trim(),
-      '*Celular:* '+$('tel').value,
+      '*Nome:* '+$('nome').value.trim(),'*Celular:* '+$('tel').value,
       '*E-mail:* '+$('email').value.trim(),
       '*Endereco:* '+$('rua').value.trim()+', '+$('num').value.trim()+' - '+$('bairro').value.trim(),
       '*Cidade:* '+$('cidade').value.trim()+' / '+$('uf').value.toUpperCase()+' - CEP '+$('cep').value,
-      '*Senha criada:* '+$('senha').value,
-      (st.cupom?'*Cupom:* '+st.cupom.codigo:''),
-      '',
-      'Estou enviando a CNH agora.'
-    ].filter(Boolean);
+      '*Senha criada:* '+$('senha').value,(st.cupom?'*Cupom:* '+st.cupom.codigo:''),'',
+      'Estou enviando a CNH agora.'].filter(Boolean);
     var urlW='https://wa.me/'+WA+'?text='+encodeURIComponent(lin.join('\n'));
     $('numPedido').textContent='pedido em aberto';
     $('senhaMostra').textContent=$('senha').value;
-    mostrarSenhaManual(urlW);
+    $('btnZapSenha').textContent='Enviar meu pedido + senha no WhatsApp';
+    $('btnZapSenha').href=urlW;
+    $('avisoSenha').innerHTML='<b style="color:#fff">Envie a mensagem e depois a foto da CNH</b> no WhatsApp. Conferimos o pagamento e liberamos o agendamento.';
+    [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
+    $('s1').classList.add('on');$('s2').classList.add('on');
+    $('eSenha').classList.remove('hide');
+    etapaAtual=2;salvarRascunho();
+    window.scrollTo({top:0,behavior:'smooth'});
     return;
   }
 
-  if(!ibgeAtual){ btn.disabled=false; btn.textContent='Continuar'; alert('Preencha o CEP para localizarmos sua cidade.'); buscarCep(); return; }
-  var body={
-    venda:{tipo_lancamento_id:7,tabela_id:TABELA,produto_id:st.prod,valor_total:CUSTO,cupom:st.cupom?st.cupom.codigo:null},
-    certificado:{
-      nome:$('nome').value.trim(),
-      documento:(st.tipo==='PJ'?$('cnpj').value:$('cpf').value).replace(/\D/g,''),
-      documento_tipo:st.tipo==='PJ'?'CNPJ':'CPF',
-      emails:[$('email').value.trim()],
+  var ibge=$('uf').dataset.ibge||'';
+  var body={venda:{tipo_lancamento_id:7,tabela_id:TABELA,produto_id:st.prod,valor_total:CUSTO,cupom:st.cupom?st.cupom.codigo:null},
+    certificado:{nome:$('nome').value.trim(),documento:digitos(st.docFmt),
+      documento_tipo:st.tipo==='PJ'?'CNPJ':'CPF',emails:[$('email').value.trim()],
       celular:{numero:tel.slice(2),codigo_area:tel.slice(0,2)},
-      endereco:{cep:cep,uf:$('uf').value.toUpperCase(),municipio:$('cidade').value.trim(),codigo_ibge:ibgeAtual,logradouro:$('rua').value.trim(),numero:$('num').value.trim(),bairro:$('bairro').value.trim()}
-    }
-  };
+      endereco:{cep:cep,uf:$('uf').value.toUpperCase(),municipio:$('cidade').value.trim(),
+        codigo_ibge:ibge,logradouro:$('rua').value.trim(),numero:$('num').value.trim(),bairro:$('bairro').value.trim()}}};
+
   api('/vendas',{method:'POST',body:JSON.stringify(body)}).then(function(r){
-    if(!r.ok){ btn.disabled=false; btn.textContent='Continuar'; falhar('Nao conseguimos registrar seu pedido: '+JSON.stringify(r.data).slice(0,200)); return; }
-    st.uuid=r.data.data.uuid;
-    st.senha=$('senha').value;
-    st.telDigits='55'+tel;
-    st.telFmt=$('tel').value;
-    st.email=$('email').value.trim();
-    st.docFmt=(st.tipo==='PJ'?$('cnpj').value:$('cpf').value);
-    st.pedidoCriado=r.data.data.id||r.data.data.pedido;
+    if(!r.ok){btn.disabled=false;btn.textContent='Continuar';falhar('Erro: '+JSON.stringify(r.data).slice(0,200));return;}
+    st.uuid=r.data.data.uuid;st.pedidoCriado=r.data.data.id||r.data.data.pedido;
     return api('/vendas/'+st.uuid+'/senha',{method:'POST',body:JSON.stringify({senha:$('senha').value})}).then(function(s){
-      if(!s.ok){ btn.disabled=false; btn.textContent='Continuar'; falhar('Pedido criado, mas a senha foi recusada.'); return; }
-      var fd=new FormData(); fd.append('files[]',st.cnhFile);
+      if(!s.ok){btn.disabled=false;btn.textContent='Continuar';falhar('Senha recusada.');return;}
+      var fd=new FormData();fd.append('files[]',st.cnhFile);
       return api('/vendas/'+st.uuid+'/documentos',{method:'POST',body:fd}).then(function(d){
-        btn.disabled=false; btn.textContent='Continuar';
-        if(!d.ok){ falhar('Pedido e senha ok, mas a CNH falhou: '+JSON.stringify(d.data).slice(0,200)); return; }
-        var msgS='*SEU CERTIFICADO DIGITAL - CGE EMITTA*\n\n'
-          +'Pedido: *#'+st.pedidoCriado+'*\n'
-          +'Titular: '+$('nome').value.trim()+'\n'
-          +'Certificado: '+st.tipo+' - '+precoFmt(st.precoFinal)+(st.cupom?'  (cupom '+st.cupom.codigo+')':'')+'\n\n'
-          +'*SUA SENHA DO CERTIFICADO:*\n'+$('senha').value+'\n\n'
-          +'Anote e guarde. Sera pedida na instalacao.\n'
-          +'Se perder, sera necessario comprar outro certificado.';
-        var link='https://wa.me/55'+tel+'?text='+encodeURIComponent(msgS);
-        $('btnZapSenha').href=link;
-        mostrarSenha();
+        btn.disabled=false;btn.textContent='Continuar';
+        if(!d.ok){falhar('CNH falhou: '+JSON.stringify(d.data).slice(0,180));return;}
+        var msg='*SEU CERTIFICADO DIGITAL - CGE EMITTA*\n\nPedido: *#'+st.pedidoCriado+'*\nTitular: '+$('nome').value.trim()+
+          '\nCertificado: '+st.tipo+' - '+precoFmt(st.precoFinal)+'\n\n*SUA SENHA:*\n'+$('senha').value+
+          '\n\nAnote e guarde. Sera pedida na instalacao.';
+        $('btnZapSenha').href='https://wa.me/55'+tel+'?text='+encodeURIComponent(msg);
+        $('numPedido').textContent='#'+st.pedidoCriado;
+        $('senhaMostra').textContent=st.senha;
+        [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
+        $('s1').classList.add('on');$('s2').classList.add('on');
+        $('eSenha').classList.remove('hide');
+        etapaAtual=2;salvarRascunho();
+        window.scrollTo({top:0,behavior:'smooth'});
       });
     });
-  }).catch(function(e){ btn.disabled=false; btn.textContent='Continuar'; falhar('Falha de conexao: '+e.message); });
+  }).catch(function(e){btn.disabled=false;btn.textContent='Continuar';falhar('Falha: '+e.message);});
 }
 function falhar(msg){
   $('erroTxt').textContent=msg;
   ['e1','e2','e3','e4','eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
-  $('erro').classList.remove('hide');
-  window.scrollTo({top:0,behavior:'smooth'});
+  $('erro').classList.remove('hide');window.scrollTo({top:0,behavior:'smooth'});
 }
 function copiarPix(){
-  function run(){var b=document.querySelector('.copy'),t=b.textContent;b.textContent='Copiado!';setTimeout(function(){b.textContent=t;},1800);}
+  function run(){var b=document.querySelector('.copy'),t=b.textContent;b.textContent='Copiado!';setTimeout(function(){b.textContent=t;},1600);}
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(PIX).then(run,run);}
   else{var ta=document.createElement('textarea');ta.value=PIX;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);run();}
 }
 
 var LIBERACOES=[];
-function carregaLiberacoes(){
-  return fetch('liberacoes.json?t='+Date.now())
-    .then(function(r){ return r.ok ? r.json() : {liberados:[]}; })
-    .then(function(j){ LIBERACOES=(j.liberados||[]); return LIBERACOES; })
-    .catch(function(){ LIBERACOES=[]; return LIBERACOES; });
+function carregaLib(){
+  return fetch('liberacoes.json?t='+Date.now()).then(function(r){return r.ok?r.json():{liberados:[]};})
+    .then(function(j){LIBERACOES=(j.liberados||[]);return LIBERACOES;}).catch(function(){LIBERACOES=[];return LIBERACOES;});
 }
 function pedirLiberacao(){
-  if(!document.getElementById('pagou').checked){ alert('Marque que ja fez o PIX.'); return; }
-  var msg='Ola! Fiz o PIX do pedido *#'+(st.pedidoCriado||'-')+'*.\n'
-    +'Certificado A1 '+st.tipo+' - '+precoFmt(st.precoFinal)+'\n\n'
-    +'Estou enviando o comprovante agora. Aguardo a confirmacao para agendar a videoconferencia.';
-  document.getElementById('btnZapComp').href='https://wa.me/'+WA+'?text='+encodeURIComponent(msg);
+  if(!$('pagou').checked){alert('Marque que ja fez o PIX.');return;}
+  var msg='Ola! Fiz o PIX'+(st.pedidoCriado?' do pedido *#'+st.pedidoCriado+'*':'')+'.\nCertificado A1 '+st.tipo+' - '+precoFmt(st.precoFinal)+'\n\nEnviando o comprovante agora.';
+  $('btnZapComp').href='https://wa.me/'+WA+'?text='+encodeURIComponent(msg);
   [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
   ['eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
-  $('ok').classList.add('hide'); $('erro').classList.add('hide');
-  $('s1').classList.add('on'); $('s2').classList.add('on'); $('s3').classList.add('on');
-  $('textoTrava').innerHTML='Enviamos o seu comprovante para conferencia. Assim que o PIX do pedido <b style="color:#fff">#'+(st.pedidoCriado||'-')+'</b> for confirmado, voce recebe <b style="color:#fff">no WhatsApp um codigo de liberacao</b>.';
-  $('eTrava').classList.remove('hide');
+  $('s1').classList.add('on');$('s2').classList.add('on');$('s3').classList.add('on');
+  $('textoTrava').innerHTML='Enviamos seu comprovante para conferencia. Confirmado o PIX'+(st.pedidoCriado?' do pedido <b style="color:#fff">#'+st.pedidoCriado+'</b>':'')+', voce recebe <b style="color:#fff">no WhatsApp o codigo de liberacao</b>.';
+  $('eTrava').classList.remove('hide');etapaAtual=3;salvarRascunho();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function validarLiberacao(){
-  var cod=(document.getElementById('codLib').value||'').trim().toUpperCase();
-  var m=document.getElementById('mCod');
+  var cod=($('codLib').value||'').trim().toUpperCase(),m=$('mCod');
   m.classList.remove('show');
-  if(cod.length!==6){ m.classList.add('show'); return; }
-  carregaLiberacoes().then(function(lista){
-    var ok=null;
-    for(var i=0;i<lista.length;i++){ if(String(lista[i].codigo)===cod){ ok=lista[i]; break; } }
-    if(!ok){ m.textContent='Codigo invalido para este pedido.'; m.classList.add('show'); return; }
-    if(String(ok.pedido)!==String(st.pedidoCriado)){
-      m.textContent='Esse codigo e do pedido #'+ok.pedido+', nao do #'+(st.pedidoCriado||'-')+'.';
-      m.classList.add('show'); return;
-    }
+  if(cod.length!==6){m.classList.add('show');return;}
+  carregaLib().then(function(l){
+    var ok=null;for(var i=0;i<l.length;i++){if(String(l[i].codigo)===cod){ok=l[i];break;}}
+    if(!ok){m.textContent='Codigo invalido.';m.classList.add('show');return;}
+    if(st.pedidoCriado&&String(ok.pedido)!==String(st.pedidoCriado)){m.textContent='Esse codigo e do pedido #'+ok.pedido+'.';m.classList.add('show');return;}
     st.liberado=true;
-    ir(4); carregarDias();
+    if(!st.pedidoCriado)st.pedidoCriado=ok.pedido;
+    if(!st.uuid&&ok.uuid)st.uuid=ok.uuid;
+    salvarRascunho();
+    ir(4);carregarDias();
   });
 }
 
-function irPara4(){
-  if(!st.modoApi){
-    alert('Seu pedido esta em conferencia pelo escritorio.\nAssim que o pagamento for confirmado, voce recebe o codigo de liberacao.');
-    return;
-  }
-  ir(4); carregarDias();
-}
 function carregarDias(){
-  var box=$('boxDias'); box.innerHTML='';
-  var hoje=new Date();
-  var nomes=['dom','seg','ter','qua','qui','sex','sab'];
+  var box=$('boxDias');box.innerHTML='';
+  var hoje=new Date(),nomes=['dom','seg','ter','qua','qui','sex','sab'];
   for(var i=1;i<=16;i++){
-    var d=new Date(hoje.getTime()+i*86400000);
-    var dw=d.getDay();
-    if(dw===0) continue;
+    var d=new Date(hoje.getTime()+i*86400000),dw=d.getDay();
+    if(dw===0)continue;
     var iso=d.toISOString().slice(0,10);
-    var el=document.createElement('div');
-    el.className='dia';
+    var el=document.createElement('div');el.className='dia';
     el.innerHTML='<div class="dw">'+nomes[dw]+'</div><div>'+String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'</div>';
     el.dataset.iso=iso;
-    el.onclick=function(){
-      document.querySelectorAll('.dia').forEach(function(x){x.classList.remove('sel');});
-      this.classList.add('sel'); st.dia=this.dataset.iso; carregarHoras(st.dia);
-    };
+    el.onclick=function(){document.querySelectorAll('.dia').forEach(function(x){x.classList.remove('sel');});this.classList.add('sel');st.dia=this.dataset.iso;carregarHoras(st.dia);};
     box.appendChild(el);
   }
   $('hintDias').textContent='Escolha um dia:';
+  if(!st.modoApi||!st.uuid){
+    $('hintDias').innerHTML='<b style="color:#fff">Seu agendamento e feito pelo escritorio.</b><br><span style="font-size:12px">Envie o comprovante no WhatsApp que reservamos seu horario.</span>';
+  }
 }
 function carregarHoras(iso){
-  $('hintDias').textContent='Carregando horarios de '+iso.split('-').reverse().join('/')+'...';
-  $('boxHoras').classList.add('hide'); $('horas').innerHTML=''; $('btnAgendar').disabled=true; st.hora=null;
+  if(!st.uuid||!st.modoApi)return;
+  $('hintDias').textContent='Carregando '+iso.split('-').reverse().join('/')+'...';
+  $('boxHoras').classList.add('hide');$('horas').innerHTML='';$('btnAgendar').disabled=true;st.hora=null;
   api('/vendas/'+st.uuid+'/agenda/horarios-disponiveis?date='+iso).then(function(r){
-    var box=$('horas'); box.innerHTML='';
-    if(!r.ok || !r.data.data || !r.data.data.length){
-      $('hintDias').textContent='Sem horario neste dia. Escolha outro.';
-      $('boxHoras').classList.remove('hide'); return;
-    }
+    var box=$('horas');box.innerHTML='';
+    if(!r.ok||!r.data.data||!r.data.data.length){
+      $('hintDias').textContent='Sem horario neste dia. Escolha outro.';$('boxHoras').classList.remove('hide');return;}
     $('hintDias').textContent='Escolha o dia:';
     r.data.data.forEach(function(h){
-      var el=document.createElement('div');
-      el.className='hora'; el.textContent=h;
+      var el=document.createElement('div');el.className='hora';el.textContent=h;
       el.onclick=function(){document.querySelectorAll('.hora').forEach(function(x){x.classList.remove('sel');});this.classList.add('sel');st.hora=h;$('btnAgendar').disabled=false;};
       box.appendChild(el);
     });
@@ -634,42 +573,78 @@ function carregarHoras(iso){
   }).catch(function(){$('hintDias').textContent='Erro ao carregar horarios.';});
 }
 function agendar(){
-  if(!st.dia||!st.hora) return;
-  var b=$('btnAgendar'); b.disabled=true; b.innerHTML='<span class="spin"></span>Agendando...';
+  if(!st.dia||!st.hora)return;
+  var b=$('btnAgendar');b.disabled=true;b.innerHTML='<span class="spin"></span>Agendando...';
   api('/vendas/'+st.uuid+'/agenda',{method:'POST',body:JSON.stringify({date:st.dia+' '+st.hora})}).then(function(r){
-    b.disabled=false; b.textContent='Confirmar agendamento';
-    if(!r.ok){ falhar('Nao foi possivel agendar: '+JSON.stringify(r.data).slice(0,200)); return; }
-    var d=r.data.data;
+    b.disabled=false;b.textContent='Confirmar agendamento';
+    if(!r.ok){falhar('Nao foi possivel agendar: '+JSON.stringify(r.data).slice(0,180));return;}
+    var d=r.data.data,dataBR=st.dia.split('-').reverse().join('/')+' as '+st.hora;
     $('resumoFinal').innerHTML='<div class="l"><span>Pedido</span><span>#'+d.venda_id+'</span></div>'
       +'<div class="l"><span>Titular</span><span>'+d.cliente+'</span></div>'
       +'<div class="l"><span>Certificado</span><span>'+d.produto+'</span></div>'
-      +'<div class="l"><span>Data e hora</span><span>'+st.dia.split('-').reverse().join('/')+' as '+st.hora+'</span></div>'
-      +'<div class="l"><span>Atendente</span><span>'+d.agente+'</span></div>'
-      +'<div class="l"><span>Total</span><span>'+precoFmt(st.precoFinal)+'</span></div>';
-    var dataBR=st.dia.split('-').reverse().join('/')+' as '+st.hora;
-    st.pedido=d.venda_id; st.salaLink=d.link;
+      +'<div class="l"><span>Data e hora</span><span>'+dataBR+'</span></div>'
+      +'<div class="l"><span>Atendente</span><span>'+d.agente+'</span></div>';
     $('sala').href=d.link;
-    var msgComp='Ola! Pedido *#'+d.venda_id+'* agendado para '+dataBR+'.\nCertificado '+d.produto+' ('+st.tipo+') - '+precoFmt(st.precoFinal)+'\n\nEnviando o comprovante do PIX.';
-    $('zapCliente').href='https://wa.me/'+WA+'?text='+encodeURIComponent(msgComp);
-    var msgH='*AGENDAMENTO CONFIRMADO - PEDIDO* #'+d.venda_id+'\n\n'
-      +'*Cliente:* '+d.cliente+'\n'
-      +'*CPF/CNPJ:* '+st.docFmt+'\n'
-      +'*Celular:* '+st.telFmt+'\n'
-      +'*Produto:* '+d.produto+' ('+st.tipo+')\n'
-      +'*Valor cobrado:* '+precoFmt(st.precoFinal)+'\n'
-      +(st.cupom?'*Cupom:* '+st.cupom.codigo+'\n':'')
-      +'*Videoconferencia:* '+dataBR+'\n'
-      +'*Atendente:* '+d.agente+'\n\n'
-      +'*Senha do cliente:* '+st.senha+'\n\n'
-      +'Sala: '+d.link;
-    window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msgH),'_blank');
+    window.open('https://wa.me/'+WA+'?text='+encodeURIComponent('*AGENDAMENTO CONFIRMADO* #'+d.venda_id+'\n\nCliente: '+d.cliente+'\nProduto: '+d.produto+'\nQuando: '+dataBR+'\nAtendente: '+d.agente+'\n\nSala: '+d.link),'_blank');
     ['e1','e2','e3','e4','eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
     $('ok').classList.remove('hide');
-    for(var i=1;i<=4;i++) $('s'+i).classList.add('on');
+    for(var i=1;i<=4;i++)$('s'+i).classList.add('on');
+    localStorage.removeItem(DRAFT);
     window.scrollTo({top:0,behavior:'smooth'});
-  }).catch(function(e){ b.disabled=false; b.textContent='Confirmar agendamento'; falhar('Erro de conexao: '+e.message); });
+  }).catch(function(e){b.disabled=false;b.textContent='Confirmar agendamento';falhar('Erro: '+e.message);});
 }
-checarToken();
+
+function modoEscritorio(){
+  var atual=TOKEN||'';
+  var t=prompt('Chave de acesso do CertControl (vazio = sair do modo escritorio):', atual);
+  if(t===null)return;
+  if(t.trim()===''){localStorage.removeItem('cge_cc_token');location.reload();return;}
+  localStorage.setItem('cge_cc_token',t.trim());
+  location.reload();
+}
+
+document.querySelectorAll('.tp').forEach(function(o){
+  o.onclick=function(){
+    document.querySelectorAll('.tp').forEach(function(x){x.classList.remove('sel');});
+    o.classList.add('sel');
+    st.tipo=o.dataset.tipo;st.prod=o.dataset.prod;st.preco=+o.dataset.preco;
+    st.precoFinal=st.cupom?aplicaDesc(st.preco,st.cupom):st.preco;
+    if(st.cupom)pintaCupom();
+    $('wrapCnpj').classList[st.tipo==='PF'?'add':'remove']('hide');
+    salvarRascunho();
+  };
+});
+$('cpf').oninput=function(e){e.target.value=maskCPF(e.target.value);};
+$('cnpj').oninput=function(e){e.target.value=maskCNPJ(e.target.value);};
+$('tel').oninput=function(e){e.target.value=maskTel(e.target.value);};
+$('cep').oninput=function(e){
+  e.target.value=maskCEP(e.target.value);
+  if(digitos(e.target.value).length===8)buscarCep(digitos(e.target.value));
+};
+function buscarCep(cep){
+  fetch('https://brasilapi.com.br/api/cep/v2/'+cep).then(function(r){return r.json();}).then(function(d){
+    if(d.errors||d.name)return;
+    if(d.street)$('rua').value=d.street;
+    if(d.neighborhood)$('bairro').value=d.neighborhood;
+    if(d.city)$('cidade').value=d.city;
+    if(d.state)$('uf').value=d.state;
+    if(d.ibge&&d.ibge.city)$('uf').dataset.ibge=String(d.ibge.city);
+    salvarRascunho();
+  }).catch(function(){});
+}
+$('cnhfile').onchange=function(e){
+  var f=e.target.files&&e.target.files[0];if(!f)return;
+  st.cnhFile=f;mostrar('mCnh',true);
+  if(f.type.indexOf('image')===0){
+    var r=new FileReader();
+    r.onload=function(ev){$('preview').src=ev.target.result;$('prev').classList.remove('hide');};
+    r.readAsDataURL(f);
+  }else $('prev').classList.add('hide');
+};
+
+st.modoApi=!!TOKEN;
+ligaAutoSave();
+mostraAvisoRascunho();
 </script>
 </body>
 </html>
