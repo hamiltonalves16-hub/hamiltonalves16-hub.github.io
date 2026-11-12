@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Certificado Digital A1 — CGE EMITTA</title>
-<meta name="description" content="Certificado Digital A1 por videoconferencia. PF R$ 160, PJ R$ 190. Pedidos 24 horas.">
+<meta name="description" content="Certificado Digital A1 por videoconferencia. PF R$ 160, PJ R$ 190.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -94,11 +94,11 @@ input:focus{border-color:var(--dourado)}
 <div class="wrap nav">
 <a href="index.html" class="brand"><span class="cge">CGE</span><span class="sis">SISTEMAS</span></a>
 <div>
-<a href="index.html#servicos">Serviços</a>
+<a href="index.html#servicos">Servicos</a>
 <a href="index.html#precos">Planos</a>
 <a href="certificado.html" style="color:var(--amarelo)">Certificado</a>
-<a href="index.html#parceiros">Seja Parceiro</a>
-<a href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site%20CGECONTABIL" class="cta">Falar no WhatsApp</a>
+<a href="vendas.html">Painel</a>
+<a href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Vim%20do%20site" class="cta">WhatsApp</a>
 </div>
 </div>
 </header>
@@ -106,8 +106,8 @@ input:focus{border-color:var(--dourado)}
 <div id="pedeToken" class="hide">
 <div class="card">
 <h2>Chave de acesso</h2>
-<p class="hint">Cole a chave de integracao do CertControl para ativar o sistema neste aparelho. Ela fica salva so no seu navegador.</p>
-<div class="f"><label>Chave</label><input type="text" id="tokIn" placeholder="eyJ0eXAiOiJKV1Qi..."><div class="msg" id="mTok">Chave invalida ou sem permissao.</div></div>
+<p class="hint">Cole a chave de integracao do CertControl para ativar o sistema neste aparelho.</p>
+<div class="f"><label>Chave</label><input type="text" id="tokIn" placeholder="eyJ0eXAiOiJKV1Qi..."><div class="msg" id="mTok">Chave invalida.</div></div>
 <button class="btn" onclick="salvarToken()">Ativar sistema</button>
 </div>
 </div>
@@ -115,7 +115,7 @@ input:focus{border-color:var(--dourado)}
 <h1>Certificado Digital <span>A1</span></h1>
 <p class="lead">Por videoconferencia. <b style="color:var(--amarelo)">Pedidos 24 horas.</b></p>
 <div class="steps"><div class="on" id="s1"></div><div id="s2"></div><div id="s3"></div><div id="s4"></div></div>
-<div class="stepslbl"><span>1 · Dados</span><span>2 · CNH</span><span>3 · Pagamento</span><span>4 · Agendar</span></div>
+<div class="stepslbl"><span>1 Dados</span><span>2 CNH</span><span>3 Pagamento</span><span>4 Agendar</span></div>
 <div id="e1">
 <div class="card">
 <h2><span class="n">1</span>Seus dados</h2>
@@ -132,18 +132,18 @@ input:focus{border-color:var(--dourado)}
 <div class="f hide" id="wrapCnpj"><label>CNPJ <span class="req">*</span></label><input type="text" id="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18"><div class="msg" id="mCnpj">CNPJ invalido.</div></div>
 <div class="row">
 <div class="f"><label>CEP <span class="req">*</span></label><input type="text" id="cep" placeholder="00000-000" inputmode="numeric" maxlength="9"><div class="msg" id="mCep">CEP invalido.</div></div>
-<div class="f"><label>Cidade <span class="req">*</span></label><input type="text" id="cidade" placeholder="Preenchido pelo CEP"><div class="msg" id="mCidade">Informe a cidade.</div></div>
+<div class="f"><label>Cidade <span class="req">*</span></label><input type="text" id="cidade" placeholder="Pelo CEP"><div class="msg" id="mCidade">Informe a cidade.</div></div>
 </div>
 <div class="row">
-<div class="f"><label>Rua / Logradouro <span class="req">*</span></label><input type="text" id="rua" placeholder="Preenchido pelo CEP"><div class="msg" id="mRua">Informe a rua.</div></div>
+<div class="f"><label>Rua <span class="req">*</span></label><input type="text" id="rua" placeholder="Pelo CEP"><div class="msg" id="mRua">Informe a rua.</div></div>
 <div class="f"><label>Numero <span class="req">*</span></label><input type="text" id="num" placeholder="123"><div class="msg" id="mNum">Informe o numero.</div></div>
 </div>
 <div class="row">
-<div class="f"><label>Bairro <span class="req">*</span></label><input type="text" id="bairro" placeholder="Preenchido pelo CEP"><div class="msg" id="mBairro">Informe o bairro.</div></div>
+<div class="f"><label>Bairro <span class="req">*</span></label><input type="text" id="bairro" placeholder="Pelo CEP"><div class="msg" id="mBairro">Informe o bairro.</div></div>
 <div class="f"><label>UF <span class="req">*</span></label><input type="text" id="uf" placeholder="RO" maxlength="2" style="text-transform:uppercase"><div class="msg" id="mUf">Informe a UF.</div></div>
 </div>
-<div class="f"><label>Senha do certificado <span class="req">*</span></label><input type="text" id="senha" placeholder="Minimo 8 caracteres, com maiuscula, numero e simbolo"><div class="msg" id="mSenha">Senha fraca: use 8+ caracteres, com maiuscula, numero e simbolo.</div>
-<div class="okbox" style="margin-top:8px;margin-bottom:0"><b>Anote esta senha!</b> Ela sera usada para instalar o certificado. Se perder, precisara comprar outro. Tambem enviaremos por WhatsApp.</div>
+<div class="f"><label>Senha do certificado <span class="req">*</span></label><input type="text" id="senha" placeholder="8+ caracteres, maiuscula, numero e simbolo"><div class="msg" id="mSenha">Senha fraca.</div>
+<div class="okbox" style="margin-top:8px;margin-bottom:0"><b>Anote esta senha!</b> Sera usada para instalar o certificado. Enviaremos tambem por WhatsApp.</div>
 </div>
 </div>
 <button class="btn" onclick="ir(2)">Continuar</button>
@@ -151,7 +151,7 @@ input:focus{border-color:var(--dourado)}
 <div id="e2" class="hide">
 <div class="card">
 <h2><span class="n">2</span>Foto da CNH</h2>
-<div class="warn"><b>CNH valida e obrigatoria.</b><br>Na videoconferencia seu rosto e comparado com a foto da CNH emitida pelo Detran.</div>
+<div class="warn"><b>CNH valida e obrigatoria.</b><br>Na videoconferencia seu rosto e comparado com a foto da CNH.</div>
 <div class="f">
 <label>Anexe a CNH - frente e verso (JPG, PNG ou PDF) <span class="req">*</span></label>
 <input type="file" id="cnhfile" accept="image/*,application/pdf" class="arq">
@@ -161,6 +161,21 @@ input:focus{border-color:var(--dourado)}
 </div>
 <button class="btn" onclick="enviarCnh()">Continuar</button>
 <button class="btn ghost" onclick="ir(1)">Voltar</button>
+</div>
+<div id="eSenha" class="hide">
+<div class="card" style="text-align:center">
+<div class="big" style="background:rgba(202,152,59,.15);border-color:rgba(202,152,59,.6);color:var(--amarelo)">&#128273;</div>
+<h2 style="text-align:center">Pedido #<span id="numPedido">-</span> criado!</h2>
+<p class="hint" style="text-align:center">Agora envie para o seu WhatsApp a <b style="color:#fff">senha do certificado</b>. Voce vai precisar dela na instalacao.</p>
+<div class="okbox" style="text-align:left">
+<b>Sua senha:</b><br>
+<span id="senhaMostra" style="font-family:var(--display);font-size:20px;color:#fff;letter-spacing:1px">-</span><br>
+<span style="font-size:12px;color:var(--verde)">Anote tambem no papel. Se perder, sera preciso comprar outro certificado.</span>
+</div>
+<a class="btn" id="btnZapSenha" href="#" target="_blank" rel="noopener" onclick="senhaEnviada()">Enviar minha senha no WhatsApp</a>
+<p class="hint" style="text-align:center;margin:10px 0 0;font-size:12px" id="avisoSenha">O WhatsApp vai abrir com a mensagem pronta. Toque em enviar.</p>
+<button class="btn ghost" onclick="ir(3)">Ja enviei / continuar</button>
+</div>
 </div>
 <div id="e3" class="hide">
 <div class="card">
@@ -175,7 +190,7 @@ input:focus{border-color:var(--dourado)}
 <label style="display:flex;gap:10px;align-items:center;padding:13px 15px;background:rgba(202,152,59,.07);border:1px solid rgba(202,152,59,.35);border-radius:12px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="pagou" style="width:19px;height:19px;accent-color:var(--amarelo)"><span>Ja fiz o PIX e vou enviar o comprovante</span></label>
 <div class="warn" style="margin-top:14px;margin-bottom:0"><b>O link da videoconferencia so e liberado apos conferirmos o seu pagamento.</b><br>Envie o comprovante no WhatsApp assim que pagar.</div>
 </div>
-<button class="btn" onclick="if(!document.getElementById('pagou').checked){alert('Marque que ja fez o PIX.');return;} irPara4()">Ja paguei — escolher horario</button>
+<button class="btn" onclick="if(!document.getElementById('pagou').checked){alert('Marque que ja fez o PIX.');return;} irPara4()">Ja paguei - escolher horario</button>
 <button class="btn ghost" onclick="ir(2)">Voltar</button>
 </div>
 <div id="e4" class="hide">
@@ -196,14 +211,13 @@ input:focus{border-color:var(--dourado)}
 <div class="resumo" id="resumoFinal" style="text-align:left"></div>
 <div class="okbox" style="text-align:left;margin-top:14px"><b>1. Seu comprovante</b><br>Envie o comprovante do PIX no WhatsApp para liberarmos a videoconferencia.</div>
 <a class="btn" id="zapCliente" href="#" target="_self">Enviar comprovante no WhatsApp</a>
-<div class="warn" style="text-align:left;margin-top:16px"><b>2. Guarde a sua senha</b><br>A senha que voce criou sera usada para instalar o certificado. Se perder, sera preciso comprar outro.</div>
+<div class="warn" style="text-align:left;margin-top:16px"><b>2. Guarde a sua senha</b><br>A senha que voce criou sera usada para instalar o certificado.</div>
 <a class="btn ghost" id="zapSenha" href="#" target="_self">Receber minha senha no WhatsApp</a>
 <div id="boxSala" class="hide" style="margin-top:16px">
 <a class="btn" id="sala" href="#" target="_blank" rel="noopener">Entrar na sala da videoconferencia</a>
-<div class="okbox" style="text-align:left;margin-top:12px"><b>Pagamento confirmado!</b> No dia, esteja em lugar iluminado, com a <b>CNH em maos</b> e documento com foto.</div>
 </div>
 <div class="okbox" style="text-align:left;margin-top:16px;background:rgba(202,152,59,.1);border:1px solid rgba(202,152,59,.5);color:#E8D9B5">
-<b>O que acontece agora:</b> conferimos o seu pagamento e, confirmado, o link da sala da videoconferencia chega no seu WhatsApp.
+<b>O que acontece agora:</b> conferimos o seu pagamento e o link da sala chega no seu WhatsApp.
 </div>
 </div>
 </div>
@@ -211,7 +225,7 @@ input:focus{border-color:var(--dourado)}
 <div class="card">
 <h2>Nao foi possivel concluir</h2>
 <p class="hint" id="erroTxt"></p>
-<a class="btn" href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Tive%20um%20problema%20no%20pedido%20do%20certificado." target="_blank">Falar no WhatsApp</a>
+<a class="btn" href="https://wa.me/5563992856647?text=Ol%C3%A1!%20Tive%20um%20problema%20no%20pedido." target="_blank">Falar no WhatsApp</a>
 </div>
 </div>
 </div>
@@ -219,7 +233,7 @@ input:focus{border-color:var(--dourado)}
 <div class="wrap">
 <footer>
 <p><b>CGE EMITTA</b> · CGE Contabilidade &amp; Gestao Empresarial</p>
-<p style="margin-top:5px">Hamilton Alves — Contador · CRC 004878/O-7</p>
+<p style="margin-top:5px">Hamilton Alves - Contador · CRC 004878/O-7</p>
 <p style="margin-top:9px"><b style="color:var(--amarelo)">Pedidos 24 horas</b> · <b style="color:var(--amarelo)">Atendimento:</b> seg a sex, 08h as 18h</p>
 <p style="margin-top:4px">WhatsApp (63) 99285-6647 · Vilhena/RO</p>
 </footer>
@@ -259,11 +273,7 @@ function salvarToken(){
 }
 function checarToken(){
   if(!TOKEN){ $('pedeToken').classList.remove('hide'); $('conteudo').classList.add('hide'); return; }
-  if(localStorage.getItem('cge_cc_ok')==='1'){ $('pedeToken').classList.add('hide'); $('conteudo').classList.remove('hide'); return; }
-  fetch(API+'/tabelas',{headers:{Authorization:'Bearer '+TOKEN,Accept:'application/json'}}).then(function(r){
-    if(r.ok){ localStorage.setItem('cge_cc_ok','1'); $('pedeToken').classList.add('hide'); $('conteudo').classList.remove('hide'); }
-    else { $('pedeToken').classList.remove('hide'); $('conteudo').classList.add('hide'); mostrar('mTok',false); }
-  }).catch(function(){ $('pedeToken').classList.remove('hide'); $('conteudo').classList.add('hide'); });
+  $('pedeToken').classList.add('hide'); $('conteudo').classList.remove('hide');
 }
 document.querySelectorAll('.tp').forEach(function(o){
   o.onclick=function(){
@@ -317,9 +327,25 @@ $('cnhfile').onchange=function(e){
     r.readAsDataURL(f);
   } else { $('prev').classList.add('hide'); }
 };
+function mostrarSenha(){
+  $('numPedido').textContent=st.pedidoCriado||'-';
+  $('senhaMostra').textContent=st.senha;
+  [1,2,3,4].forEach(function(i){var s=$('s'+i);if(s)s.classList.remove('on');});
+  ['e1','e2','e3','e4','eSenha'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
+  $('ok').classList.add('hide'); $('erro').classList.add('hide');
+  $('s1').classList.add('on'); $('s2').classList.add('on');
+  $('eSenha').classList.remove('hide');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function senhaEnviada(){
+  setTimeout(function(){
+    $('avisoSenha').innerHTML='<b style="color:var(--verde)">Se nao abriu, toque no botao acima novamente.</b>';
+  },1200);
+}
 function ir(n){
   if(n===2){ if(!validar1()) return; $('resumo').innerHTML=montarResumo(); }
   [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
+  var es=$('eSenha'); if(es) es.classList.add('hide');
   $('ok').classList.add('hide'); $('erro').classList.add('hide');
   $('e'+n).classList.remove('hide');
   for(var i=1;i<=n;i++) $('s'+i).classList.add('on');
@@ -368,7 +394,7 @@ function enviarCnh(){
     }
   };
   api('/vendas',{method:'POST',body:JSON.stringify(body)}).then(function(r){
-    if(!r.ok){ btn.disabled=false; btn.textContent='Continuar'; falhar('Nao conseguimos registrar seu pedido. Detalhe: '+JSON.stringify(r.data).slice(0,250)); return; }
+    if(!r.ok){ btn.disabled=false; btn.textContent='Continuar'; falhar('Nao conseguimos registrar seu pedido: '+JSON.stringify(r.data).slice(0,200)); return; }
     st.uuid=r.data.data.uuid;
     st.senha=$('senha').value;
     st.telDigits='55'+tel;
@@ -377,28 +403,29 @@ function enviarCnh(){
     st.docFmt=(st.tipo==='PJ'?$('cnpj').value:$('cpf').value);
     st.pedidoCriado=r.data.data.id||r.data.data.pedido;
     return api('/vendas/'+st.uuid+'/senha',{method:'POST',body:JSON.stringify({senha:$('senha').value})}).then(function(s){
-      if(!s.ok){ btn.disabled=false; btn.textContent='Continuar'; falhar('Pedido criado, mas a senha foi recusada. Detalhe: '+JSON.stringify(s.data).slice(0,250)); return; }
+      if(!s.ok){ btn.disabled=false; btn.textContent='Continuar'; falhar('Pedido criado, mas a senha foi recusada.'); return; }
       var fd=new FormData(); fd.append('files[]',st.cnhFile);
       return api('/vendas/'+st.uuid+'/documentos',{method:'POST',body:fd}).then(function(d){
         btn.disabled=false; btn.textContent='Continuar';
-        if(!d.ok){ falhar('Pedido e senha ok, mas o anexo da CNH falhou. Detalhe: '+JSON.stringify(d.data).slice(0,250)); return; }
+        if(!d.ok){ falhar('Pedido e senha ok, mas a CNH falhou: '+JSON.stringify(d.data).slice(0,200)); return; }
         var msgS='*SEU CERTIFICADO DIGITAL - CGE EMITTA*\n\n'
           +'Pedido: *#'+st.pedidoCriado+'*\n'
           +'Titular: '+$('nome').value.trim()+'\n'
           +'Certificado: '+st.tipo+' - '+precoFmt(st.preco)+'\n\n'
           +'*SUA SENHA DO CERTIFICADO:*\n'+$('senha').value+'\n\n'
-          +'Anote e guarde. Ela sera pedida na instalacao.\n'
+          +'Anote e guarde. Sera pedida na instalacao.\n'
           +'Se perder, sera necessario comprar outro certificado.';
-        $('zapSenha').href='https://wa.me/55'+tel+'?text='+encodeURIComponent(msgS);
-        window.open($('zapSenha').href,'_blank');
-        ir(3);
+        var link='https://wa.me/55'+tel+'?text='+encodeURIComponent(msgS);
+        $('btnZapSenha').href=link;
+        $('zapSenha').href=link;
+        mostrarSenha();
       });
     });
   }).catch(function(e){ btn.disabled=false; btn.textContent='Continuar'; falhar('Falha de conexao: '+e.message); });
 }
 function falhar(msg){
   $('erroTxt').textContent=msg;
-  ['e1','e2','e3','e4'].forEach(function(i){$(i).classList.add('hide');});
+  ['e1','e2','e3','e4','eSenha'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
   $('erro').classList.remove('hide');
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -435,7 +462,7 @@ function carregarHoras(iso){
   api('/vendas/'+st.uuid+'/agenda/horarios-disponiveis?date='+iso).then(function(r){
     var box=$('horas'); box.innerHTML='';
     if(!r.ok || !r.data.data || !r.data.data.length){
-      $('hintDias').textContent='Sem horario neste dia. Escolha outro dia acima.';
+      $('hintDias').textContent='Sem horario neste dia. Escolha outro.';
       $('boxHoras').classList.remove('hide'); return;
     }
     $('hintDias').textContent='Escolha o dia:';
@@ -446,14 +473,14 @@ function carregarHoras(iso){
       box.appendChild(el);
     });
     $('boxHoras').classList.remove('hide');
-  }).catch(function(){$('hintDias').textContent='Erro ao carregar horarios. Tente outro dia.';});
+  }).catch(function(){$('hintDias').textContent='Erro ao carregar horarios.';});
 }
 function agendar(){
   if(!st.dia||!st.hora) return;
   var b=$('btnAgendar'); b.disabled=true; b.innerHTML='<span class="spin"></span>Agendando...';
   api('/vendas/'+st.uuid+'/agenda',{method:'POST',body:JSON.stringify({date:st.dia+' '+st.hora})}).then(function(r){
     b.disabled=false; b.textContent='Confirmar agendamento';
-    if(!r.ok){ falhar('Nao foi possivel agendar. Detalhe: '+JSON.stringify(r.data).slice(0,250)); return; }
+    if(!r.ok){ falhar('Nao foi possivel agendar: '+JSON.stringify(r.data).slice(0,200)); return; }
     var d=r.data.data;
     $('resumoFinal').innerHTML='<div class="l"><span>Pedido</span><span>#'+d.venda_id+'</span></div>'
       +'<div class="l"><span>Titular</span><span>'+d.cliente+'</span></div>'
@@ -462,33 +489,28 @@ function agendar(){
       +'<div class="l"><span>Atendente</span><span>'+d.agente+'</span></div>'
       +'<div class="l"><span>Total</span><span>'+precoFmt(st.preco)+'</span></div>';
     var dataBR=st.dia.split('-').reverse().join('/')+' as '+st.hora;
-    st.pedido=d.venda_id;
-    st.salaLink=d.link;
+    st.pedido=d.venda_id; st.salaLink=d.link;
     $('sala').href=d.link;
-    var msgComprovante='Ola! Pedido *#'+d.venda_id+'* feito no site.\n'
-      +'Certificado '+d.produto+' ('+st.tipo+') - '+precoFmt(st.preco)+'\n'
-      +'Videoconferencia: '+dataBR+'\n\n'
-      +'Enviando agora o comprovante do PIX.';
-    $('zapCliente').href='https://wa.me/'+WA+'?text='+encodeURIComponent(msgComprovante);
-    var msgHamilton='*NOVO PEDIDO PAGO - CONFERIR*\n\n'
+    var msgComp='Ola! Pedido *#'+d.venda_id+'* feito no site.\nCertificado '+d.produto+' ('+st.tipo+') - '+precoFmt(st.preco)+'\nVideoconferencia: '+dataBR+'\n\nEnviando agora o comprovante do PIX.';
+    $('zapCliente').href='https://wa.me/'+WA+'?text='+encodeURIComponent(msgComp);
+    var msgH='*NOVO PEDIDO PAGO - CONFERIR*\n\n'
       +'*Pedido:* #'+d.venda_id+'\n'
       +'*Cliente:* '+d.cliente+'\n'
       +'*CPF/CNPJ:* '+st.docFmt+'\n'
       +'*Celular:* '+st.telFmt+'\n'
       +'*E-mail:* '+st.email+'\n'
       +'*Produto:* '+d.produto+' ('+st.tipo+')\n'
-      +'*Valor cobrado do cliente:* '+precoFmt(st.preco)+'\n'
+      +'*Valor cobrado:* '+precoFmt(st.preco)+'\n'
       +'*Videoconferencia:* '+dataBR+'\n'
       +'*Atendente:* '+d.agente+'\n\n'
       +'*Senha do cliente:* '+st.senha+'\n\n'
-      +'Confirme o PIX recebido antes da videoconferencia.\n'
-      +'Sala: '+d.link;
-    window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msgHamilton),'_blank');
-    ['e1','e2','e3','e4'].forEach(function(i){$(i).classList.add('hide');});
+      +'Confirme o PIX recebido antes da videoconferencia.\nSala: '+d.link;
+    window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msgH),'_blank');
+    ['e1','e2','e3','e4','eSenha'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
     $('ok').classList.remove('hide');
     for(var i=1;i<=4;i++) $('s'+i).classList.add('on');
     window.scrollTo({top:0,behavior:'smooth'});
-  }).catch(function(e){ b.disabled=false; b.textContent='Confirmar agendamento'; falhar('Erro de conexao ao agendar: '+e.message); });
+  }).catch(function(e){ b.disabled=false; b.textContent='Confirmar agendamento'; falhar('Erro de conexao: '+e.message); });
 }
 checarToken();
 </script>
