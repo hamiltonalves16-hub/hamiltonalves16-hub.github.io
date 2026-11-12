@@ -143,7 +143,7 @@ input:focus{border-color:var(--dourado)}
 <div class="f"><label>UF <span class="req">*</span></label><input type="text" id="uf" placeholder="RO" maxlength="2" style="text-transform:uppercase"><div class="msg" id="mUf">Informe a UF.</div></div>
 </div>
 <div class="f"><label>Senha do certificado <span class="req">*</span></label><input type="text" id="senha" placeholder="Minimo 8 caracteres, com maiuscula, numero e simbolo"><div class="msg" id="mSenha">Senha fraca: use 8+ caracteres, com maiuscula, numero e simbolo.</div>
-<div class="okbox" style="margin-top:8px;margin-bottom:0"><b>Anote esta senha!</b> Ela sera usada para instalar o certificado. Se perder, precisara comprar outro.</div>
+<div class="okbox" style="margin-top:8px;margin-bottom:0"><b>Anote esta senha!</b> Ela sera usada para instalar o certificado. Se perder, precisara comprar outro. Tambem enviaremos por WhatsApp.</div>
 </div>
 </div>
 <button class="btn" onclick="ir(2)">Continuar</button>
@@ -173,8 +173,9 @@ input:focus{border-color:var(--dourado)}
 <button class="copy" onclick="copiarPix()">Copiar chave PIX</button>
 </div>
 <label style="display:flex;gap:10px;align-items:center;padding:13px 15px;background:rgba(202,152,59,.07);border:1px solid rgba(202,152,59,.35);border-radius:12px;cursor:pointer;font-size:13.5px"><input type="checkbox" id="pagou" style="width:19px;height:19px;accent-color:var(--amarelo)"><span>Ja fiz o PIX e vou enviar o comprovante</span></label>
+<div class="warn" style="margin-top:14px;margin-bottom:0"><b>O link da videoconferencia so e liberado apos conferirmos o seu pagamento.</b><br>Envie o comprovante no WhatsApp assim que pagar.</div>
 </div>
-<button class="btn" onclick="if(!document.getElementById('pagou').checked){alert('Marque que ja fez o PIX.');return;} irPara4();">Ja paguei - escolher horario</button>
+<button class="btn" onclick="if(!document.getElementById('pagou').checked){alert('Marque que ja fez o PIX.');return;} irPara4()">Ja paguei — escolher horario</button>
 <button class="btn ghost" onclick="ir(2)">Voltar</button>
 </div>
 <div id="e4" class="hide">
@@ -189,12 +190,21 @@ input:focus{border-color:var(--dourado)}
 </div>
 <div id="ok" class="hide">
 <div class="card" style="text-align:center">
-<div class="big">+</div>
-<h2 style="text-align:center">Agendamento confirmado!</h2>
+<div class="big">&#10003;</div>
+<h2 style="text-align:center">Pedido registrado!</h2>
+<p class="hint" style="text-align:center">Falta pouco: confirme os dois envios abaixo.</p>
 <div class="resumo" id="resumoFinal" style="text-align:left"></div>
+<div class="okbox" style="text-align:left;margin-top:14px"><b>1. Seu comprovante</b><br>Envie o comprovante do PIX no WhatsApp para liberarmos a videoconferencia.</div>
+<a class="btn" id="zapCliente" href="#" target="_self">Enviar comprovante no WhatsApp</a>
+<div class="warn" style="text-align:left;margin-top:16px"><b>2. Guarde a sua senha</b><br>A senha que voce criou sera usada para instalar o certificado. Se perder, sera preciso comprar outro.</div>
+<a class="btn ghost" id="zapSenha" href="#" target="_self">Receber minha senha no WhatsApp</a>
+<div id="boxSala" class="hide" style="margin-top:16px">
 <a class="btn" id="sala" href="#" target="_blank" rel="noopener">Entrar na sala da videoconferencia</a>
-<div class="okbox" style="text-align:left;margin-top:14px"><b>No dia:</b> esteja em lugar iluminado, com a <b>CNH em maos</b> e documento oficial com foto.</div>
-<a class="btn ghost" id="zapOk" href="#" target="_blank" rel="noopener">Enviar comprovante no WhatsApp</a>
+<div class="okbox" style="text-align:left;margin-top:12px"><b>Pagamento confirmado!</b> No dia, esteja em lugar iluminado, com a <b>CNH em maos</b> e documento com foto.</div>
+</div>
+<div class="okbox" style="text-align:left;margin-top:16px;background:rgba(202,152,59,.1);border:1px solid rgba(202,152,59,.5);color:#E8D9B5">
+<b>O que acontece agora:</b> conferimos o seu pagamento e, confirmado, o link da sala da videoconferencia chega no seu WhatsApp.
+</div>
 </div>
 </div>
 <div id="erro" class="hide">
@@ -209,7 +219,7 @@ input:focus{border-color:var(--dourado)}
 <div class="wrap">
 <footer>
 <p><b>CGE EMITTA</b> · CGE Contabilidade &amp; Gestao Empresarial</p>
-<p style="margin-top:5px">Hamilton Alves - Contador · CRC 004878/O-7</p>
+<p style="margin-top:5px">Hamilton Alves — Contador · CRC 004878/O-7</p>
 <p style="margin-top:9px"><b style="color:var(--amarelo)">Pedidos 24 horas</b> · <b style="color:var(--amarelo)">Atendimento:</b> seg a sex, 08h as 18h</p>
 <p style="margin-top:4px">WhatsApp (63) 99285-6647 · Vilhena/RO</p>
 </footer>
@@ -220,7 +230,7 @@ var TOKEN=localStorage.getItem("cge_cc_token")||"";
 var API="https://service.certcontrol.com.br/api/integracao";
 var TABELA="16615";
 var PIX="19.819.476/0001-87", WA="5563992856647";
-var st={tipo:"PF",prod:"prod_anj2GYLPSwixbL",preco:160,cnhFile:null,uuid:null,dia:null,hora:null};
+var st={tipo:"PF",prod:"prod_anj2GYLPSwixbL",preco:160,cnhFile:null,uuid:null,dia:null,hora:null,senha:"",telDigits:"",telFmt:"",email:"",docFmt:""};
 function $(id){return document.getElementById(id);}
 function mostrar(id,ok){$(id).classList[ok?'remove':'add']('show');}
 function precoFmt(v){return 'R$ '+v.toFixed(2).replace('.',',');}
@@ -359,12 +369,27 @@ function enviarCnh(){
   api('/vendas',{method:'POST',body:JSON.stringify(body)}).then(function(r){
     if(!r.ok){ btn.disabled=false; btn.textContent='Continuar'; falhar('Nao conseguimos registrar seu pedido. Detalhe: '+JSON.stringify(r.data).slice(0,250)); return; }
     st.uuid=r.data.data.uuid;
+    st.senha=$('senha').value;
+    st.telDigits='55'+tel;
+    st.telFmt=$('tel').value;
+    st.email=$('email').value.trim();
+    st.docFmt=(st.tipo==='PJ'?$('cnpj').value:$('cpf').value);
+    st.pedidoCriado=r.data.data.id||r.data.data.pedido;
     return api('/vendas/'+st.uuid+'/senha',{method:'POST',body:JSON.stringify({senha:$('senha').value})}).then(function(s){
       if(!s.ok){ btn.disabled=false; btn.textContent='Continuar'; falhar('Pedido criado, mas a senha foi recusada. Detalhe: '+JSON.stringify(s.data).slice(0,250)); return; }
       var fd=new FormData(); fd.append('files[]',st.cnhFile);
       return api('/vendas/'+st.uuid+'/documentos',{method:'POST',body:fd}).then(function(d){
         btn.disabled=false; btn.textContent='Continuar';
         if(!d.ok){ falhar('Pedido e senha ok, mas o anexo da CNH falhou. Detalhe: '+JSON.stringify(d.data).slice(0,250)); return; }
+        var msgS='*SEU CERTIFICADO DIGITAL - CGE EMITTA*\n\n'
+          +'Pedido: *#'+st.pedidoCriado+'*\n'
+          +'Titular: '+$('nome').value.trim()+'\n'
+          +'Certificado: '+st.tipo+' - '+precoFmt(st.preco)+'\n\n'
+          +'*SUA SENHA DO CERTIFICADO:*\n'+$('senha').value+'\n\n'
+          +'Anote e guarde. Ela sera pedida na instalacao.\n'
+          +'Se perder, sera necessario comprar outro certificado.';
+        $('zapSenha').href='https://wa.me/55'+tel+'?text='+encodeURIComponent(msgS);
+        window.open($('zapSenha').href,'_blank');
         ir(3);
       });
     });
@@ -435,8 +460,28 @@ function agendar(){
       +'<div class="l"><span>Data e hora</span><span>'+st.dia.split('-').reverse().join('/')+' as '+st.hora+'</span></div>'
       +'<div class="l"><span>Atendente</span><span>'+d.agente+'</span></div>';
     var dataBR=st.dia.split('-').reverse().join('/')+' as '+st.hora;
+    st.pedido=d.venda_id;
+    st.salaLink=d.link;
     $('sala').href=d.link;
-    $('zapOk').href='https://wa.me/'+WA+'?text='+encodeURIComponent('Ola! Pedido #'+d.venda_id+' ('+d.produto+' - '+st.tipo+') agendado para '+dataBR+'.\nEnviando agora o comprovante do PIX de '+precoFmt(st.preco)+'.');
+    var msgComprovante='Ola! Pedido *#'+d.venda_id+'* feito no site.\n'
+      +'Certificado '+d.produto+' ('+st.tipo+') - '+precoFmt(st.preco)+'\n'
+      +'Videoconferencia: '+dataBR+'\n\n'
+      +'Enviando agora o comprovante do PIX.';
+    $('zapCliente').href='https://wa.me/'+WA+'?text='+encodeURIComponent(msgComprovante);
+    var msgHamilton='*NOVO PEDIDO PAGO - CONFERIR*\n\n'
+      +'*Pedido:* #'+d.venda_id+'\n'
+      +'*Cliente:* '+d.cliente+'\n'
+      +'*CPF/CNPJ:* '+st.docFmt+'\n'
+      +'*Celular:* '+st.telFmt+'\n'
+      +'*E-mail:* '+st.email+'\n'
+      +'*Produto:* '+d.produto+' ('+st.tipo+')\n'
+      +'*Valor:* '+precoFmt(st.preco)+'\n'
+      +'*Videoconferencia:* '+dataBR+'\n'
+      +'*Atendente:* '+d.agente+'\n\n'
+      +'*Senha do cliente:* '+st.senha+'\n\n'
+      +'Confirme o PIX recebido antes da videoconferencia.\n'
+      +'Sala: '+d.link;
+    window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msgHamilton),'_blank');
     ['e1','e2','e3','e4'].forEach(function(i){$(i).classList.add('hide');});
     $('ok').classList.remove('hide');
     for(var i=1;i<=4;i++) $('s'+i).classList.add('on');
