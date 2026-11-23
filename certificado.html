@@ -121,8 +121,6 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:cente
 <div class="tp" data-tipo="PJ" data-prod="prod_anj2H8wVzAjWJo" data-preco="190"><div class="t">Pessoa Juridica</div><div class="p">R$ 190</div></div>
 </div>
 <div class="okbox hide" id="avisoAuto" style="margin-bottom:12px"></div>
-
-<!-- PESSOA FISICA -->
 <div id="blocoPF">
   <div class="f"><label>Nome completo <span class="req">*</span></label><input id="nome" placeholder="Como consta na CNH"><div class="msg" id="mNome">Informe nome e sobrenome.</div></div>
   <div class="row">
@@ -132,7 +130,6 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:cente
   <div class="f"><label>E-mail <span class="req">*</span></label><input type="email" id="email" placeholder="seu@email.com"><div class="msg" id="mEmail">E-mail invalido.</div></div>
 </div>
 
-<!-- PESSOA JURIDICA -->
 <div id="blocoPJ" class="hide">
   <div class="f"><label>CNPJ <span class="req">*</span></label>
     <div style="display:flex;gap:8px">
@@ -184,11 +181,16 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:cente
 <div class="f"><label>Anexe a CNH - frente e verso (JPG, PNG ou PDF) <span class="req">*</span></label>
 <input type="file" id="cnhfile" accept="image/*,application/pdf" class="arq">
 <div class="msg" id="mCnh">Anexe o arquivo da CNH.</div>
+<div id="boxOcr" class="okbox hide" style="margin-top:11px">
+  <b>Lendo a CNH automaticamente...</b><br>
+  <span id="ocrMsg" style="font-size:12px">Aguarde alguns segundos.</span>
+</div>
 <div class="row" style="margin-top:11px">
-<div class="f"><label>Validade da CNH <span class="req">*</span></label><input id="cnhVal" placeholder="DD/MM/AAAA" maxlength="10"><div class="msg" id="mCnhVal">Data invalida.</div></div>
-<div class="f"><label>Nascimento <span style="color:#777;font-weight:400">(opcional)</span></label><input id="cnhNasc" placeholder="DD/MM/AAAA" maxlength="10"></div>
+<div class="f"><label>Validade da CNH <span class="req">*</span></label><input id="cnhVal" placeholder="DD/MM/AAAA" maxlength="10" readonly style="background:#191919;color:var(--ama);font-weight:700"><div class="msg" id="mCnhVal">Nao consegui ler a validade — digite a data.</div></div>
+<div class="f"><label>Nascimento <span style="color:#777;font-weight:400">(automatico)</span></label><input id="cnhNasc" placeholder="DD/MM/AAAA" maxlength="10" readonly style="background:#191919;color:var(--ama)"></div>
 </div>
 <div class="warn hide" id="avisoCnhVencida" style="margin-top:4px"></div>
+<button type="button" class="btn ghost hide" id="btnOcrManual" onclick="liberarDigitacaoCnh()" style="font-size:13px;padding:11px">Prefiro digitar a validade</button>
 <div class="prev hide" id="prev"><img id="preview" alt="CNH"></div></div>
 </div>
 <button class="btn" onclick="enviarCnh()">Continuar</button>
@@ -312,8 +314,7 @@ function salvarRascunho(){
   try{
     var d={etapa:etapaAtual,tipo:st.tipo,preco:st.preco,precoFinal:st.precoFinal,cupom:st.cupom,
       uuid:st.uuid,pedidoCriado:st.pedidoCriado,liberado:st.liberado,dia:st.dia,hora:st.hora,
-      telFmt:st.telFmt,email:st.email,docFmt:st.docFmt,senha:st.senha,docDigits:st.docDigits,
-      nome:st.nome,ibge:st.ibge,campos:{}};
+      telFmt:st.telFmt,email:st.email,docFmt:st.docFmt,senha:st.senha,docDigits:st.docDigits,nome:st.nome,ibge:st.ibge,campos:{}};
     CAMPOS.forEach(function(k){var el=$(k);if(el)d.campos[k]=el.value;});
     localStorage.setItem(DRAFT,JSON.stringify(d));
   }catch(e){}
@@ -329,8 +330,8 @@ function preencher(d){
     $('blocoPJ').classList[st.tipo==='PF'?'add':'remove']('hide');}
   st.cupom=d.cupom||null;st.uuid=d.uuid||null;st.pedidoCriado=d.pedidoCriado||null;
   st.liberado=d.liberado||false;st.senha=d.senha||'';st.telFmt=d.telFmt||'';
-  st.email=d.email||'';st.docFmt=d.docFmt||'';st.docDigits=d.docDigits||'';
-  st.nome=d.nome||'';st.ibge=d.ibge||'';
+  st.email=d.email||'';st.docFmt=d.docFmt||'';st.docDigits=d.docDigits||'';st.nome=d.nome||'';
+  st.ibge=d.ibge||'';
   if(d.ibge&&$('uf'))$('uf').dataset.ibge=d.ibge;
   if(st.cupom)pintaCupom();
 }
@@ -350,8 +351,7 @@ function retomarTudo(){
 }
 function mostraAvisoRascunho(){
   var d=lerRascunho();if(!d)return;
-  var n=(d.campos&&(d.campos.nome||d.campos.nomePJ))||'';
-  var doc=(d.campos&&(d.campos.cpf||d.campos.cnpj))||'';
+  var n=(d.campos&&(d.campos.nome||d.campos.nomePJ))||'',doc=(d.campos&&(d.campos.cpf||d.campos.cnpj))||'';
   if(!n&&!d.pedidoCriado)return;
   $('txtRascunho').textContent=(n||'')+(doc?' — '+doc:'')+(d.pedidoCriado?' · pedido #'+d.pedidoCriado:' · nao finalizado');
   $('avisoRascunho').classList.remove('hide');
@@ -388,9 +388,8 @@ function carregaClientes(){
 function preencheCom(dados){
   if(!dados) return false;
   var mudou=false;
-  var ehPJ=(st.tipo==='PJ');
   var set=function(id,v){var el=$(id);if(el&&v&&!el.value){el.value=v;mudou=true;}};
-
+  var ehPJ=(st.tipo==='PJ');
   if(ehPJ){
     set('nomePJ',dados.n);
     if(dados.t&&dados.t.length>=10){var e1=$('telPJ');if(e1&&!e1.value){e1.value=maskTel(dados.t);mudou=true;}}
@@ -400,7 +399,6 @@ function preencheCom(dados){
     if(dados.t&&dados.t.length>=10){var e2=$('tel');if(e2&&!e2.value){e2.value=maskTel(dados.t);mudou=true;}}
     set('email',dados.e);
   }
-
   var c=dados.c;
   if(c){
     set('cep',maskCEP(c.cep||''));
@@ -695,7 +693,6 @@ function validar1(){
   if(!ok)window.scrollTo({top:0,behavior:'smooth'});
   return ok;
 }
-
 function montarResumo(){
   var D=dadosAtivos();
   var h='<div class="l"><span>Produto</span><span>Certificado A1 '+st.tipo+'</span></div>'
@@ -720,10 +717,14 @@ function normCidade(s){s=String(s||'').normalize('NFD').replace(/[\u0300-\u036f]
 
 function buscaIbge(uf, cidade){
   return new Promise(function(resolve){
-    uf=(uf||'').toUpperCase(); cidade=String(cidade||'').trim();
+    uf=(uf||'').toUpperCase();
+    cidade=String(cidade||'').trim();
     if(!uf||!cidade) return resolve('');
-    var chave=uf+'|'+normCidade(cidade), cache=lerCacheIbge();
+
+    var chave=uf+'|'+normCidade(cidade);
+    var cache=lerCacheIbge();
     if(cache[chave]) return resolve(cache[chave]);
+
     var alvo=normCidade(cidade);
     fetch('https://brasilapi.com.br/api/ibge/municipios/v1/'+uf)
       .then(function(r){ return r.ok?r.json():[]; })
@@ -731,7 +732,7 @@ function buscaIbge(uf, cidade){
         if(!Array.isArray(lista)||!lista.length) return resolve('');
         var exato=null, parcial=null;
         for(var i=0;i<lista.length;i++){
-          var n=normCidade(lista[i].nome||'');
+          var n=normCidade(lista[i].nome || '');
           if(n===alvo){ exato=lista[i].codigo_ibge; break; }
           if(!parcial && (n.indexOf(alvo)===0 || alvo.indexOf(n)===0)) parcial=lista[i].codigo_ibge;
         }
@@ -744,10 +745,10 @@ function buscaIbge(uf, cidade){
 }
 
 function garantirIbge(){
-  var ibge=$('uf').dataset.ibge||'';
+  var ibge=$('uf').dataset.ibge||st.ibge||'';
   if(ibge) return Promise.resolve(ibge);
   return buscaIbge($('uf').value, $('cidade').value).then(function(cod){
-    if(cod) $('uf').dataset.ibge=cod;
+    if(cod){ $('uf').dataset.ibge=cod; st.ibge=cod; }
     return cod;
   });
 }
@@ -760,33 +761,187 @@ function dataBR(s){
   if(d.getFullYear()!==+m[3]||d.getMonth()!==+m[2]-1||d.getDate()!==+m[1]) return null;
   return d;
 }
-function diasAte(d){var h=new Date();h.setHours(0,0,0,0);return Math.round((d-h)/86400000);}
-
+function diasAte(d){
+  var h=new Date(); h.setHours(0,0,0,0);
+  return Math.round((d-h)/86400000);
+}
 function confereCnhValidade(){
   var el=$('cnhVal'), m=$('mCnhVal'), av=$('avisoCnhVencida');
   m.classList.remove('show');
   av.classList.add('hide');
   var s=(el.value||'').trim();
   if(!s){ return {ok:false, motivo:'validade'}; }
+
   var d=dataBR(s);
   if(!d){ m.textContent='Data invalida. Use DD/MM/AAAA.'; m.classList.add('show'); return {ok:false, motivo:'formato'}; }
+
   var dias=diasAte(d);
   if(dias<0){
     av.className='warn';
     av.innerHTML='<b>CNH VENCIDA</b> em '+s+' ('+Math.abs(dias)+' dias atras).<br>'
-      +'A Autentica exige CNH dentro da validade na videoconferencia. Peca a CNH nova antes de continuar.';
+      +'A Autentica exige CNH dentro da validade na videoconferencia. '
+      +'Peca a CNH nova antes de continuar.';
     av.classList.remove('hide');
     return {ok:false, motivo:'vencida', dias:dias, data:s};
   }
   if(dias<=30){
     av.className='warn';
-    av.innerHTML='<b>Atencao:</b> a CNH vence em '+dias+' dia(s) ('+s+').<br>Agende a videoconferencia para os proximos dias.';
+    av.innerHTML='<b>Atencao:</b> a CNH vence em '+dias+' dia(s) ('+s+').<br>'
+      +'Agende a videoconferencia para os proximos dias.';
     av.classList.remove('hide');
   }
   return {ok:true, dias:dias, data:s};
 }
 
-/* dados do formulario conforme o tipo escolhido */
+$('cnhVal').oninput=function(e){
+  var v=e.target.value.replace(/\D/g,'').slice(0,8);
+  if(v.length>4) v=v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4);
+  else if(v.length>2) v=v.slice(0,2)+'/'+v.slice(2);
+  e.target.value=v;
+  if(v.length===10) confereCnhValidade();
+};
+$('cnhNasc').oninput=function(e){
+  var v=e.target.value.replace(/\D/g,'').slice(0,8);
+  if(v.length>4) v=v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4);
+  else if(v.length>2) v=v.slice(0,2)+'/'+v.slice(2);
+  e.target.value=v;
+};
+
+/* ===== LEITURA AUTOMATICA DA CNH (OCR) =====
+   Tesseract.js roda no proprio navegador: a imagem nao sai do aparelho. */
+var TESS_URL='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
+var TESS_CARREGADO=false;
+
+function carregaTesseract(){
+  if(TESS_CARREGADO||window.Tesseract) { TESS_CARREGADO=true; return Promise.resolve(true); }
+  return new Promise(function(resolve){
+    var s=document.createElement('script');
+    s.src=TESS_URL;
+    s.onload=function(){TESS_CARREGADO=true;resolve(true);};
+    s.onerror=function(){resolve(false);};
+    document.head.appendChild(s);
+  });
+}
+
+function extraiDadosCnh(txt){
+  var r={validade:null,emissao:null,data_nasc:null,cpf:null,registro:null};
+  var linhas=String(txt||'').split('\n');
+
+  function datasDaLinha(linha,indice){
+    var m=linha.match(/(\d{2}\/\d{2}\/\d{4})/g);
+    if(m && m.length) return m;
+    var nx=linhas[indice+1];
+    if(nx){ var m2=nx.match(/(\d{2}\/\d{2}\/\d{4})/g); if(m2) return m2; }
+    return [];
+  }
+
+  for(var i=0;i<linhas.length;i++){
+    var L=linhas[i]||'';
+    var ds=datasDaLinha(L,i);
+    var temEmiss=/EMISS/i.test(L), temValid=/VALIDADE|4b/i.test(L);
+
+    // "4a DATA EMISSAO  4b VALIDADE" e a linha seguinte traz as duas datas:
+    // a primeira e a emissao, a ultima e a validade.
+    if(temEmiss && temValid){
+      if(ds.length>=2){
+        if(!r.emissao) r.emissao=ds[0];
+        if(!r.validade) r.validade=ds[ds.length-1];
+      } else if(ds.length===1 && !r.validade){
+        r.validade=ds[0];
+      }
+    } else if(temValid && !r.validade){
+      if(ds.length) r.validade=ds[ds.length-1];
+    } else if(temEmiss && !r.emissao){
+      if(ds.length) r.emissao=ds[0];
+    }
+
+    if(!r.data_nasc && /NASCIMENTO/i.test(L)){
+      if(ds.length) r.data_nasc=ds[0];
+    }
+    var c=L.match(/\d{3}\.\d{3}\.\d{3}-\d{2}/);
+    if(c && !r.cpf) r.cpf=c[0];
+    var reg=L.match(/\b\d{11}\b/);
+    if(reg && !r.registro) r.registro=reg[0];
+  }
+
+  if(!r.validade){
+    var todas=String(txt).match(/(\d{2}\/\d{2}\/\d{4})/g)||[];
+    var hoje=new Date(), melhor=null;
+    todas.forEach(function(s){
+      var p=s.split('/'), dt=new Date(+p[2],+p[1]-1,+p[0]);
+      if(isNaN(dt)) return;
+      var dias=(dt-hoje)/86400000;
+      if(dias>0 && dias<9000 && (!melhor||dt>melhor)) melhor=dt;
+    });
+    if(melhor){
+      var dd=String(melhor.getDate()).padStart(2,'0');
+      var mm=String(melhor.getMonth()+1).padStart(2,'0');
+      r.validade=dd+'/'+mm+'/'+melhor.getFullYear();
+      r._heuristica=true;
+    }
+  }
+  return r;
+}
+
+function mostraOcr(msg, erro){
+  var b=$('boxOcr');
+  if(!b) return;
+  b.className= erro?'warn':'okbox';
+  b.innerHTML=msg;
+  b.classList.remove('hide');
+}
+
+function liberarDigitacaoCnh(){
+  ['cnhVal','cnhNasc'].forEach(function(id){
+    var e=$(id);
+    if(e){ e.readOnly=false; e.style.background='#0F0F0F'; e.style.color='#fff'; }
+  });
+  $('btnOcrManual').classList.add('hide');
+  var el=$('cnhVal'); if(el) el.focus();
+}
+
+function lerCnhAutomatico(file){
+  $('boxOcr').classList.remove('hide');
+  $('btnOcrManual').classList.add('hide');
+  mostraOcr('<span class="spin"></span><b>Lendo a CNH...</b><br><span style="font-size:12px">Aguarde alguns segundos. A imagem nao sai do seu aparelho.</span>', false);
+
+  carregaTesseract().then(function(ok){
+    if(!ok){
+      mostraOcr('<b>Nao foi possivel carregar o leitor.</b><br>Digite a validade da CNH no campo abaixo.', true);
+      liberarDigitacaoCnh();
+      return;
+    }
+    return Tesseract.recognize(file,'por',{logger:function(m){
+      if(m.status==='recognizing text'){
+        mostraOcr('<span class="spin"></span><b>Lendo a CNH...</b> '+Math.round((m.progress||0)*100)+'%', false);
+      }
+    }}).then(function(r){
+      var d=extraiDadosCnh(r.data.text||'');
+
+      if(d.validade) $('cnhVal').value=d.validade;
+      if(d.data_nasc) $('cnhNasc').value=d.data_nasc;
+
+      if(d.cpf && st.docDigits && digitos(d.cpf)!==st.docDigits){
+        mostraOcr('<b>Atencao: o CPF da CNH nao e o mesmo do pedido.</b><br>'
+          +'<span style="font-size:12px">CNH: '+d.cpf+' - Pedido: '+$('cpf').value+'</span>', true);
+      } else if(d.validade){
+        var partes=[];
+        partes.push('validade <b>'+d.validade+'</b>');
+        if(d.data_nasc) partes.push('nascimento <b>'+d.data_nasc+'</b>');
+        mostraOcr('<b>CNH lida!</b><br><span style="font-size:12px">Encontrei '+partes.join(' e ')+'.</span>', false);
+      } else {
+        mostraOcr('<b>Nao consegui ler a validade.</b><br>Digite a data que aparece na CNH.', true);
+        liberarDigitacaoCnh();
+      }
+
+      if(d.validade) confereCnhValidade();
+    });
+  }).catch(function(e){
+    mostraOcr('<b>Falha ao ler a CNH.</b><br>Digite a validade no campo abaixo.', true);
+    liberarDigitacaoCnh();
+  });
+}
+
 function dadosAtivos(){
   if(st.tipo==='PJ'){
     return {
@@ -812,6 +967,13 @@ function dadosAtivos(){
 function enviarCnh(){
   if(!st.cnhFile){mostrar('mCnh',false);$('cnhfile').scrollIntoView({block:'center'});return;}
 
+  if(!($('cnhVal').value||'').trim()){
+    var av2=$('boxOcr');
+    if(av2){ av2.className='warn'; av2.innerHTML='<b>A validade da CNH nao foi lida.</b><br><span style="font-size:12px">Use o botao "Prefiro digitar a validade" e informe a data.</span>'; av2.classList.remove('hide'); }
+    $('btnOcrManual').classList.remove('hide');
+    $('avisoCnhVencida').scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
   var cv=confereCnhValidade();
   if(!cv.ok){
     if(cv.motivo==='vencida'){
@@ -830,12 +992,12 @@ function enviarCnh(){
 
   var D=dadosAtivos();
   var cep=digitos($('cep').value), tel=D.tel;
-  st.telFmt=D.telFmt; st.email=D.email; st.senha=$('senha').value;
-  st.docFmt=D.doc; st.docDigits=digitos(D.doc);
-  st.nome=D.nome; st.repNome=D.repNome; st.repCpf=D.repCpf;
+  st.telFmt=D.telFmt;st.email=D.email;st.senha=$('senha').value;
+  st.docFmt=D.doc;st.docDigits=digitos(D.doc);
+  st.nome=D.nome;st.repNome=D.repNome;st.repCpf=D.repCpf;
 
   if(!st.modoApi){
-    btn.disabled=false; btn.textContent='Continuar';
+    btn.disabled=false;btn.textContent='Continuar';
     var lin=['*NOVO PEDIDO DE CERTIFICADO A1*','',
       '*Tipo:* '+st.tipo+' - '+precoFmt(st.precoFinal),
       (st.tipo==='PJ'?'*CNPJ:* '+D.doc:'*CPF:* '+D.doc),
@@ -856,14 +1018,13 @@ function enviarCnh(){
     $('btnZapSenha').href=urlW;
     $('avisoSenha').innerHTML='<b style="color:#fff">Envie a mensagem e depois a foto da CNH</b> no WhatsApp. Conferimos o pagamento e liberamos o agendamento.';
     [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
-    $('s1').classList.add('on'); $('s2').classList.add('on');
+    $('s1').classList.add('on');$('s2').classList.add('on');
     $('eSenha').classList.remove('hide');
-    etapaAtual=2; salvarRascunho();
+    etapaAtual=2;salvarRascunho();
     window.scrollTo({top:0,behavior:'smooth'});
     return;
   }
 
-  var ibge=$('uf').dataset.ibge||'';
   var body={
     venda:{tipo_lancamento_id:7,tabela_id:TABELA,produto_id:st.prod,valor_total:CUSTO,
            cupom:st.cupom?st.cupom.codigo:null},
@@ -874,7 +1035,7 @@ function enviarCnh(){
       emails:[D.email],
       celular:{numero:tel.slice(2),codigo_area:tel.slice(0,2)},
       endereco:{cep:cep,uf:$('uf').value.toUpperCase(),municipio:$('cidade').value.trim(),
-        codigo_ibge:ibge,logradouro:$('rua').value.trim(),
+        codigo_ibge:'',logradouro:$('rua').value.trim(),
         numero:$('num').value.trim(),bairro:$('bairro').value.trim()}
     }
   };
@@ -888,8 +1049,9 @@ function enviarCnh(){
 
   garantirIbge().then(function(cod){
     if(!cod){
-      btn.disabled=false; btn.textContent='Continuar';
-      falhar('Nao encontrei o codigo IBGE de "'+$('cidade').value+'/'+$('uf').value+'". Confira se a cidade e a UF estao corretas.');
+      btn.disabled=false;btn.textContent='Continuar';
+      falhar('Nao encontrei o codigo IBGE de "'+$('cidade').value+'/'+$('uf').value+'". '
+        +'Confira se a cidade e a UF estao corretas.');
       return;
     }
     body.certificado.endereco.codigo_ibge=cod;
@@ -897,7 +1059,7 @@ function enviarCnh(){
     salvarRascunho();
     enviaPedido(body, btn, tel);
   }).catch(function(e){
-    btn.disabled=false; btn.textContent='Continuar';
+    btn.disabled=false;btn.textContent='Continuar';
     falhar('Falha ao conferir a cidade: '+e.message);
   });
 }
@@ -905,7 +1067,7 @@ function enviarCnh(){
 function enviaPedido(body, btn, tel){
   return api('/vendas',{method:'POST',body:JSON.stringify(body)}).then(function(r){
     if(!r.ok){
-      btn.disabled=false; btn.textContent='Continuar';
+      btn.disabled=false;btn.textContent='Continuar';
       falhar('Erro: '+JSON.stringify(r.data).slice(0,300));
       return;
     }
@@ -915,10 +1077,9 @@ function enviaPedido(body, btn, tel){
     return api('/vendas/'+st.uuid+'/senha',
                {method:'POST',body:JSON.stringify({senha:$('senha').value})}).then(function(s){
       if(!s.ok){btn.disabled=false;btn.textContent='Continuar';falhar('Senha recusada.');return;}
-      var fd=new FormData();
-      fd.append('files[]',st.cnhFile);
+      var fd=new FormData();fd.append('files[]',st.cnhFile);
       return api('/vendas/'+st.uuid+'/documentos',{method:'POST',body:fd}).then(function(d){
-        btn.disabled=false; btn.textContent='Continuar';
+        btn.disabled=false;btn.textContent='Continuar';
         if(!d.ok){falhar('A CNH nao subiu: '+JSON.stringify(d.data).slice(0,180));return;}
         var msg='*SEU CERTIFICADO DIGITAL - CGE EMITTA*\n\nPedido: *#'+st.pedidoCriado+'*'
           +'\nTitular: '+st.nome
@@ -928,20 +1089,22 @@ function enviaPedido(body, btn, tel){
         $('btnZapSenha').href='https://wa.me/55'+tel+'?text='+encodeURIComponent(msg);
         $('numPedido').textContent='#'+st.pedidoCriado;
         $('senhaMostra').textContent=st.senha;
-        [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
-        $('s1').classList.add('on'); $('s2').classList.add('on');
+        [1,2,3,4].forEach(function(i){
+          var e=$('e'+i);if(e)e.classList.add('hide');
+          var s=$('s'+i);if(s)s.classList.remove('on');
+        });
+        $('s1').classList.add('on');$('s2').classList.add('on');
         $('eSenha').classList.remove('hide');
-        etapaAtual=2; salvarRascunho();
+        etapaAtual=2;salvarRascunho();
         window.scrollTo({top:0,behavior:'smooth'});
       });
     });
   }).catch(function(e){
-    btn.disabled=false; btn.textContent='Continuar';
+    btn.disabled=false;btn.textContent='Continuar';
     falhar('Falha de conexao: '+e.message);
   });
 }
 
-/* ===== VOLTAR ===== */
 var etapaErro=1;
 
 function voltarPara(n){
@@ -950,19 +1113,23 @@ function voltarPara(n){
   });
   if(n===0){ window.scrollTo({top:0,behavior:'smooth'}); return; }
   $('e'+n).classList.remove('hide');
-  for(var i=1;i<=4;i++){ var s=$('s'+i); if(s) s.classList[i<=n?'add':'remove']('on'); }
-  etapaAtual=n; salvarRascunho();
+  for(var i=1;i<=4;i++){
+    var s=$('s'+i);
+    if(s) s.classList[i<=n?'add':'remove']('on');
+  }
+  etapaAtual=n;
+  salvarRascunho();
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
 function voltarDoErro(){ voltarPara(etapaErro||1); }
 
 function falhar(msg){
   etapaErro = etapaAtual || 1;
   $('erroTxt').textContent=msg;
   ['e1','e2','e3','e4','eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
-  $('erro').classList.remove('hide'); window.scrollTo({top:0,behavior:'smooth'});
+  $('erro').classList.remove('hide');window.scrollTo({top:0,behavior:'smooth'});
 }
-
 function copiarPix(){
   function run(){var b=document.querySelector('.copy'),t=b.textContent;b.textContent='Copiado!';setTimeout(function(){b.textContent=t;},1600);}
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(PIX).then(run,run);}
@@ -976,7 +1143,7 @@ function carregaLib(){
 }
 function pedirLiberacao(){
   if(!$('pagou').checked){alert('Marque que ja fez o PIX.');return;}
-  var nomeAtual = (st.tipo==='PJ'?$('nomePJ').value:$('nome').value).trim();
+  var nomeAtual=(st.tipo==='PJ'?$('nomePJ').value:$('nome').value).trim();
   var msg='*COMPROVANTE DE PAGAMENTO*\n\n'
     +'Ola! Acabei de fazer o PIX'+(st.pedidoCriado?' do pedido *#'+st.pedidoCriado+'*':'')+'.\n'
     +'*Certificado:* A1 '+st.tipo+' - '+precoFmt(st.precoFinal)+'\n'
@@ -996,12 +1163,14 @@ function pedirLiberacao(){
   ['eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
   $('s1').classList.add('on');$('s2').classList.add('on');$('s3').classList.add('on');
   $('textoTrava').innerHTML='Enviamos seu comprovante para conferencia. Confirmado o PIX'+(st.pedidoCriado?' do pedido <b style="color:#fff">#'+st.pedidoCriado+'</b>':'')+', voce recebe <b style="color:#fff">no WhatsApp o codigo de liberacao</b>.';
-  $('eTrava').classList.remove('hide'); etapaAtual=3; salvarRascunho();
+  $('eTrava').classList.remove('hide');etapaAtual=3;salvarRascunho();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function naoAcheiSeuPix(){
-  var box=$('avisoNaoAchou'); box.style.display='block';
-  box.innerHTML='<b>Nao localizamos o seu PIX automaticamente.</b><br>Envie o <b>comprovante</b> no WhatsApp para conferirmos e liberarmos. '
+  var box=$('avisoNaoAchou');
+  box.style.display='block';
+  box.innerHTML='<b>Nao localizamos o seu PIX automaticamente.</b><br>'
+    +'Envie o <b>comprovante</b> no WhatsApp para conferirmos e liberarmos. '
     +'<a href="https://wa.me/'+WA+'?text='+encodeURIComponent('Ola! Meu PIX nao foi localizado. Pedido '+(st.pedidoCriado||'')+'. Vou enviar o comprovante.')+'" target="_blank" style="color:#fff;font-weight:700;text-decoration:underline">Enviar comprovante</a>';
 }
 function validarLiberacao(){
@@ -1117,19 +1286,6 @@ $('cep').oninput=function(e){
   e.target.value=maskCEP(e.target.value);
   if(digitos(e.target.value).length===8)buscarCep(digitos(e.target.value));
 };
-$('cnhVal').oninput=function(e){
-  var v=e.target.value.replace(/\D/g,'').slice(0,8);
-  if(v.length>4) v=v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4);
-  else if(v.length>2) v=v.slice(0,2)+'/'+v.slice(2);
-  e.target.value=v;
-  if(v.length===10) confereCnhValidade();
-};
-$('cnhNasc').oninput=function(e){
-  var v=e.target.value.replace(/\D/g,'').slice(0,8);
-  if(v.length>4) v=v.slice(0,2)+'/'+v.slice(2,4)+'/'+v.slice(4);
-  else if(v.length>2) v=v.slice(0,2)+'/'+v.slice(2);
-  e.target.value=v;
-};
 function buscarCep(cep){
   fetch('https://brasilapi.com.br/api/cep/v2/'+cep).then(function(r){return r.json();}).then(function(d){
     if(d.errors||d.name)return;
@@ -1137,18 +1293,21 @@ function buscarCep(cep){
     if(d.neighborhood)$('bairro').value=d.neighborhood;
     if(d.city)$('cidade').value=d.city;
     if(d.state)$('uf').value=d.state;
-    if(d.ibge&&d.ibge.city)$('uf').dataset.ibge=String(d.ibge.city);
+    if(d.ibge&&d.ibge.city){$('uf').dataset.ibge=String(d.ibge.city);st.ibge=String(d.ibge.city);}
     salvarRascunho();
   }).catch(function(){});
 }
 $('cnhfile').onchange=function(e){
   var f=e.target.files&&e.target.files[0];if(!f)return;
   st.cnhFile=f;mostrar('mCnh',true);
+
   if(f.type.indexOf('image')===0){
     var r=new FileReader();
     r.onload=function(ev){$('preview').src=ev.target.result;$('prev').classList.remove('hide');};
     r.readAsDataURL(f);
   }else $('prev').classList.add('hide');
+
+  lerCnhAutomatico(f);
 };
 
 st.modoApi=!!TOKEN;
