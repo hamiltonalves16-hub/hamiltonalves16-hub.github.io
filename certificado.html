@@ -92,10 +92,11 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:cente
 <h1>Certificado Digital <span>A1</span></h1>
 <p class="lead">Por videoconferencia. <b style="color:var(--ama)">Pedidos 24 horas.</b></p>
 
-<div id="avisoRascunho" class="okbox hide">
-<b>Voce tem um pedido em andamento.</b><br>
-<span id="txtRascunho" style="font-size:12px"></span><br>
-<a href="javascript:void(0)" onclick="retomarTudo()" style="color:#fff;font-weight:700;text-decoration:underline">Continuar de onde parei</a>
+<div id="avisoRascunho" class="okbox hide" style="position:relative;padding-right:34px">
+<button type="button" onclick="fecharAvisoRascunho()" aria-label="Fechar"
+  style="position:absolute;top:6px;right:8px;background:none;border:0;color:#9AA;font-size:20px;line-height:1;cursor:pointer;padding:2px 6px">&times;</button>
+<span style="font-size:12.5px">Voce tem um pedido em andamento: <b id="txtRascunho"></b></span><br>
+<a href="javascript:void(0)" onclick="retomarTudo()" style="color:#fff;font-weight:700;text-decoration:underline;font-size:12.5px">Continuar de onde parei</a>
 &nbsp;·&nbsp;<a href="javascript:void(0)" onclick="descartarRascunho()" style="color:#FCA5A5;font-size:12px">Comecar de novo</a>
 </div>
 
@@ -329,6 +330,7 @@ function preencher(d){
 }
 function retomarTudo(){
   var d=lerRascunho();if(!d)return;
+  esconderAvisoRascunho();
   preencher(d);
   if(d.pedidoCriado){
     $('numPedido').textContent='#'+d.pedidoCriado;
@@ -341,15 +343,38 @@ function retomarTudo(){
   }
   ir(1);
 }
+/* O aviso de rascunho incomoda: aparece so na primeira etapa, some quando
+   o cliente comeca a preencher ou avanca, e pode ser fechado no X. */
+var AVISO_DISPENSADO='cge_cc_aviso_off';
+
+function fecharAvisoRascunho(){
+  $('avisoRascunho').classList.add('hide');
+  try{ sessionStorage.setItem(AVISO_DISPENSADO,'1'); }catch(e){}
+}
+
+function esconderAvisoRascunho(){
+  var el=$('avisoRascunho');
+  if(el) el.classList.add('hide');
+}
+
 function mostraAvisoRascunho(){
+  try{ if(sessionStorage.getItem(AVISO_DISPENSADO)) return; }catch(e){}
+  if((etapaAtual||1)>1) return;
+
   var d=lerRascunho();if(!d)return;
-  var n=(d.campos&&(d.campos.nome||d.campos.nomePJ))||'',doc=(d.campos&&(d.campos.cpf||d.campos.cnpj))||'';
-  if(!n&&!d.pedidoCriado)return;
-  $('txtRascunho').textContent=(n||'')+(doc?' — '+doc:'')+(d.pedidoCriado?' · pedido #'+d.pedidoCriado:' · nao finalizado');
+  var campos=(d.campos||{});
+  var n=(campos.nome||campos.nomePJ||'').trim();
+  var doc=(campos.cpf||campos.cnpj||'').trim();
+  if(!n&&!d.pedidoCriado) return;
+
+  $('txtRascunho').textContent=(n||'sem nome')+(doc?' — '+doc:'')+(d.pedidoCriado?' · pedido #'+d.pedidoCriado:' · nao finalizado');
   $('avisoRascunho').classList.remove('hide');
 }
 function ligaAutoSave(){
-  CAMPOS.forEach(function(k){var el=$(k);if(el){el.addEventListener('input',salvarRascunho);el.addEventListener('change',salvarRascunho);}});
+  CAMPOS.forEach(function(k){var el=$(k);if(el){
+    el.addEventListener('input',function(){ salvarRascunho(); esconderAvisoRascunho(); });
+    el.addEventListener('change',salvarRascunho);
+  }});
 }
 
 var CLIENTES=null, cliPromessa=null, ultimoAuto=null;
@@ -654,6 +679,7 @@ function ir(n){
   $('e'+n).classList.remove('hide');
   for(var i=1;i<=n;i++)$('s'+i).classList.add('on');
   etapaAtual=n;salvarRascunho();
+  if(n>1) esconderAvisoRascunho();
   if(n===3)$('resumo').innerHTML=montarResumo();
   window.scrollTo({top:0,behavior:'smooth'});
 }
