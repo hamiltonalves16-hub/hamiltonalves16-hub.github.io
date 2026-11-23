@@ -100,8 +100,8 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:cente
 </div>
 
 <div class="card" id="boxAcesso">
-<h2>Acesso rapido</h2>
-<p class="hint">Ja fez o pedido ou comecou a preencher? Informe seu <b style="color:#fff">CPF ou CNPJ</b> para continuar de onde parou.</p>
+<h2>Ja e nosso cliente?</h2>
+<p class="hint">Informe seu <b style="color:#fff">CPF ou CNPJ</b> e preenchemos seus dados automaticamente.</p>
 <div style="display:flex;gap:8px">
 <input id="acessoDoc" placeholder="CPF ou CNPJ" inputmode="numeric" maxlength="18">
 <button type="button" onclick="acessarPedido()" style="border:0;border-radius:10px;padding:0 16px;font-size:13px;font-weight:700;background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto);cursor:pointer;white-space:nowrap">Acessar</button>
@@ -120,6 +120,7 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:cente
 <div class="tp sel" data-tipo="PF" data-prod="prod_anj2GYLPSwixbL" data-preco="160"><div class="t">Pessoa Fisica</div><div class="p">R$ 160</div></div>
 <div class="tp" data-tipo="PJ" data-prod="prod_anj2H8wVzAjWJo" data-preco="190"><div class="t">Pessoa Juridica</div><div class="p">R$ 190</div></div>
 </div>
+<div class="okbox hide" id="avisoAuto" style="margin-bottom:12px"></div>
 <div class="f"><label>Nome completo <span class="req">*</span></label><input id="nome" placeholder="Como consta na CNH"><div class="msg" id="mNome">Informe nome e sobrenome.</div></div>
 <div class="row">
 <div class="f"><label>CPF <span class="req">*</span></label><input id="cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14"><div class="msg" id="mCpf">CPF invalido.</div></div>
@@ -319,6 +320,76 @@ function ligaAutoSave(){
   CAMPOS.forEach(function(k){var el=$(k);if(el){el.addEventListener('input',salvarRascunho);el.addEventListener('change',salvarRascunho);}});
 }
 
+/* ===== AUTO-PREENCHIMENTO POR CPF/CNPJ ===== */
+var CLIENTES=null, cliPromessa=null, ultimoAuto=null;
+
+function carregaClientes(){
+  if(CLIENTES) return Promise.resolve(CLIENTES);
+  if(cliPromessa) return cliPromessa;
+  cliPromessa=fetch('clientes.json?t='+Date.now())
+    .then(function(r){return r.ok?r.json():{clientes:{}};})
+    .then(function(j){
+      var bruto=(j&&j.clientes)||{};
+      CLIENTES={};
+      for(var doc in bruto){
+        var a=bruto[doc];
+        if(Object.prototype.toString.call(a)==='[object Array]'){
+          CLIENTES[doc]={n:a[0],t:a[1],e:a[2],
+            c:{cep:a[3],rua:a[4],num:a[5],bai:a[6],cid:a[7],uf:a[8],ibge:a[9]}};
+        } else {
+          CLIENTES[doc]=a;
+        }
+      }
+      return CLIENTES;
+    })
+    .catch(function(){CLIENTES={};return CLIENTES;});
+  return cliPromessa;
+}
+
+function preencheCom(dados){
+  if(!dados) return false;
+  var mudou=false;
+  var set=function(id,v){var el=$(id);if(el&&v&&!el.value){el.value=v;mudou=true;}};
+  set('nome',dados.n);
+  if(dados.t && dados.t.length>=10){
+    var el=$('tel');
+    if(el&&!el.value){ el.value=maskTel(dados.t); mudou=true; }
+  }
+  set('email',dados.e);
+  var c=dados.c;
+  if(c){
+    set('cep',maskCEP(c.cep||''));
+    set('rua',c.rua);
+    set('num',c.num);
+    set('bairro',c.bai);
+    set('cidade',c.cid);
+    if(c.uf&&!$('uf').value){ $('uf').value=c.uf; mudou=true; }
+    if(c.ibge&&!$('uf').dataset.ibge){ $('uf').dataset.ibge=c.ibge; }
+  }
+  if(mudou){ salvarRascunho(); }
+  return mudou;
+}
+
+function tentarAutoPreencher(){
+  var doc=digitos($('cpf').value)||digitos($('cnpj').value);
+  if(doc.length!==11&&doc.length!==14) return;
+  if(ultimoAuto===doc) return;
+  ultimoAuto=doc;
+  carregaClientes().then(function(lista){
+    var dados=lista[doc];
+    if(!dados){ ultimoAuto=null; return; }
+    var ok=preencheCom(dados);
+    if(ok){
+      var av=$('avisoAuto');
+      if(av){
+        av.innerHTML='<b>Bem-vindo de volta, '+(dados.n||'cliente')+'!</b><br>'
+          +'<span style="font-size:12px">Preenchemos seus dados. Confira e siga em frente.</span>';
+        av.classList.remove('hide');
+      }
+    }
+  });
+}
+
 function acessarPedido(){
   var doc=digitos($('acessoDoc').value),m=$('mAcesso');
   m.classList.remove('show');
@@ -327,34 +398,24 @@ function acessarPedido(){
   var d=lerRascunho();
   if(d&&d.campos&&(digitos(d.campos.cpf)===doc||digitos(d.campos.cnpj)===doc)){retomarTudo();return;}
 
-  $('boxPedido').classList.remove('hide');
-  $('boxPedido').innerHTML='<div class="hint"><span class="spin"></span>Buscando seu pedido...</div>';
+  /* preenche os dados do cliente no formulario */
+  if(doc.length===14){ document.querySelectorAll('.tp')[1].click(); $('cnpj').value=maskCNPJ(doc); }
+  else { document.querySelectorAll('.tp')[0].click(); $('cpf').value=maskCPF(doc); }
 
-  if(!TOKEN){
-    $('boxPedido').innerHTML='<div class="warn" style="margin:0">Para consultar um pedido anterior fale com o escritorio no WhatsApp: <a href="https://wa.me/'+WA+'" target="_blank" style="color:#fff;font-weight:700">(63) 99285-6647</a> — resolvemos na hora.</div>';
-    return;
-  }
-  var ini=new Date();ini.setMonth(ini.getMonth()-6);
-  fetch(API+'/vendas?data_venda_inicio='+ini.toISOString().slice(0,10)+'&data_venda_fim='+new Date().toISOString().slice(0,10)+'&per_page=200',
-    {headers:{Authorization:'Bearer '+TOKEN,Accept:'application/json'}})
-  .then(function(r){return r.json();})
-  .then(function(j){
-    var achou=(j.data||[]).filter(function(v){return digitos((v.cliente_certificado||{}).documento)===doc;});
-    if(!achou.length){
-      $('boxPedido').innerHTML='<div class="warn" style="margin:0">Nenhum pedido encontrado para este documento nos ultimos 6 meses. Preencha os dados abaixo para comecar.</div>';return;
+  carregaClientes().then(function(lista){
+    var dados=lista[doc];
+    if(dados){
+      preencheCom(dados);
+      var av=$('avisoAuto');
+      if(av){ av.innerHTML='<b>Bem-vindo de volta, '+(dados.n||'cliente')+'!</b><br><span style="font-size:12px">Dados preenchidos. Confira e continue.</span>'; av.classList.remove('hide'); }
+      $('boxPedido').classList.remove('hide');
+      $('boxPedido').innerHTML='<div class="okbox" style="margin:0">Cadastro encontrado. Role para baixo e confira seus dados.</div>';
+      document.getElementById('e1').scrollIntoView({behavior:'smooth',block:'start'});
+    } else {
+      $('boxPedido').classList.remove('hide');
+      $('boxPedido').innerHTML='<div class="warn" style="margin:0">Nao encontramos cadastro com esse documento. Preencha os dados abaixo.</div>';
     }
-    achou.sort(function(a,b){return (b.data_venda||'').localeCompare(a.data_venda||'');});
-    var v=achou[0],c=v.cliente_certificado||{},sit=((v.soluti||{}).situação)||'';
-    st.uuid=v.uuid;st.pedidoCriado=v.pedido;st.docDigits=doc;
-    $('boxPedido').innerHTML='<div class="resumo" style="margin-bottom:10px">'
-      +'<div class="l"><span>Pedido</span><span>#'+(v.pedido||'')+'</span></div>'
-      +'<div class="l"><span>Titular</span><span>'+(c.nome_razao||'')+'</span></div>'
-      +'<div class="l"><span>Documento</span><span>'+(c.documento||'')+'</span></div>'
-      +'<div class="l"><span>Produto</span><span>'+(((v.produto||{})['descrição'])||'')+'</span></div>'
-      +'<div class="l"><span>Situacao</span><span>'+(v.status||'')+(sit?' · '+sit:'')+'</span></div></div>'
-      +'<button class="btn" onclick="continuarPedido(\''+v.uuid+'\','+(v.pedido||0)+')">Continuar este pedido</button>';
-  })
-  .catch(function(){$('boxPedido').innerHTML='<div class="warn" style="margin:0">Nao consegui consultar agora. Tente de novo.</div>';});
+  });
 }
 function continuarPedido(uuid,pedido){
   st.uuid=uuid;st.pedidoCriado=pedido;salvarRascunho();
@@ -520,7 +581,6 @@ function pedirLiberacao(){
     +'*CPF/CNPJ:* '+(st.docFmt||'-')+'\n\n'
     +'Vou enviar o comprovante agora para conferencia.';
   $('btnZapComp').href='https://wa.me/'+WA+'?text='+encodeURIComponent(msg);
-
   try{
     var pend=JSON.parse(localStorage.getItem('cge_cc_pendentes')||'[]');
     var item={pedido:st.pedidoCriado||null, nome:$('nome').value.trim(), doc:st.docFmt,
@@ -529,7 +589,6 @@ function pedirLiberacao(){
     for(var i=0;i<pend.length;i++){ if(pend[i].pedido===item.pedido && item.pedido) jaTem=true; }
     if(!jaTem){ pend.push(item); localStorage.setItem('cge_cc_pendentes',JSON.stringify(pend)); }
   }catch(e){}
-
   [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
   ['eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
   $('s1').classList.add('on');$('s2').classList.add('on');$('s3').classList.add('on');
@@ -637,8 +696,14 @@ document.querySelectorAll('.tp').forEach(function(o){
     salvarRascunho();
   };
 });
-$('cpf').oninput=function(e){e.target.value=maskCPF(e.target.value);};
-$('cnpj').oninput=function(e){e.target.value=maskCNPJ(e.target.value);};
+$('cpf').oninput=function(e){
+  e.target.value=maskCPF(e.target.value);
+  if(digitos(e.target.value).length===11) tentarAutoPreencher();
+};
+$('cnpj').oninput=function(e){
+  e.target.value=maskCNPJ(e.target.value);
+  if(digitos(e.target.value).length===14) tentarAutoPreencher();
+};
 $('tel').oninput=function(e){e.target.value=maskTel(e.target.value);};
 $('cep').oninput=function(e){
   e.target.value=maskCEP(e.target.value);
