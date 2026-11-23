@@ -127,7 +127,14 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:cente
 <div class="f"><label>Celular (WhatsApp) <span class="req">*</span></label><input id="tel" placeholder="(63) 99285-6647" inputmode="numeric" maxlength="16"><div class="msg" id="mTel">Informe o celular com DDD.</div></div>
 </div>
 <div class="f"><label>E-mail <span class="req">*</span></label><input type="email" id="email" placeholder="seu@email.com"><div class="msg" id="mEmail">E-mail invalido.</div></div>
-<div class="f hide" id="wrapCnpj"><label>CNPJ <span class="req">*</span></label><input id="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18"><div class="msg" id="mCnpj">CNPJ invalido.</div></div>
+<div class="f hide" id="wrapCnpj">
+<label>CNPJ <span class="req">*</span></label>
+<div style="display:flex;gap:8px">
+<input id="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18">
+<button type="button" id="btnCnpj" onclick="consultarCnpj()" style="border:0;border-radius:10px;padding:0 16px;font-size:13px;font-weight:700;background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto);cursor:pointer;white-space:nowrap">Buscar</button>
+</div>
+<div class="msg" id="mCnpj">CNPJ invalido.</div>
+</div>
 <div class="row">
 <div class="f"><label>CEP <span class="req">*</span></label><input id="cep" placeholder="00000-000" inputmode="numeric" maxlength="9"><div class="msg" id="mCep">CEP invalido.</div></div>
 <div class="f"><label>Cidade <span class="req">*</span></label><input id="cidade" placeholder="Pelo CEP"><div class="msg" id="mCidade">Informe a cidade.</div></div>
@@ -320,7 +327,6 @@ function ligaAutoSave(){
   CAMPOS.forEach(function(k){var el=$(k);if(el){el.addEventListener('input',salvarRascunho);el.addEventListener('change',salvarRascunho);}});
 }
 
-/* ===== AUTO-PREENCHIMENTO POR CPF/CNPJ ===== */
 var CLIENTES=null, cliPromessa=null, ultimoAuto=null;
 
 function carregaClientes(){
@@ -370,23 +376,188 @@ function preencheCom(dados){
   return mudou;
 }
 
+var CNPJ_CACHE='cge_cc_cnpj_cache';
+
+function lerCacheCnpj(){
+  try{ return JSON.parse(localStorage.getItem(CNPJ_CACHE)||'{}'); }catch(e){ return {}; }
+}
+function gravaCacheCnpj(cc, dados){
+  try{
+    var d=lerCacheCnpj();
+    d[cc]={dados:dados, em:Date.now()};
+    var corte=Date.now()-30*86400000;
+    for(var k in d){ if(!d[k]||d[k].em<corte) delete d[k]; }
+    localStorage.setItem(CNPJ_CACHE, JSON.stringify(d));
+  }catch(e){}
+}
+
+var FONTES = [
+  {
+    nome: 'BrasilAPI',
+    url: function(cc){ return 'https://brasilapi.com.br/api/cnpj/v1/'+cc; },
+    ler: function(r){
+      if(!r || !r.razao_social) return null;
+      var tel = digitos(r.ddd_telefone_1||'');
+      return {
+        n: r.razao_social,
+        t: (tel.length>=10?tel:''),
+        e: (r.email||'').trim(),
+        c: {
+          cep: digitos(r.cep||''),
+          rua: ((r.descricao_tipo_de_logradouro||'')+' '+(r.logradouro||'')).trim(),
+          num: (r.numero||'').trim(),
+          bai: (r.bairro||'').trim(),
+          cid: (r.municipio||'').trim(),
+          uf: (r.uf||'').trim().toUpperCase(),
+          ibge: digitos(r.codigo_municipio_ibge||'')
+        },
+        _fantasia: r.nome_fantasia||'',
+        _situacao: r.descricao_situacao_cadastral||r.situacao_cadastral||'',
+        _socios: (r.qsa||[]).map(function(s){ return s.nome_socio; }),
+        _simples: r.opcao_pelo_simples==='Sim'||r.opcao_pelo_simples===true,
+        _simei: r.opcao_pelo_mei==='Sim'||r.opcao_pelo_mei===true
+      };
+    }
+  },
+  {
+    nome: 'CNPJ.ws',
+    url: function(cc){ return 'https://publica.cnpj.ws/cnpj/'+cc; },
+    ler: function(r){
+      if(!r || !r.razao_social) return null;
+      var e = r.estabelecimento || {};
+      var tel = digitos((e.ddd1||'')+(e.telefone1||''));
+      return {
+        n: r.razao_social,
+        t: (tel.length>=10?tel:''),
+        e: (e.email||'').trim(),
+        c: {
+          cep: digitos(e.cep||''),
+          rua: ((e.tipo_logradouro||'')+' '+(e.logradouro||'')).trim(),
+          num: (e.numero||'').trim(),
+          bai: (e.bairro||'').trim(),
+          cid: ((e.cidade||{}).nome||'').trim(),
+          uf: ((e.estado||{}).sigla||'').trim().toUpperCase(),
+          ibge: digitos(((e.cidade||{}).ibge_id)||'')
+        },
+        _fantasia: e.nome_fantasia||'',
+        _situacao: String(e.situacao_cadastral||''),
+        _socios: (r.socios||[]).map(function(s){ return s.nome; }),
+        _simples: !!(r.simples&&r.simples.simples==='Sim'),
+        _simei: !!(r.simples&&r.simples.mei==='Sim')
+      };
+    }
+  },
+  {
+    nome: 'ReceitaWS',
+    url: function(cc){ return 'https://receitaws.com.br/v1/cnpj/'+cc; },
+    ler: function(r){
+      if(!r || r.status!=='OK') return null;
+      var tel = digitos(r.telefone||'').slice(0,11);
+      return {
+        n: r.nome||'',
+        t: (tel.length>=10?tel:''),
+        e: (r.email||'').trim(),
+        c: {
+          cep: digitos(r.cep||''),
+          rua: (r.logradouro||'').trim(),
+          num: (r.numero||'').trim(),
+          bai: (r.bairro||'').trim(),
+          cid: (r.municipio||'').trim(),
+          uf: (r.uf||'').trim().toUpperCase(),
+          ibge: ''
+        },
+        _fantasia: r.fantasia||'',
+        _situacao: r.situacao||'',
+        _socios: (r.qsa||[]).map(function(s){ return s.nome; }),
+        _simples: !!((r.simples||{}).optante),
+        _simei: !!((r.simei||{}).optante)
+      };
+    }
+  }
+];
+
+function buscaReceita(cc){
+  var cache=lerCacheCnpj();
+  if(cache[cc] && cache[cc].dados){ return Promise.resolve(cache[cc].dados); }
+  function tentar(i){
+    if(i>=FONTES.length) return Promise.resolve(null);
+    var f=FONTES[i];
+    return fetch(f.url(cc), {headers:{'Accept':'application/json'}})
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        var d=f.ler(j);
+        if(d && d.n){ d._fonte=f.nome; gravaCacheCnpj(cc,d); return d; }
+        return tentar(i+1);
+      })
+      .catch(function(){ return tentar(i+1); });
+  }
+  return tentar(0);
+}
+
+function mostraAvisoAuto(html, erro){
+  var av=$('avisoAuto');
+  if(!av) return;
+  av.className = erro ? 'warn' : 'okbox';
+  av.innerHTML = html;
+  av.classList.remove('hide');
+}
+
+function consultarCnpj(){
+  var cc=digitos($('cnpj').value);
+  if(cc.length!==14){ mostrar('mCnpj',false); return; }
+  if(!validaCNPJ(cc)){ mostrar('mCnpj',false); return; }
+  mostrar('mCnpj',true);
+  ultimoAuto=null;
+  tentarAutoPreencher();
+}
+
 function tentarAutoPreencher(){
   var doc=digitos($('cpf').value)||digitos($('cnpj').value);
   if(doc.length!==11&&doc.length!==14) return;
   if(ultimoAuto===doc) return;
   ultimoAuto=doc;
+
+  var ehCnpj = (doc.length===14);
+
   carregaClientes().then(function(lista){
     var dados=lista[doc];
-    if(!dados){ ultimoAuto=null; return; }
-    var ok=preencheCom(dados);
-    if(ok){
-      var av=$('avisoAuto');
-      if(av){
-        av.innerHTML='<b>Bem-vindo de volta, '+(dados.n||'cliente')+'!</b><br>'
-          +'<span style="font-size:12px">Preenchemos seus dados. Confira e siga em frente.</span>';
-        av.classList.remove('hide');
+    if(dados){
+      var ok=preencheCom(dados);
+      if(ok){
+        mostraAvisoAuto('<b>Bem-vindo de volta, '+(dados.n||'cliente')+'!</b><br>'
+          +'<span style="font-size:12px">Preenchemos seus dados do nosso cadastro. Confira e siga em frente.</span>', false);
       }
+      return;
     }
+
+    if(!ehCnpj){ ultimoAuto=null; return; }
+
+    mostraAvisoAuto('<span class="spin"></span>Buscando os dados do CNPJ na Receita Federal...', false);
+
+    buscaReceita(doc).then(function(rec){
+      if(!rec){
+        $('avisoAuto').className='okbox hide';
+        $('avisoAuto').classList.add('hide');
+        return;
+      }
+      preencheCom(rec);
+      var extra='';
+      if(rec._fantasia) extra+=' · <b>'+(rec._fantasia)+'</b>';
+      var sit=rec._situacao?(' · situacao: <b>'+rec._situacao+'</b>'):'';
+      var soc=(rec._socios&&rec._socios.length)?('<br><span style="font-size:12px">Socio(s): '+rec._socios.slice(0,4).join(', ')+'</span>'):'';
+      var reg=(rec._simples?' · Simples':'')+(rec._simei?' · MEI':'');
+
+      var sitNorm=String(rec._situacao||'').toUpperCase();
+      var ativa=(sitNorm==='ATIVA'||sitNorm==='2'||sitNorm==='');
+
+      if(!ativa){
+        mostraAvisoAuto('<b>CNPJ '+rec._situacao+' na Receita Federal.</b><br>'
+          +'<span style="font-size:12px">'+(rec.n||'')+sit+'. Confira antes de seguir.</span>', true);
+        return;
+      }
+      mostraAvisoAuto('<b>'+(rec.n||'CNPJ encontrado')+'</b>'+extra+sit+reg+(rec._fonte?' · fonte: '+rec._fonte:'')+
+        '<br><span style="font-size:12px">Dados preenchidos pela Receita Federal. Confira e siga.</span>'+soc, false);
+    });
   });
 }
 
@@ -398,7 +569,6 @@ function acessarPedido(){
   var d=lerRascunho();
   if(d&&d.campos&&(digitos(d.campos.cpf)===doc||digitos(d.campos.cnpj)===doc)){retomarTudo();return;}
 
-  /* preenche os dados do cliente no formulario */
   if(doc.length===14){ document.querySelectorAll('.tp')[1].click(); $('cnpj').value=maskCNPJ(doc); }
   else { document.querySelectorAll('.tp')[0].click(); $('cpf').value=maskCPF(doc); }
 
@@ -406,21 +576,18 @@ function acessarPedido(){
     var dados=lista[doc];
     if(dados){
       preencheCom(dados);
-      var av=$('avisoAuto');
-      if(av){ av.innerHTML='<b>Bem-vindo de volta, '+(dados.n||'cliente')+'!</b><br><span style="font-size:12px">Dados preenchidos. Confira e continue.</span>'; av.classList.remove('hide'); }
-      $('boxPedido').classList.remove('hide');
-      $('boxPedido').innerHTML='<div class="okbox" style="margin:0">Cadastro encontrado. Role para baixo e confira seus dados.</div>';
+      mostraAvisoAuto('<b>Bem-vindo de volta, '+(dados.n||'cliente')+'!</b><br><span style="font-size:12px">Dados preenchidos. Confira e continue.</span>', false);
+      $('boxPedido').classList.add('hide');
+      document.getElementById('e1').scrollIntoView({behavior:'smooth',block:'start'});
+    } else if(doc.length===14){
+      ultimoAuto=null;
+      tentarAutoPreencher();
       document.getElementById('e1').scrollIntoView({behavior:'smooth',block:'start'});
     } else {
       $('boxPedido').classList.remove('hide');
       $('boxPedido').innerHTML='<div class="warn" style="margin:0">Nao encontramos cadastro com esse documento. Preencha os dados abaixo.</div>';
     }
   });
-}
-function continuarPedido(uuid,pedido){
-  st.uuid=uuid;st.pedidoCriado=pedido;salvarRascunho();
-  $('numPedido').textContent='#'+pedido;
-  ir(3);$('resumo').innerHTML=montarResumo();
 }
 
 function api(path,opts){
@@ -693,6 +860,10 @@ document.querySelectorAll('.tp').forEach(function(o){
     st.precoFinal=st.cupom?aplicaDesc(st.preco,st.cupom):st.preco;
     if(st.cupom)pintaCupom();
     $('wrapCnpj').classList[st.tipo==='PF'?'add':'remove']('hide');
+    if(st.tipo==='PJ'){
+      var cEl=$('cnpj');
+      if(cEl && digitos(cEl.value).length===14){ ultimoAuto=null; tentarAutoPreencher(); }
+    }
     salvarRascunho();
   };
 });
