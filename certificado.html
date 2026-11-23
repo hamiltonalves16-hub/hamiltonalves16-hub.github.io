@@ -121,27 +121,38 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:cente
 <div class="tp" data-tipo="PJ" data-prod="prod_anj2H8wVzAjWJo" data-preco="190"><div class="t">Pessoa Juridica</div><div class="p">R$ 190</div></div>
 </div>
 <div class="okbox hide" id="avisoAuto" style="margin-bottom:12px"></div>
-<div class="f"><label>Nome completo <span class="req">*</span></label><input id="nome" placeholder="Como consta na CNH"><div class="msg" id="mNome">Informe nome e sobrenome.</div></div>
-<div class="row">
-<div class="f"><label>CPF <span class="req">*</span></label><input id="cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14"><div class="msg" id="mCpf">CPF invalido.</div></div>
-<div class="f"><label>Celular (WhatsApp) <span class="req">*</span></label><input id="tel" placeholder="(63) 99285-6647" inputmode="numeric" maxlength="16"><div class="msg" id="mTel">Informe o celular com DDD.</div></div>
+
+<!-- PESSOA FISICA -->
+<div id="blocoPF">
+  <div class="f"><label>Nome completo <span class="req">*</span></label><input id="nome" placeholder="Como consta na CNH"><div class="msg" id="mNome">Informe nome e sobrenome.</div></div>
+  <div class="row">
+    <div class="f"><label>CPF <span class="req">*</span></label><input id="cpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14"><div class="msg" id="mCpf">CPF invalido.</div></div>
+    <div class="f"><label>Celular (WhatsApp) <span class="req">*</span></label><input id="tel" placeholder="(63) 99285-6647" inputmode="numeric" maxlength="16"><div class="msg" id="mTel">Informe o celular com DDD.</div></div>
+  </div>
+  <div class="f"><label>E-mail <span class="req">*</span></label><input type="email" id="email" placeholder="seu@email.com"><div class="msg" id="mEmail">E-mail invalido.</div></div>
 </div>
-<div class="f"><label>E-mail <span class="req">*</span></label><input type="email" id="email" placeholder="seu@email.com"><div class="msg" id="mEmail">E-mail invalido.</div></div>
-<div class="f hide" id="wrapCnpj">
-<label>CNPJ <span class="req">*</span></label>
-<div style="display:flex;gap:8px">
-<input id="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18">
-<button type="button" id="btnCnpj" onclick="consultarCnpj()" style="border:0;border-radius:10px;padding:0 16px;font-size:13px;font-weight:700;background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto);cursor:pointer;white-space:nowrap">Buscar</button>
+
+<!-- PESSOA JURIDICA -->
+<div id="blocoPJ" class="hide">
+  <div class="f"><label>CNPJ <span class="req">*</span></label>
+    <div style="display:flex;gap:8px">
+      <input id="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" maxlength="18">
+      <button type="button" onclick="consultarCnpj()" style="border:0;border-radius:10px;padding:0 16px;font-size:13px;font-weight:700;background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto);cursor:pointer;white-space:nowrap">Buscar</button>
+    </div>
+    <div class="msg" id="mCnpj">CNPJ invalido.</div>
+  </div>
+  <div class="f"><label>Razao social <span class="req">*</span></label><input id="nomePJ" placeholder="Vem da Receita"><div class="msg" id="mNomePJ">Informe a razao social.</div></div>
+  <div class="warn" style="margin-bottom:10px"><b>Responsavel pela empresa</b> &mdash; quem vai assinar e fazer a videoconferencia.</div>
+  <div class="row">
+    <div class="f"><label>Nome do responsavel <span class="req">*</span></label><input id="repNome" placeholder="Como consta na CNH dele"><div class="msg" id="mRepNome">Informe o nome do responsavel.</div></div>
+    <div class="f"><label>CPF do responsavel <span class="req">*</span></label><input id="repCpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14"><div class="msg" id="mRepCpf">CPF invalido.</div></div>
+  </div>
+  <div class="row">
+    <div class="f"><label>Celular (WhatsApp) <span class="req">*</span></label><input id="telPJ" placeholder="(63) 99285-6647" inputmode="numeric" maxlength="16"><div class="msg" id="mTelPJ">Informe o celular com DDD.</div></div>
+    <div class="f"><label>E-mail <span class="req">*</span></label><input type="email" id="emailPJ" placeholder="empresa@email.com"><div class="msg" id="mEmailPJ">E-mail invalido.</div></div>
+  </div>
 </div>
-<div class="msg" id="mCnpj">CNPJ invalido.</div>
-</div>
-<div class="hide" id="wrapRep">
-<div class="warn" style="margin-bottom:10px"><b>Representante legal</b> &mdash; a Autentica exige quem assina pela empresa.</div>
-<div class="row">
-<div class="f"><label>Nome do representante <span class="req">*</span></label><input id="repNome" placeholder="Como consta na CNH dele"><div class="msg" id="mRepNome">Informe o nome do representante.</div></div>
-<div class="f"><label>CPF do representante <span class="req">*</span></label><input id="repCpf" placeholder="000.000.000-00" inputmode="numeric" maxlength="14"><div class="msg" id="mRepCpf">CPF invalido.</div></div>
-</div>
-</div>
+
 <div class="row">
 <div class="f"><label>CEP <span class="req">*</span></label><input id="cep" placeholder="00000-000" inputmode="numeric" maxlength="9"><div class="msg" id="mCep">CEP invalido.</div></div>
 <div class="f"><label>Cidade <span class="req">*</span></label><input id="cidade" placeholder="Pelo CEP"><div class="msg" id="mCidade">Informe a cidade.</div></div>
@@ -279,7 +290,7 @@ var API="https://service.certcontrol.com.br/api/integracao";
 var TABELA="16615", CUSTO=50, PIX="19.819.476/0001-87", WA="5563992856647";
 var CUPONS=[];
 var st={tipo:"PF",prod:"prod_anj2GYLPSwixbL",preco:160,precoFinal:160,cnhFile:null,uuid:null,
-        dia:null,hora:null,senha:"",telFmt:"",email:"",docFmt:"",docDigits:"",cupom:null,liberado:false,modoApi:false,pedidoCriado:null,ibge:"",cnhValidade:""};
+        dia:null,hora:null,senha:"",telFmt:"",email:"",docFmt:"",docDigits:"",cupom:null,liberado:false,modoApi:false,pedidoCriado:null,nome:'',ibge:''};
 var etapaAtual=1;
 
 function $(id){return document.getElementById(id);}
@@ -294,7 +305,7 @@ function validaCPF(c){c=digitos(c);if(c.length!==11||/^(\d)\1{10}$/.test(c))retu
 function validaCNPJ(c){c=digitos(c);if(c.length!==14||/^(\d)\1{13}$/.test(c))return false;function f(b){var p=b.length-7,s=0,i,d;for(i=0;i<b.length;i++){s+=+b[i]*p--;if(p<2)p=9;}d=s%11;return d<2?0:11-d;}return f(c.slice(0,12))===+c[12]&&f(c.slice(0,13))===+c[13];}
 function senhaForte(s){return s.length>=8&&/[A-Z]/.test(s)&&/[0-9]/.test(s)&&/[^A-Za-z0-9]/.test(s);}
 
-var CAMPOS=['nome','cpf','tel','email','cnpj','repNome','repCpf','cep','cidade','rua','num','bairro','uf','cupom','senha','cnhVal','cnhNasc'];
+var CAMPOS=['nome','cpf','tel','email','cnpj','nomePJ','repNome','repCpf','telPJ','emailPJ','cep','cidade','rua','num','bairro','uf','cupom','senha','cnhVal','cnhNasc'];
 var DRAFT='cge_cc_draft';
 
 function salvarRascunho(){
@@ -302,7 +313,7 @@ function salvarRascunho(){
     var d={etapa:etapaAtual,tipo:st.tipo,preco:st.preco,precoFinal:st.precoFinal,cupom:st.cupom,
       uuid:st.uuid,pedidoCriado:st.pedidoCriado,liberado:st.liberado,dia:st.dia,hora:st.hora,
       telFmt:st.telFmt,email:st.email,docFmt:st.docFmt,senha:st.senha,docDigits:st.docDigits,
-      ibge:st.ibge,cnhValidade:st.cnhValidade,campos:{}};
+      nome:st.nome,ibge:st.ibge,campos:{}};
     CAMPOS.forEach(function(k){var el=$(k);if(el)d.campos[k]=el.value;});
     localStorage.setItem(DRAFT,JSON.stringify(d));
   }catch(e){}
@@ -314,12 +325,12 @@ function preencher(d){
   CAMPOS.forEach(function(k){var el=$(k);if(el&&d.campos&&d.campos[k]!==undefined)el.value=d.campos[k];});
   if(d.tipo){st.tipo=d.tipo;st.preco=d.preco||160;st.precoFinal=d.precoFinal||st.preco;
     document.querySelectorAll('.tp').forEach(function(x){x.classList.toggle('sel',x.dataset.tipo===d.tipo);});
-    $('wrapCnpj').classList[st.tipo==='PF'?'add':'remove']('hide');
-    $('wrapRep').classList[st.tipo==='PF'?'add':'remove']('hide');}
+    $('blocoPF').classList[st.tipo==='PF'?'remove':'add']('hide');
+    $('blocoPJ').classList[st.tipo==='PF'?'add':'remove']('hide');}
   st.cupom=d.cupom||null;st.uuid=d.uuid||null;st.pedidoCriado=d.pedidoCriado||null;
   st.liberado=d.liberado||false;st.senha=d.senha||'';st.telFmt=d.telFmt||'';
   st.email=d.email||'';st.docFmt=d.docFmt||'';st.docDigits=d.docDigits||'';
-  st.ibge=d.ibge||'';st.cnhValidade=d.cnhValidade||'';
+  st.nome=d.nome||'';st.ibge=d.ibge||'';
   if(d.ibge&&$('uf'))$('uf').dataset.ibge=d.ibge;
   if(st.cupom)pintaCupom();
 }
@@ -339,7 +350,8 @@ function retomarTudo(){
 }
 function mostraAvisoRascunho(){
   var d=lerRascunho();if(!d)return;
-  var n=(d.campos&&d.campos.nome)||'',doc=(d.campos&&(d.campos.cpf||d.campos.cnpj))||'';
+  var n=(d.campos&&(d.campos.nome||d.campos.nomePJ))||'';
+  var doc=(d.campos&&(d.campos.cpf||d.campos.cnpj))||'';
   if(!n&&!d.pedidoCriado)return;
   $('txtRascunho').textContent=(n||'')+(doc?' — '+doc:'')+(d.pedidoCriado?' · pedido #'+d.pedidoCriado:' · nao finalizado');
   $('avisoRascunho').classList.remove('hide');
@@ -376,13 +388,19 @@ function carregaClientes(){
 function preencheCom(dados){
   if(!dados) return false;
   var mudou=false;
+  var ehPJ=(st.tipo==='PJ');
   var set=function(id,v){var el=$(id);if(el&&v&&!el.value){el.value=v;mudou=true;}};
-  set('nome',dados.n);
-  if(dados.t && dados.t.length>=10){
-    var el=$('tel');
-    if(el&&!el.value){ el.value=maskTel(dados.t); mudou=true; }
+
+  if(ehPJ){
+    set('nomePJ',dados.n);
+    if(dados.t&&dados.t.length>=10){var e1=$('telPJ');if(e1&&!e1.value){e1.value=maskTel(dados.t);mudou=true;}}
+    set('emailPJ',dados.e);
+  } else {
+    set('nome',dados.n);
+    if(dados.t&&dados.t.length>=10){var e2=$('tel');if(e2&&!e2.value){e2.value=maskTel(dados.t);mudou=true;}}
+    set('email',dados.e);
   }
-  set('email',dados.e);
+
   var c=dados.c;
   if(c){
     set('cep',maskCEP(c.cep||''));
@@ -391,7 +409,7 @@ function preencheCom(dados){
     set('bairro',c.bai);
     set('cidade',c.cid);
     if(c.uf&&!$('uf').value){ $('uf').value=c.uf; mudou=true; }
-    if(c.ibge){ $('uf').dataset.ibge=c.ibge; st.ibge=c.ibge; }
+    if(c.ibge&&!$('uf').dataset.ibge){ $('uf').dataset.ibge=c.ibge; }
   }
   if(mudou){ salvarRascunho(); }
   return mudou;
@@ -515,107 +533,6 @@ function buscaReceita(cc){
   return tentar(0);
 }
 
-/* ===== IBGE: garante o codigo do municipio =====
-   A API exige certificado.endereco.codigo_ibge. Ele vem da BrasilAPI (CEP) ou
-   da Receita (CNPJ), mas some quando o cliente digita o endereco a mao.
-   Aqui buscamos pela UF + nome da cidade. */
-var IBGE_CACHE='cge_cc_ibge';
-
-function lerCacheIbge(){
-  try{ return JSON.parse(localStorage.getItem(IBGE_CACHE)||'{}'); }catch(e){ return {}; }
-}
-function gravaCacheIbge(chave, cod){
-  try{
-    var d=lerCacheIbge(); d[chave]=cod;
-    localStorage.setItem(IBGE_CACHE, JSON.stringify(d));
-  }catch(e){}
-}
-function normCidade(s){
-  s=String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  return s.toLowerCase().replace(/[^a-z ]/g,'').trim();
-}
-
-function buscaIbge(uf, cidade){
-  return new Promise(function(resolve){
-    uf=(uf||'').toUpperCase();
-    cidade=String(cidade||'').trim();
-    if(!uf||!cidade) return resolve('');
-
-    var chave=uf+'|'+normCidade(cidade);
-    var cache=lerCacheIbge();
-    if(cache[chave]) return resolve(cache[chave]);
-
-    var alvo=normCidade(cidade);
-    fetch('https://brasilapi.com.br/api/ibge/municipios/v1/'+uf)
-      .then(function(r){ return r.ok?r.json():[]; })
-      .then(function(lista){
-        if(!Array.isArray(lista)||!lista.length) return resolve('');
-        var exato=null, parcial=null;
-        for(var i=0;i<lista.length;i++){
-          var n=normCidade(lista[i].nome || '');
-          if(n===alvo){ exato=lista[i].codigo_ibge; break; }
-          if(!parcial && (n.indexOf(alvo)===0 || alvo.indexOf(n)===0)) parcial=lista[i].codigo_ibge;
-        }
-        var cod=exato||parcial||'';
-        if(cod) gravaCacheIbge(chave, String(cod));
-        resolve(String(cod||''));
-      })
-      .catch(function(){ resolve(''); });
-  });
-}
-
-function garantirIbge(){
-  var ibge=$('uf').dataset.ibge||st.ibge||'';
-  if(ibge) return Promise.resolve(ibge);
-  return buscaIbge($('uf').value, $('cidade').value).then(function(cod){
-    if(cod){ $('uf').dataset.ibge=cod; st.ibge=cod; }
-    return cod;
-  });
-}
-
-/* ===== VALIDADE DA CNH =====
-   A Autentica exige CNH dentro da validade na videoconferencia.
-   Aqui recusamos antes de gastar o pedido: CNH vencida nao passa. */
-function dataBR(s){
-  var m=String(s||'').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-  if(!m) return null;
-  var d=new Date(+m[3], +m[2]-1, +m[1]);
-  if(d.getFullYear()!==+m[3]||d.getMonth()!==+m[2]-1||d.getDate()!==+m[1]) return null;
-  return d;
-}
-function diasAte(d){
-  var h=new Date(); h.setHours(0,0,0,0);
-  return Math.round((d-h)/86400000);
-}
-function confereCnhValidade(){
-  var el=$('cnhVal'), m=$('mCnhVal'), av=$('avisoCnhVencida');
-  m.classList.remove('show');
-  av.classList.add('hide');
-  var s=(el.value||'').trim();
-  if(!s){ return {ok:false, motivo:'validade'}; }
-
-  var d=dataBR(s);
-  if(!d){ m.textContent='Data invalida. Use DD/MM/AAAA.'; m.classList.add('show'); return {ok:false, motivo:'formato'}; }
-
-  var dias=diasAte(d);
-  if(dias<0){
-    av.className='warn';
-    av.innerHTML='<b>CNH VENCIDA</b> em '+s+' ('+Math.abs(dias)+' dias atras).<br>'
-      +'A Autentica exige CNH dentro da validade na videoconferencia. '
-      +'Peca a CNH nova antes de continuar.';
-    av.classList.remove('hide');
-    return {ok:false, motivo:'vencida', dias:dias, data:s};
-  }
-  if(dias<=30){
-    av.className='warn';
-    av.innerHTML='<b>Atencao:</b> a CNH vence em '+dias+' dia(s) ('+s+').<br>'
-      +'Agende a videoconferencia para os proximos dias.';
-    av.classList.remove('hide');
-  }
-  st.cnhValidade=s;
-  return {ok:true, dias:dias, data:s};
-}
-
 function mostraAvisoAuto(html, erro){
   var av=$('avisoAuto');
   if(!av) return;
@@ -634,7 +551,7 @@ function consultarCnpj(){
 }
 
 function tentarAutoPreencher(){
-  var doc=digitos($('cpf').value)||digitos($('cnpj').value);
+  var doc = (st.tipo==='PJ') ? digitos($('cnpj').value) : digitos($('cpf').value);
   if(doc.length!==11&&doc.length!==14) return;
   if(ultimoAuto===doc) return;
   ultimoAuto=doc;
@@ -738,18 +655,6 @@ function aplicarCupom(){
   st.cupom=a;st.precoFinal=aplicaDesc(st.preco,a);pintaCupom();salvarRascunho();
 }
 
-var etapaErro=1;
-
-function voltarPara(n){
-  ['e1','e2','e3','e4','eSenha','eTrava','ok','erro'].forEach(function(id){var e=$(id);if(e)e.classList.add('hide');});
-  if(n===0){window.scrollTo({top:0,behavior:'smooth'});return;}
-  $('e'+n).classList.remove('hide');
-  for(var i=1;i<=4;i++){var s=$('s'+i);if(s)s.classList[i<=n?'add':'remove']('on');}
-  etapaAtual=n;salvarRascunho();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function voltarDoErro(){voltarPara(etapaErro||1);}
-
 function ir(n){
   if(n===4&&!st.liberado){pedirLiberacao();return;}
   if(n===2&&!validar1())return;
@@ -764,15 +669,21 @@ function ir(n){
 }
 function validar1(){
   var ok=true;
-  if($('nome').value.trim().split(' ').filter(Boolean).length<2){mostrar('mNome',false);ok=false;}else mostrar('mNome',true);
-  if(!validaCPF($('cpf').value)){mostrar('mCpf',false);ok=false;}else mostrar('mCpf',true);
-  if(digitos($('tel').value).length<10){mostrar('mTel',false);ok=false;}else mostrar('mTel',true);
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test($('email').value)){mostrar('mEmail',false);ok=false;}else mostrar('mEmail',true);
-  if(st.tipo==='PJ'){
+  var reEmail=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  if(st.tipo==='PF'){
+    if($('nome').value.trim().split(' ').filter(Boolean).length<2){mostrar('mNome',false);ok=false;}else mostrar('mNome',true);
+    if(!validaCPF($('cpf').value)){mostrar('mCpf',false);ok=false;}else mostrar('mCpf',true);
+    if(digitos($('tel').value).length<10){mostrar('mTel',false);ok=false;}else mostrar('mTel',true);
+    if(!reEmail.test($('email').value)){mostrar('mEmail',false);ok=false;}else mostrar('mEmail',true);
+  } else {
     if(!validaCNPJ($('cnpj').value)){mostrar('mCnpj',false);ok=false;}else mostrar('mCnpj',true);
+    if(!$('nomePJ').value.trim()){mostrar('mNomePJ',false);ok=false;}else mostrar('mNomePJ',true);
     var rn=($('repNome').value||'').trim();
     if(rn.split(' ').filter(Boolean).length<2){mostrar('mRepNome',false);ok=false;}else mostrar('mRepNome',true);
     if(!validaCPF($('repCpf').value)){mostrar('mRepCpf',false);ok=false;}else mostrar('mRepCpf',true);
+    if(digitos($('telPJ').value).length<10){mostrar('mTelPJ',false);ok=false;}else mostrar('mTelPJ',true);
+    if(!reEmail.test($('emailPJ').value)){mostrar('mEmailPJ',false);ok=false;}else mostrar('mEmailPJ',true);
   }
   if(digitos($('cep').value).length!==8){mostrar('mCep',false);ok=false;}else mostrar('mCep',true);
   if(!$('cidade').value.trim()){mostrar('mCidade',false);ok=false;}else mostrar('mCidade',true);
@@ -784,13 +695,14 @@ function validar1(){
   if(!ok)window.scrollTo({top:0,behavior:'smooth'});
   return ok;
 }
+
 function montarResumo(){
-  var doc=st.tipo==='PJ'?$('cnpj').value:$('cpf').value;
+  var D=dadosAtivos();
   var h='<div class="l"><span>Produto</span><span>Certificado A1 '+st.tipo+'</span></div>'
-   +'<div class="l"><span>Titular</span><span>'+($('nome').value.trim()||'-')+'</span></div>'
-   +'<div class="l"><span>CPF/CNPJ</span><span>'+(doc||'-')+'</span></div>';
-  if(st.tipo==='PJ'&&$('repNome').value)
-    h+='<div class="l"><span>Representante</span><span>'+$('repNome').value.trim()+'</span></div>';
+   +'<div class="l"><span>'+(st.tipo==='PJ'?'Empresa':'Titular')+'</span><span>'+(D.nome||'-')+'</span></div>'
+   +'<div class="l"><span>'+(st.tipo==='PJ'?'CNPJ':'CPF')+'</span><span>'+(D.doc||'-')+'</span></div>';
+  if(st.tipo==='PJ'&&D.repNome)
+    h+='<div class="l"><span>Responsavel</span><span>'+D.repNome+'</span></div>';
   if($('cidade').value)h+='<div class="l"><span>Cidade</span><span>'+$('cidade').value+' / '+$('uf').value.toUpperCase()+'</span></div>';
   if(st.cupom&&st.precoFinal<st.preco){
     h+='<div class="l"><span>Subtotal</span><span>'+precoFmt(st.preco)+'</span></div>'
@@ -798,6 +710,103 @@ function montarResumo(){
   }
   h+='<div class="l"><span>Total</span><span>'+precoFmt(st.precoFinal)+'</span></div>';
   return h;
+}
+
+/* ===== IBGE ===== */
+var IBGE_CACHE='cge_cc_ibge';
+function lerCacheIbge(){try{return JSON.parse(localStorage.getItem(IBGE_CACHE)||'{}');}catch(e){return {};}}
+function gravaCacheIbge(chave,cod){try{var d=lerCacheIbge();d[chave]=cod;localStorage.setItem(IBGE_CACHE,JSON.stringify(d));}catch(e){}}
+function normCidade(s){s=String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');return s.toLowerCase().replace(/[^a-z ]/g,'').trim();}
+
+function buscaIbge(uf, cidade){
+  return new Promise(function(resolve){
+    uf=(uf||'').toUpperCase(); cidade=String(cidade||'').trim();
+    if(!uf||!cidade) return resolve('');
+    var chave=uf+'|'+normCidade(cidade), cache=lerCacheIbge();
+    if(cache[chave]) return resolve(cache[chave]);
+    var alvo=normCidade(cidade);
+    fetch('https://brasilapi.com.br/api/ibge/municipios/v1/'+uf)
+      .then(function(r){ return r.ok?r.json():[]; })
+      .then(function(lista){
+        if(!Array.isArray(lista)||!lista.length) return resolve('');
+        var exato=null, parcial=null;
+        for(var i=0;i<lista.length;i++){
+          var n=normCidade(lista[i].nome||'');
+          if(n===alvo){ exato=lista[i].codigo_ibge; break; }
+          if(!parcial && (n.indexOf(alvo)===0 || alvo.indexOf(n)===0)) parcial=lista[i].codigo_ibge;
+        }
+        var cod=exato||parcial||'';
+        if(cod) gravaCacheIbge(chave, String(cod));
+        resolve(String(cod||''));
+      })
+      .catch(function(){ resolve(''); });
+  });
+}
+
+function garantirIbge(){
+  var ibge=$('uf').dataset.ibge||'';
+  if(ibge) return Promise.resolve(ibge);
+  return buscaIbge($('uf').value, $('cidade').value).then(function(cod){
+    if(cod) $('uf').dataset.ibge=cod;
+    return cod;
+  });
+}
+
+/* ===== VALIDADE DA CNH ===== */
+function dataBR(s){
+  var m=String(s||'').match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if(!m) return null;
+  var d=new Date(+m[3], +m[2]-1, +m[1]);
+  if(d.getFullYear()!==+m[3]||d.getMonth()!==+m[2]-1||d.getDate()!==+m[1]) return null;
+  return d;
+}
+function diasAte(d){var h=new Date();h.setHours(0,0,0,0);return Math.round((d-h)/86400000);}
+
+function confereCnhValidade(){
+  var el=$('cnhVal'), m=$('mCnhVal'), av=$('avisoCnhVencida');
+  m.classList.remove('show');
+  av.classList.add('hide');
+  var s=(el.value||'').trim();
+  if(!s){ return {ok:false, motivo:'validade'}; }
+  var d=dataBR(s);
+  if(!d){ m.textContent='Data invalida. Use DD/MM/AAAA.'; m.classList.add('show'); return {ok:false, motivo:'formato'}; }
+  var dias=diasAte(d);
+  if(dias<0){
+    av.className='warn';
+    av.innerHTML='<b>CNH VENCIDA</b> em '+s+' ('+Math.abs(dias)+' dias atras).<br>'
+      +'A Autentica exige CNH dentro da validade na videoconferencia. Peca a CNH nova antes de continuar.';
+    av.classList.remove('hide');
+    return {ok:false, motivo:'vencida', dias:dias, data:s};
+  }
+  if(dias<=30){
+    av.className='warn';
+    av.innerHTML='<b>Atencao:</b> a CNH vence em '+dias+' dia(s) ('+s+').<br>Agende a videoconferencia para os proximos dias.';
+    av.classList.remove('hide');
+  }
+  return {ok:true, dias:dias, data:s};
+}
+
+/* dados do formulario conforme o tipo escolhido */
+function dadosAtivos(){
+  if(st.tipo==='PJ'){
+    return {
+      nome: $('nomePJ').value.trim(),
+      doc: $('cnpj').value,
+      tel: digitos($('telPJ').value),
+      telFmt: $('telPJ').value,
+      email: $('emailPJ').value.trim(),
+      repNome: $('repNome').value.trim(),
+      repCpf: $('repCpf').value
+    };
+  }
+  return {
+    nome: $('nome').value.trim(),
+    doc: $('cpf').value,
+    tel: digitos($('tel').value),
+    telFmt: $('tel').value,
+    email: $('email').value.trim(),
+    repNome: '', repCpf: ''
+  };
 }
 
 function enviarCnh(){
@@ -815,22 +824,28 @@ function enviarCnh(){
     return;
   }
 
-  var btn=document.querySelector('#e2 .btn');btn.disabled=true;btn.innerHTML='<span class="spin"></span>Enviando...';
-  var cep=digitos($('cep').value),tel=digitos($('tel').value);
-  st.telFmt=$('tel').value;st.email=$('email').value.trim();st.senha=$('senha').value;
-  st.docFmt=(st.tipo==='PJ'?$('cnpj').value:$('cpf').value);st.docDigits=digitos(st.docFmt);
+  var btn=document.querySelector('#e2 .btn');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spin"></span>Enviando...';
+
+  var D=dadosAtivos();
+  var cep=digitos($('cep').value), tel=D.tel;
+  st.telFmt=D.telFmt; st.email=D.email; st.senha=$('senha').value;
+  st.docFmt=D.doc; st.docDigits=digitos(D.doc);
+  st.nome=D.nome; st.repNome=D.repNome; st.repCpf=D.repCpf;
 
   if(!st.modoApi){
-    btn.disabled=false;btn.textContent='Continuar';
+    btn.disabled=false; btn.textContent='Continuar';
     var lin=['*NOVO PEDIDO DE CERTIFICADO A1*','',
       '*Tipo:* '+st.tipo+' - '+precoFmt(st.precoFinal),
-      (st.tipo==='PJ'?'*CNPJ:* '+$('cnpj').value:'*CPF:* '+$('cpf').value),
-      '*Nome:* '+$('nome').value.trim(),'*Celular:* '+$('tel').value,
-      '*E-mail:* '+$('email').value.trim(),
+      (st.tipo==='PJ'?'*CNPJ:* '+D.doc:'*CPF:* '+D.doc),
+      (st.tipo==='PJ'?'*Empresa:* '+D.nome:'*Nome:* '+D.nome),
+      '*Celular:* '+D.telFmt,
+      '*E-mail:* '+D.email,
       '*Endereco:* '+$('rua').value.trim()+', '+$('num').value.trim()+' - '+$('bairro').value.trim(),
       '*Cidade:* '+$('cidade').value.trim()+' / '+$('uf').value.toUpperCase()+' - CEP '+$('cep').value,
       '*Senha criada:* '+$('senha').value,
-      (st.tipo==='PJ'?'*Representante:* '+$('repNome').value.trim()+' - CPF '+$('repCpf').value:''),
+      (st.tipo==='PJ'?'*Responsavel:* '+D.repNome+' - CPF '+D.repCpf:''),
       '*Validade CNH:* '+($('cnhVal').value||'-'),
       (st.cupom?'*Cupom:* '+st.cupom.codigo:''),'',
       'Estou enviando a CNH agora.'].filter(Boolean);
@@ -841,81 +856,113 @@ function enviarCnh(){
     $('btnZapSenha').href=urlW;
     $('avisoSenha').innerHTML='<b style="color:#fff">Envie a mensagem e depois a foto da CNH</b> no WhatsApp. Conferimos o pagamento e liberamos o agendamento.';
     [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
-    $('s1').classList.add('on');$('s2').classList.add('on');
+    $('s1').classList.add('on'); $('s2').classList.add('on');
     $('eSenha').classList.remove('hide');
-    etapaAtual=2;salvarRascunho();
+    etapaAtual=2; salvarRascunho();
     window.scrollTo({top:0,behavior:'smooth'});
     return;
   }
 
-  var body={venda:{tipo_lancamento_id:7,tabela_id:TABELA,produto_id:st.prod,valor_total:CUSTO,cupom:st.cupom?st.cupom.codigo:null},
-    certificado:{nome:$('nome').value.trim(),documento:digitos(st.docFmt),
-      documento_tipo:st.tipo==='PJ'?'CNPJ':'CPF',emails:[$('email').value.trim()],
+  var ibge=$('uf').dataset.ibge||'';
+  var body={
+    venda:{tipo_lancamento_id:7,tabela_id:TABELA,produto_id:st.prod,valor_total:CUSTO,
+           cupom:st.cupom?st.cupom.codigo:null},
+    certificado:{
+      nome:D.nome,
+      documento:digitos(st.docFmt),
+      documento_tipo:st.tipo==='PJ'?'CNPJ':'CPF',
+      emails:[D.email],
       celular:{numero:tel.slice(2),codigo_area:tel.slice(0,2)},
       endereco:{cep:cep,uf:$('uf').value.toUpperCase(),municipio:$('cidade').value.trim(),
-        codigo_ibge:'',logradouro:$('rua').value.trim(),numero:$('num').value.trim(),bairro:$('bairro').value.trim()}}};
+        codigo_ibge:ibge,logradouro:$('rua').value.trim(),
+        numero:$('num').value.trim(),bairro:$('bairro').value.trim()}
+    }
+  };
 
   if(st.tipo==='PJ'){
     body.certificado.representante_legal={
-      nome:($('repNome').value||'').trim(),
-      documento:digitos($('repCpf').value)
+      nome:D.repNome,
+      documento:digitos(D.repCpf)
     };
   }
 
   garantirIbge().then(function(cod){
     if(!cod){
-      btn.disabled=false;btn.textContent='Continuar';
+      btn.disabled=false; btn.textContent='Continuar';
       falhar('Nao encontrei o codigo IBGE de "'+$('cidade').value+'/'+$('uf').value+'". Confira se a cidade e a UF estao corretas.');
       return;
     }
     body.certificado.endereco.codigo_ibge=cod;
-    st.ibge=cod;salvarRascunho();
-    enviaPedido(body,btn,tel);
+    st.ibge=cod;
+    salvarRascunho();
+    enviaPedido(body, btn, tel);
   }).catch(function(e){
-    btn.disabled=false;btn.textContent='Continuar';
+    btn.disabled=false; btn.textContent='Continuar';
     falhar('Falha ao conferir a cidade: '+e.message);
   });
 }
 
-function enviaPedido(body,btn,tel){
+function enviaPedido(body, btn, tel){
   return api('/vendas',{method:'POST',body:JSON.stringify(body)}).then(function(r){
     if(!r.ok){
-      btn.disabled=false;btn.textContent='Continuar';
+      btn.disabled=false; btn.textContent='Continuar';
       falhar('Erro: '+JSON.stringify(r.data).slice(0,300));
       return;
     }
-    st.uuid=r.data.data.uuid;st.pedidoCriado=r.data.data.id||r.data.data.pedido;
-    return api('/vendas/'+st.uuid+'/senha',{method:'POST',body:JSON.stringify({senha:$('senha').value})}).then(function(s){
+    st.uuid=r.data.data.uuid;
+    st.pedidoCriado=r.data.data.id||r.data.data.pedido;
+
+    return api('/vendas/'+st.uuid+'/senha',
+               {method:'POST',body:JSON.stringify({senha:$('senha').value})}).then(function(s){
       if(!s.ok){btn.disabled=false;btn.textContent='Continuar';falhar('Senha recusada.');return;}
-      var fd=new FormData();fd.append('files[]',st.cnhFile);
+      var fd=new FormData();
+      fd.append('files[]',st.cnhFile);
       return api('/vendas/'+st.uuid+'/documentos',{method:'POST',body:fd}).then(function(d){
-        btn.disabled=false;btn.textContent='Continuar';
+        btn.disabled=false; btn.textContent='Continuar';
         if(!d.ok){falhar('A CNH nao subiu: '+JSON.stringify(d.data).slice(0,180));return;}
-        var msg='*SEU CERTIFICADO DIGITAL - CGE EMITTA*\n\nPedido: *#'+st.pedidoCriado+'*\nTitular: '+$('nome').value.trim()+
-          '\nCertificado: '+st.tipo+' - '+precoFmt(st.precoFinal)+'\n\n*SUA SENHA:*\n'+$('senha').value+
-          '\n\nAnote e guarde. Sera pedida na instalacao.';
+        var msg='*SEU CERTIFICADO DIGITAL - CGE EMITTA*\n\nPedido: *#'+st.pedidoCriado+'*'
+          +'\nTitular: '+st.nome
+          +'\nCertificado: '+st.tipo+' - '+precoFmt(st.precoFinal)
+          +'\n\n*SUA SENHA:*\n'+$('senha').value
+          +'\n\nAnote e guarde. Sera pedida na instalacao.';
         $('btnZapSenha').href='https://wa.me/55'+tel+'?text='+encodeURIComponent(msg);
         $('numPedido').textContent='#'+st.pedidoCriado;
         $('senhaMostra').textContent=st.senha;
         [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
-        $('s1').classList.add('on');$('s2').classList.add('on');
+        $('s1').classList.add('on'); $('s2').classList.add('on');
         $('eSenha').classList.remove('hide');
-        etapaAtual=2;salvarRascunho();
+        etapaAtual=2; salvarRascunho();
         window.scrollTo({top:0,behavior:'smooth'});
       });
     });
   }).catch(function(e){
-    btn.disabled=false;btn.textContent='Continuar';
+    btn.disabled=false; btn.textContent='Continuar';
     falhar('Falha de conexao: '+e.message);
   });
 }
 
+/* ===== VOLTAR ===== */
+var etapaErro=1;
+
+function voltarPara(n){
+  ['e1','e2','e3','e4','eSenha','eTrava','ok','erro'].forEach(function(id){
+    var e=$(id); if(e) e.classList.add('hide');
+  });
+  if(n===0){ window.scrollTo({top:0,behavior:'smooth'}); return; }
+  $('e'+n).classList.remove('hide');
+  for(var i=1;i<=4;i++){ var s=$('s'+i); if(s) s.classList[i<=n?'add':'remove']('on'); }
+  etapaAtual=n; salvarRascunho();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function voltarDoErro(){ voltarPara(etapaErro||1); }
+
 function falhar(msg){
-  etapaErro=etapaAtual||1;
+  etapaErro = etapaAtual || 1;
   $('erroTxt').textContent=msg;
   ['e1','e2','e3','e4','eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
-  $('erro').classList.remove('hide');window.scrollTo({top:0,behavior:'smooth'});
+  $('erro').classList.remove('hide'); window.scrollTo({top:0,behavior:'smooth'});
 }
+
 function copiarPix(){
   function run(){var b=document.querySelector('.copy'),t=b.textContent;b.textContent='Copiado!';setTimeout(function(){b.textContent=t;},1600);}
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(PIX).then(run,run);}
@@ -929,28 +976,31 @@ function carregaLib(){
 }
 function pedirLiberacao(){
   if(!$('pagou').checked){alert('Marque que ja fez o PIX.');return;}
+  var nomeAtual = (st.tipo==='PJ'?$('nomePJ').value:$('nome').value).trim();
   var msg='*COMPROVANTE DE PAGAMENTO*\n\n'
     +'Ola! Acabei de fazer o PIX'+(st.pedidoCriado?' do pedido *#'+st.pedidoCriado+'*':'')+'.\n'
     +'*Certificado:* A1 '+st.tipo+' - '+precoFmt(st.precoFinal)+'\n'
-    +'*Nome:* '+($('nome').value.trim()||'-')+'\n'
+    +'*Nome:* '+(nomeAtual||'-')+'\n'
     +'*CPF/CNPJ:* '+(st.docFmt||'-')+'\n\n'
     +'Vou enviar o comprovante agora para conferencia.';
   $('btnZapComp').href='https://wa.me/'+WA+'?text='+encodeURIComponent(msg);
   try{
     var pend=JSON.parse(localStorage.getItem('cge_cc_pendentes')||'[]');
-    var item={pedido:st.pedidoCriado||null,nome:$('nome').value.trim(),doc:st.docFmt,tipo:st.tipo,valor:st.precoFinal,quando:new Date().toISOString()};
-    var jaTem=false;for(var i=0;i<pend.length;i++){if(pend[i].pedido===item.pedido&&item.pedido)jaTem=true;}
-    if(!jaTem){pend.push(item);localStorage.setItem('cge_cc_pendentes',JSON.stringify(pend));}
+    var item={pedido:st.pedidoCriado||null,nome:st.nome||'',doc:st.docFmt,
+      tipo:st.tipo,valor:st.precoFinal,quando:new Date().toISOString()};
+    var jaTem=false;
+    for(var i=0;i<pend.length;i++){ if(pend[i].pedido===item.pedido && item.pedido) jaTem=true; }
+    if(!jaTem){ pend.push(item); localStorage.setItem('cge_cc_pendentes',JSON.stringify(pend)); }
   }catch(e){}
   [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
   ['eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
   $('s1').classList.add('on');$('s2').classList.add('on');$('s3').classList.add('on');
   $('textoTrava').innerHTML='Enviamos seu comprovante para conferencia. Confirmado o PIX'+(st.pedidoCriado?' do pedido <b style="color:#fff">#'+st.pedidoCriado+'</b>':'')+', voce recebe <b style="color:#fff">no WhatsApp o codigo de liberacao</b>.';
-  $('eTrava').classList.remove('hide');etapaAtual=3;salvarRascunho();
+  $('eTrava').classList.remove('hide'); etapaAtual=3; salvarRascunho();
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function naoAcheiSeuPix(){
-  var box=$('avisoNaoAchou');box.style.display='block';
+  var box=$('avisoNaoAchou'); box.style.display='block';
   box.innerHTML='<b>Nao localizamos o seu PIX automaticamente.</b><br>Envie o <b>comprovante</b> no WhatsApp para conferirmos e liberarmos. '
     +'<a href="https://wa.me/'+WA+'?text='+encodeURIComponent('Ola! Meu PIX nao foi localizado. Pedido '+(st.pedidoCriado||'')+'. Vou enviar o comprovante.')+'" target="_blank" style="color:#fff;font-weight:700;text-decoration:underline">Enviar comprovante</a>';
 }
@@ -1042,16 +1092,27 @@ document.querySelectorAll('.tp').forEach(function(o){
     st.tipo=o.dataset.tipo;st.prod=o.dataset.prod;st.preco=+o.dataset.preco;
     st.precoFinal=st.cupom?aplicaDesc(st.preco,st.cupom):st.preco;
     if(st.cupom)pintaCupom();
-    $('wrapCnpj').classList[st.tipo==='PF'?'add':'remove']('hide');
-    $('wrapRep').classList[st.tipo==='PF'?'add':'remove']('hide');
-    if(st.tipo==='PJ'){var cEl=$('cnpj');if(cEl&&digitos(cEl.value).length===14){ultimoAuto=null;tentarAutoPreencher();}}
+    $('blocoPF').classList[st.tipo==='PF'?'remove':'add']('hide');
+    $('blocoPJ').classList[st.tipo==='PF'?'add':'remove']('hide');
+    ultimoAuto=null;
+    if(st.tipo==='PJ'){
+      var cEl=$('cnpj');
+      if(cEl && digitos(cEl.value).length===14){ tentarAutoPreencher(); }
+    }
     salvarRascunho();
   };
 });
-$('cpf').oninput=function(e){e.target.value=maskCPF(e.target.value);if(digitos(e.target.value).length===11)tentarAutoPreencher();};
-$('cnpj').oninput=function(e){e.target.value=maskCNPJ(e.target.value);if(digitos(e.target.value).length===14)tentarAutoPreencher();};
+$('cpf').oninput=function(e){
+  e.target.value=maskCPF(e.target.value);
+  if(digitos(e.target.value).length===11) tentarAutoPreencher();
+};
+$('cnpj').oninput=function(e){
+  e.target.value=maskCNPJ(e.target.value);
+  if(digitos(e.target.value).length===14) tentarAutoPreencher();
+};
 $('repCpf').oninput=function(e){e.target.value=maskCPF(e.target.value);};
 $('tel').oninput=function(e){e.target.value=maskTel(e.target.value);};
+$('telPJ').oninput=function(e){e.target.value=maskTel(e.target.value);};
 $('cep').oninput=function(e){
   e.target.value=maskCEP(e.target.value);
   if(digitos(e.target.value).length===8)buscarCep(digitos(e.target.value));
@@ -1076,7 +1137,7 @@ function buscarCep(cep){
     if(d.neighborhood)$('bairro').value=d.neighborhood;
     if(d.city)$('cidade').value=d.city;
     if(d.state)$('uf').value=d.state;
-    if(d.ibge&&d.ibge.city){$('uf').dataset.ibge=String(d.ibge.city);st.ibge=String(d.ibge.city);}
+    if(d.ibge&&d.ibge.city)$('uf').dataset.ibge=String(d.ibge.city);
     salvarRascunho();
   }).catch(function(){});
 }
