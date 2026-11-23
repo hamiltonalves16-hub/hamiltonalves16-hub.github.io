@@ -156,6 +156,7 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:cente
 <div class="okbox" style="margin-top:8px;margin-bottom:0"><b>Anote esta senha!</b> Ela instala o certificado. Se perder, precisa comprar outro.</div></div>
 </div>
 <button class="btn" onclick="ir(2)">Continuar</button>
+<button class="btn ghost" onclick="voltarPara(0)">Voltar ao inicio</button>
 </div>
 
 <div id="e2" class="hide">
@@ -182,6 +183,7 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:cente
 <a class="btn" id="btnZapSenha" href="#" target="_blank" rel="noopener">Enviar no WhatsApp</a>
 <p class="hint" style="text-align:center;margin:9px 0 0;font-size:11.5px" id="avisoSenha">O WhatsApp abre com a mensagem pronta.</p>
 <button class="btn ghost" onclick="ir(3)">Ja enviei / continuar</button>
+<button class="btn ghost" onclick="ir(2)">Voltar (trocar a CNH)</button>
 </div>
 </div>
 
@@ -237,8 +239,11 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:28px 0;text-align:cente
 </div>
 
 <div id="erro" class="hide"><div class="card">
-<h2>Nao foi possivel concluir</h2><p class="hint" id="erroTxt"></p>
-<a class="btn" href="https://wa.me/5563992856647?text=Ola!%20Tive%20um%20problema%20no%20pedido." target="_blank">Falar no WhatsApp</a>
+<h2>Nao foi possivel concluir</h2>
+<p class="hint" id="erroTxt" style="white-space:pre-wrap"></p>
+<button class="btn" id="btnVoltarErro" onclick="voltarDoErro()">Voltar e corrigir</button>
+<button class="btn ghost" onclick="localStorage.removeItem('cge_cc_token');location.reload()">Recomecar do zero</button>
+<a class="btn ghost" href="https://wa.me/5563992856647?text=Ola!%20Tive%20um%20problema%20no%20pedido." target="_blank">Falar no WhatsApp</a>
 </div></div>
 </div>
 
@@ -262,7 +267,7 @@ var API="https://service.certcontrol.com.br/api/integracao";
 var TABELA="16615", CUSTO=50, PIX="19.819.476/0001-87", WA="5563992856647";
 var CUPONS=[];
 var st={tipo:"PF",prod:"prod_anj2GYLPSwixbL",preco:160,precoFinal:160,cnhFile:null,uuid:null,
-        dia:null,hora:null,senha:"",telFmt:"",email:"",docFmt:"",docDigits:"",cupom:null,liberado:false,modoApi:false,pedidoCriado:null};
+        dia:null,hora:null,senha:"",telFmt:"",email:"",docFmt:"",docDigits:"",cupom:null,liberado:false,modoApi:false,pedidoCriado:null,ibge:""};
 var etapaAtual=1;
 
 function $(id){return document.getElementById(id);}
@@ -284,7 +289,7 @@ function salvarRascunho(){
   try{
     var d={etapa:etapaAtual,tipo:st.tipo,preco:st.preco,precoFinal:st.precoFinal,cupom:st.cupom,
       uuid:st.uuid,pedidoCriado:st.pedidoCriado,liberado:st.liberado,dia:st.dia,hora:st.hora,
-      telFmt:st.telFmt,email:st.email,docFmt:st.docFmt,senha:st.senha,docDigits:st.docDigits,campos:{}};
+      telFmt:st.telFmt,email:st.email,docFmt:st.docFmt,senha:st.senha,docDigits:st.docDigits,ibge:st.ibge,campos:{}};
     CAMPOS.forEach(function(k){var el=$(k);if(el)d.campos[k]=el.value;});
     localStorage.setItem(DRAFT,JSON.stringify(d));
   }catch(e){}
@@ -299,7 +304,8 @@ function preencher(d){
     $('wrapCnpj').classList[st.tipo==='PF'?'add':'remove']('hide');}
   st.cupom=d.cupom||null;st.uuid=d.uuid||null;st.pedidoCriado=d.pedidoCriado||null;
   st.liberado=d.liberado||false;st.senha=d.senha||'';st.telFmt=d.telFmt||'';
-  st.email=d.email||'';st.docFmt=d.docFmt||'';st.docDigits=d.docDigits||'';
+  st.email=d.email||'';st.docFmt=d.docFmt||'';st.docDigits=d.docDigits||'';st.ibge=d.ibge||'';
+  if(d.ibge && $('uf')) $('uf').dataset.ibge=d.ibge;
   if(st.cupom)pintaCupom();
 }
 function retomarTudo(){
@@ -370,7 +376,7 @@ function preencheCom(dados){
     set('bairro',c.bai);
     set('cidade',c.cid);
     if(c.uf&&!$('uf').value){ $('uf').value=c.uf; mudou=true; }
-    if(c.ibge&&!$('uf').dataset.ibge){ $('uf').dataset.ibge=c.ibge; }
+    if(c.ibge){ $('uf').dataset.ibge=c.ibge; st.ibge=c.ibge; }
   }
   if(mudou){ salvarRascunho(); }
   return mudou;
@@ -378,185 +384,142 @@ function preencheCom(dados){
 
 var CNPJ_CACHE='cge_cc_cnpj_cache';
 
-function lerCacheCnpj(){
-  try{ return JSON.parse(localStorage.getItem(CNPJ_CACHE)||'{}'); }catch(e){ return {}; }
-}
-function gravaCacheCnpj(cc, dados){
-  try{
-    var d=lerCacheCnpj();
-    d[cc]={dados:dados, em:Date.now()};
-    var corte=Date.now()-30*86400000;
-    for(var k in d){ if(!d[k]||d[k].em<corte) delete d[k]; }
-    localStorage.setItem(CNPJ_CACHE, JSON.stringify(d));
-  }catch(e){}
+function lerCacheCnpj(){try{return JSON.parse(localStorage.getItem(CNPJ_CACHE)||'{}');}catch(e){return {};}}
+function gravaCacheCnpj(cc,dados){
+  try{var d=lerCacheCnpj();d[cc]={dados:dados,em:Date.now()};
+  var corte=Date.now()-30*86400000;
+  for(var k in d){if(!d[k]||d[k].em<corte)delete d[k];}
+  localStorage.setItem(CNPJ_CACHE,JSON.stringify(d));}catch(e){}
 }
 
 var FONTES = [
-  {
-    nome: 'BrasilAPI',
-    url: function(cc){ return 'https://brasilapi.com.br/api/cnpj/v1/'+cc; },
-    ler: function(r){
-      if(!r || !r.razao_social) return null;
-      var tel = digitos(r.ddd_telefone_1||'');
-      return {
-        n: r.razao_social,
-        t: (tel.length>=10?tel:''),
-        e: (r.email||'').trim(),
-        c: {
-          cep: digitos(r.cep||''),
-          rua: ((r.descricao_tipo_de_logradouro||'')+' '+(r.logradouro||'')).trim(),
-          num: (r.numero||'').trim(),
-          bai: (r.bairro||'').trim(),
-          cid: (r.municipio||'').trim(),
-          uf: (r.uf||'').trim().toUpperCase(),
-          ibge: digitos(r.codigo_municipio_ibge||'')
-        },
-        _fantasia: r.nome_fantasia||'',
-        _situacao: r.descricao_situacao_cadastral||r.situacao_cadastral||'',
-        _socios: (r.qsa||[]).map(function(s){ return s.nome_socio; }),
-        _simples: r.opcao_pelo_simples==='Sim'||r.opcao_pelo_simples===true,
-        _simei: r.opcao_pelo_mei==='Sim'||r.opcao_pelo_mei===true
-      };
-    }
-  },
-  {
-    nome: 'CNPJ.ws',
-    url: function(cc){ return 'https://publica.cnpj.ws/cnpj/'+cc; },
-    ler: function(r){
-      if(!r || !r.razao_social) return null;
-      var e = r.estabelecimento || {};
-      var tel = digitos((e.ddd1||'')+(e.telefone1||''));
-      return {
-        n: r.razao_social,
-        t: (tel.length>=10?tel:''),
-        e: (e.email||'').trim(),
-        c: {
-          cep: digitos(e.cep||''),
-          rua: ((e.tipo_logradouro||'')+' '+(e.logradouro||'')).trim(),
-          num: (e.numero||'').trim(),
-          bai: (e.bairro||'').trim(),
-          cid: ((e.cidade||{}).nome||'').trim(),
-          uf: ((e.estado||{}).sigla||'').trim().toUpperCase(),
-          ibge: digitos(((e.cidade||{}).ibge_id)||'')
-        },
-        _fantasia: e.nome_fantasia||'',
-        _situacao: String(e.situacao_cadastral||''),
-        _socios: (r.socios||[]).map(function(s){ return s.nome; }),
-        _simples: !!(r.simples&&r.simples.simples==='Sim'),
-        _simei: !!(r.simples&&r.simples.mei==='Sim')
-      };
-    }
-  },
-  {
-    nome: 'ReceitaWS',
-    url: function(cc){ return 'https://receitaws.com.br/v1/cnpj/'+cc; },
-    ler: function(r){
-      if(!r || r.status!=='OK') return null;
-      var tel = digitos(r.telefone||'').slice(0,11);
-      return {
-        n: r.nome||'',
-        t: (tel.length>=10?tel:''),
-        e: (r.email||'').trim(),
-        c: {
-          cep: digitos(r.cep||''),
-          rua: (r.logradouro||'').trim(),
-          num: (r.numero||'').trim(),
-          bai: (r.bairro||'').trim(),
-          cid: (r.municipio||'').trim(),
-          uf: (r.uf||'').trim().toUpperCase(),
-          ibge: ''
-        },
-        _fantasia: r.fantasia||'',
-        _situacao: r.situacao||'',
-        _socios: (r.qsa||[]).map(function(s){ return s.nome; }),
-        _simples: !!((r.simples||{}).optante),
-        _simei: !!((r.simei||{}).optante)
-      };
-    }
-  }
+  {nome:'BrasilAPI',url:function(cc){return 'https://brasilapi.com.br/api/cnpj/v1/'+cc;},
+   ler:function(r){if(!r||!r.razao_social)return null;var tel=digitos(r.ddd_telefone_1||'');
+    return {n:r.razao_social,t:(tel.length>=10?tel:''),e:(r.email||'').trim(),
+      c:{cep:digitos(r.cep||''),rua:((r.descricao_tipo_de_logradouro||'')+' '+(r.logradouro||'')).trim(),
+         num:(r.numero||'').trim(),bai:(r.bairro||'').trim(),cid:(r.municipio||'').trim(),
+         uf:(r.uf||'').trim().toUpperCase(),ibge:digitos(r.codigo_municipio_ibge||'')},
+      _fantasia:r.nome_fantasia||'',_situacao:r.descricao_situacao_cadastral||r.situacao_cadastral||'',
+      _socios:(r.qsa||[]).map(function(s){return s.nome_socio;}),
+      _simples:r.opcao_pelo_simples==='Sim'||r.opcao_pelo_simples===true,
+      _simei:r.opcao_pelo_mei==='Sim'||r.opcao_pelo_mei===true};}},
+  {nome:'CNPJ.ws',url:function(cc){return 'https://publica.cnpj.ws/cnpj/'+cc;},
+   ler:function(r){if(!r||!r.razao_social)return null;var e=r.estabelecimento||{};
+    var tel=digitos((e.ddd1||'')+(e.telefone1||''));
+    return {n:r.razao_social,t:(tel.length>=10?tel:''),e:(e.email||'').trim(),
+      c:{cep:digitos(e.cep||''),rua:((e.tipo_logradouro||'')+' '+(e.logradouro||'')).trim(),
+         num:(e.numero||'').trim(),bai:(e.bairro||'').trim(),cid:((e.cidade||{}).nome||'').trim(),
+         uf:((e.estado||{}).sigla||'').trim().toUpperCase(),ibge:digitos(((e.cidade||{}).ibge_id)||'')},
+      _fantasia:e.nome_fantasia||'',_situacao:String(e.situacao_cadastral||''),
+      _socios:(r.socios||[]).map(function(s){return s.nome;}),
+      _simples:!!(r.simples&&r.simples.simples==='Sim'),_simei:!!(r.simples&&r.simples.mei==='Sim')};}},
+  {nome:'ReceitaWS',url:function(cc){return 'https://receitaws.com.br/v1/cnpj/'+cc;},
+   ler:function(r){if(!r||r.status!=='OK')return null;var tel=digitos(r.telefone||'').slice(0,11);
+    return {n:r.nome||'',t:(tel.length>=10?tel:''),e:(r.email||'').trim(),
+      c:{cep:digitos(r.cep||''),rua:(r.logradouro||'').trim(),num:(r.numero||'').trim(),
+         bai:(r.bairro||'').trim(),cid:(r.municipio||'').trim(),uf:(r.uf||'').trim().toUpperCase(),ibge:''},
+      _fantasia:r.fantasia||'',_situacao:r.situacao||'',
+      _socios:(r.qsa||[]).map(function(s){return s.nome;}),
+      _simples:!!((r.simples||{}).optante),_simei:!!((r.simei||{}).optante)};}}
 ];
 
 function buscaReceita(cc){
   var cache=lerCacheCnpj();
-  if(cache[cc] && cache[cc].dados){ return Promise.resolve(cache[cc].dados); }
+  if(cache[cc]&&cache[cc].dados)return Promise.resolve(cache[cc].dados);
   function tentar(i){
-    if(i>=FONTES.length) return Promise.resolve(null);
+    if(i>=FONTES.length)return Promise.resolve(null);
     var f=FONTES[i];
-    return fetch(f.url(cc), {headers:{'Accept':'application/json'}})
-      .then(function(r){ return r.json(); })
-      .then(function(j){
-        var d=f.ler(j);
-        if(d && d.n){ d._fonte=f.nome; gravaCacheCnpj(cc,d); return d; }
-        return tentar(i+1);
-      })
-      .catch(function(){ return tentar(i+1); });
+    return fetch(f.url(cc),{headers:{'Accept':'application/json'}})
+      .then(function(r){return r.json();})
+      .then(function(j){var d=f.ler(j);if(d&&d.n){d._fonte=f.nome;gravaCacheCnpj(cc,d);return d;}return tentar(i+1);})
+      .catch(function(){return tentar(i+1);});
   }
   return tentar(0);
 }
 
-function mostraAvisoAuto(html, erro){
-  var av=$('avisoAuto');
-  if(!av) return;
+var IBGE_CACHE='cge_cc_ibge';
+function lerCacheIbge(){try{return JSON.parse(localStorage.getItem(IBGE_CACHE)||'{}');}catch(e){return {};}}
+function gravaCacheIbge(chave,cod){try{var d=lerCacheIbge();d[chave]=cod;localStorage.setItem(IBGE_CACHE,JSON.stringify(d));}catch(e){}}
+function normCidade(s){s=String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'');return s.toLowerCase().replace(/[^a-z ]/g,'').trim();}
+
+function buscaIbge(uf,cidade){
+  return new Promise(function(resolve){
+    uf=(uf||'').toUpperCase();cidade=String(cidade||'').trim();
+    if(!uf||!cidade)return resolve('');
+    var chave=uf+'|'+normCidade(cidade), cache=lerCacheIbge();
+    if(cache[chave])return resolve(cache[chave]);
+    var alvo=normCidade(cidade);
+    fetch('https://brasilapi.com.br/api/ibge/municipios/v1/'+uf)
+      .then(function(r){return r.ok?r.json():[];})
+      .then(function(lista){
+        if(!Array.isArray(lista)||!lista.length)return resolve('');
+        var exato=null,parcial=null;
+        for(var i=0;i<lista.length;i++){
+          var n=normCidade(lista[i].nome||'');
+          if(n===alvo){exato=lista[i].codigo_ibge;break;}
+          if(!parcial&&(n.indexOf(alvo)===0||alvo.indexOf(n)===0))parcial=lista[i].codigo_ibge;
+        }
+        var cod=exato||parcial||'';
+        if(cod)gravaCacheIbge(chave,String(cod));
+        resolve(String(cod||''));
+      })
+      .catch(function(){resolve('');});
+  });
+}
+
+function garantirIbge(){
+  var ibge=$('uf').dataset.ibge||st.ibge||'';
+  if(ibge)return Promise.resolve(ibge);
+  return buscaIbge($('uf').value,$('cidade').value).then(function(cod){
+    if(cod){$('uf').dataset.ibge=cod;st.ibge=cod;}
+    return cod;
+  });
+}
+
+function mostraAvisoAuto(html,erro){
+  var av=$('avisoAuto');if(!av)return;
   av.className = erro ? 'warn' : 'okbox';
-  av.innerHTML = html;
-  av.classList.remove('hide');
+  av.innerHTML=html;av.classList.remove('hide');
 }
 
 function consultarCnpj(){
   var cc=digitos($('cnpj').value);
-  if(cc.length!==14){ mostrar('mCnpj',false); return; }
-  if(!validaCNPJ(cc)){ mostrar('mCnpj',false); return; }
-  mostrar('mCnpj',true);
-  ultimoAuto=null;
-  tentarAutoPreencher();
+  if(cc.length!==14){mostrar('mCnpj',false);return;}
+  if(!validaCNPJ(cc)){mostrar('mCnpj',false);return;}
+  mostrar('mCnpj',true);ultimoAuto=null;tentarAutoPreencher();
 }
 
 function tentarAutoPreencher(){
   var doc=digitos($('cpf').value)||digitos($('cnpj').value);
-  if(doc.length!==11&&doc.length!==14) return;
-  if(ultimoAuto===doc) return;
+  if(doc.length!==11&&doc.length!==14)return;
+  if(ultimoAuto===doc)return;
   ultimoAuto=doc;
-
-  var ehCnpj = (doc.length===14);
-
+  var ehCnpj=(doc.length===14);
   carregaClientes().then(function(lista){
     var dados=lista[doc];
     if(dados){
-      var ok=preencheCom(dados);
-      if(ok){
-        mostraAvisoAuto('<b>Bem-vindo de volta, '+(dados.n||'cliente')+'!</b><br>'
-          +'<span style="font-size:12px">Preenchemos seus dados do nosso cadastro. Confira e siga em frente.</span>', false);
+      if(preencheCom(dados)){
+        mostraAvisoAuto('<b>Bem-vindo de volta, '+(dados.n||'cliente')+'!</b><br><span style="font-size:12px">Preenchemos seus dados do nosso cadastro. Confira e siga em frente.</span>',false);
       }
       return;
     }
-
-    if(!ehCnpj){ ultimoAuto=null; return; }
-
-    mostraAvisoAuto('<span class="spin"></span>Buscando os dados do CNPJ na Receita Federal...', false);
-
+    if(!ehCnpj){ultimoAuto=null;return;}
+    mostraAvisoAuto('<span class="spin"></span>Buscando os dados do CNPJ na Receita Federal...',false);
     buscaReceita(doc).then(function(rec){
-      if(!rec){
-        $('avisoAuto').className='okbox hide';
-        $('avisoAuto').classList.add('hide');
-        return;
-      }
+      if(!rec){$('avisoAuto').className='okbox hide';$('avisoAuto').classList.add('hide');return;}
       preencheCom(rec);
-      var extra='';
-      if(rec._fantasia) extra+=' · <b>'+(rec._fantasia)+'</b>';
+      var extra='';if(rec._fantasia)extra+=' · <b>'+rec._fantasia+'</b>';
       var sit=rec._situacao?(' · situacao: <b>'+rec._situacao+'</b>'):'';
       var soc=(rec._socios&&rec._socios.length)?('<br><span style="font-size:12px">Socio(s): '+rec._socios.slice(0,4).join(', ')+'</span>'):'';
       var reg=(rec._simples?' · Simples':'')+(rec._simei?' · MEI':'');
-
       var sitNorm=String(rec._situacao||'').toUpperCase();
       var ativa=(sitNorm==='ATIVA'||sitNorm==='2'||sitNorm==='');
-
       if(!ativa){
-        mostraAvisoAuto('<b>CNPJ '+rec._situacao+' na Receita Federal.</b><br>'
-          +'<span style="font-size:12px">'+(rec.n||'')+sit+'. Confira antes de seguir.</span>', true);
+        mostraAvisoAuto('<b>CNPJ '+rec._situacao+' na Receita Federal.</b><br><span style="font-size:12px">'+(rec.n||'')+sit+'. Confira antes de seguir.</span>',true);
         return;
       }
       mostraAvisoAuto('<b>'+(rec.n||'CNPJ encontrado')+'</b>'+extra+sit+reg+(rec._fonte?' · fonte: '+rec._fonte:'')+
-        '<br><span style="font-size:12px">Dados preenchidos pela Receita Federal. Confira e siga.</span>'+soc, false);
+        '<br><span style="font-size:12px">Dados preenchidos pela Receita Federal. Confira e siga.</span>'+soc,false);
     });
   });
 }
@@ -565,23 +528,19 @@ function acessarPedido(){
   var doc=digitos($('acessoDoc').value),m=$('mAcesso');
   m.classList.remove('show');
   if(doc.length!==11&&doc.length!==14){m.classList.add('show');return;}
-
   var d=lerRascunho();
   if(d&&d.campos&&(digitos(d.campos.cpf)===doc||digitos(d.campos.cnpj)===doc)){retomarTudo();return;}
-
-  if(doc.length===14){ document.querySelectorAll('.tp')[1].click(); $('cnpj').value=maskCNPJ(doc); }
-  else { document.querySelectorAll('.tp')[0].click(); $('cpf').value=maskCPF(doc); }
-
+  if(doc.length===14){document.querySelectorAll('.tp')[1].click();$('cnpj').value=maskCNPJ(doc);}
+  else{document.querySelectorAll('.tp')[0].click();$('cpf').value=maskCPF(doc);}
   carregaClientes().then(function(lista){
     var dados=lista[doc];
     if(dados){
       preencheCom(dados);
-      mostraAvisoAuto('<b>Bem-vindo de volta, '+(dados.n||'cliente')+'!</b><br><span style="font-size:12px">Dados preenchidos. Confira e continue.</span>', false);
+      mostraAvisoAuto('<b>Bem-vindo de volta, '+(dados.n||'cliente')+'!</b><br><span style="font-size:12px">Dados preenchidos. Confira e continue.</span>',false);
       $('boxPedido').classList.add('hide');
       document.getElementById('e1').scrollIntoView({behavior:'smooth',block:'start'});
     } else if(doc.length===14){
-      ultimoAuto=null;
-      tentarAutoPreencher();
+      ultimoAuto=null;tentarAutoPreencher();
       document.getElementById('e1').scrollIntoView({behavior:'smooth',block:'start'});
     } else {
       $('boxPedido').classList.remove('hide');
@@ -659,6 +618,18 @@ function montarResumo(){
   return h;
 }
 
+var etapaErro=1;
+
+function voltarPara(n){
+  ['e1','e2','e3','e4','eSenha','eTrava','ok','erro'].forEach(function(id){var e=$(id);if(e)e.classList.add('hide');});
+  if(n===0){window.scrollTo({top:0,behavior:'smooth'});return;}
+  $('e'+n).classList.remove('hide');
+  for(var i=1;i<=4;i++){var s=$('s'+i);if(s)s.classList[i<=n?'add':'remove']('on');}
+  etapaAtual=n;salvarRascunho();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function voltarDoErro(){voltarPara(etapaErro||1);}
+
 function enviarCnh(){
   if(!st.cnhFile){mostrar('mCnh',false);$('cnhfile').scrollIntoView({block:'center'});return;}
   var btn=document.querySelector('#e2 .btn');btn.disabled=true;btn.innerHTML='<span class="spin"></span>Enviando...';
@@ -691,7 +662,7 @@ function enviarCnh(){
     return;
   }
 
-  var ibge=$('uf').dataset.ibge||'';
+  var ibge=$('uf').dataset.ibge||st.ibge||'';
   var body={venda:{tipo_lancamento_id:7,tabela_id:TABELA,produto_id:st.prod,valor_total:CUSTO,cupom:st.cupom?st.cupom.codigo:null},
     certificado:{nome:$('nome').value.trim(),documento:digitos(st.docFmt),
       documento_tipo:st.tipo==='PJ'?'CNPJ':'CPF',emails:[$('email').value.trim()],
@@ -699,15 +670,35 @@ function enviarCnh(){
       endereco:{cep:cep,uf:$('uf').value.toUpperCase(),municipio:$('cidade').value.trim(),
         codigo_ibge:ibge,logradouro:$('rua').value.trim(),numero:$('num').value.trim(),bairro:$('bairro').value.trim()}}};
 
-  api('/vendas',{method:'POST',body:JSON.stringify(body)}).then(function(r){
-    if(!r.ok){btn.disabled=false;btn.textContent='Continuar';falhar('Erro: '+JSON.stringify(r.data).slice(0,200));return;}
+  garantirIbge().then(function(cod){
+    if(!cod){
+      btn.disabled=false;btn.textContent='Continuar';
+      falhar('Nao encontrei o codigo IBGE de "'+$('cidade').value+'/'+$('uf').value+'". Confira se a cidade e a UF estao corretas.');
+      return;
+    }
+    body.certificado.endereco.codigo_ibge=cod;
+    st.ibge=cod;salvarRascunho();
+    enviaPedido(body,btn,tel);
+  }).catch(function(e){
+    btn.disabled=false;btn.textContent='Continuar';
+    falhar('Falha ao conferir a cidade: '+e.message);
+  });
+}
+
+function enviaPedido(body,btn,tel){
+  return api('/vendas',{method:'POST',body:JSON.stringify(body)}).then(function(r){
+    if(!r.ok){
+      btn.disabled=false;btn.textContent='Continuar';
+      falhar('Erro: '+JSON.stringify(r.data).slice(0,300));
+      return;
+    }
     st.uuid=r.data.data.uuid;st.pedidoCriado=r.data.data.id||r.data.data.pedido;
     return api('/vendas/'+st.uuid+'/senha',{method:'POST',body:JSON.stringify({senha:$('senha').value})}).then(function(s){
       if(!s.ok){btn.disabled=false;btn.textContent='Continuar';falhar('Senha recusada.');return;}
       var fd=new FormData();fd.append('files[]',st.cnhFile);
       return api('/vendas/'+st.uuid+'/documentos',{method:'POST',body:fd}).then(function(d){
         btn.disabled=false;btn.textContent='Continuar';
-        if(!d.ok){falhar('CNH falhou: '+JSON.stringify(d.data).slice(0,180));return;}
+        if(!d.ok){falhar('A CNH nao subiu: '+JSON.stringify(d.data).slice(0,180));return;}
         var msg='*SEU CERTIFICADO DIGITAL - CGE EMITTA*\n\nPedido: *#'+st.pedidoCriado+'*\nTitular: '+$('nome').value.trim()+
           '\nCertificado: '+st.tipo+' - '+precoFmt(st.precoFinal)+'\n\n*SUA SENHA:*\n'+$('senha').value+
           '\n\nAnote e guarde. Sera pedida na instalacao.';
@@ -721,9 +712,14 @@ function enviarCnh(){
         window.scrollTo({top:0,behavior:'smooth'});
       });
     });
-  }).catch(function(e){btn.disabled=false;btn.textContent='Continuar';falhar('Falha: '+e.message);});
+  }).catch(function(e){
+    btn.disabled=false;btn.textContent='Continuar';
+    falhar('Falha de conexao: '+e.message);
+  });
 }
+
 function falhar(msg){
+  etapaErro=etapaAtual||1;
   $('erroTxt').textContent=msg;
   ['e1','e2','e3','e4','eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
   $('erro').classList.remove('hide');window.scrollTo({top:0,behavior:'smooth'});
@@ -750,11 +746,9 @@ function pedirLiberacao(){
   $('btnZapComp').href='https://wa.me/'+WA+'?text='+encodeURIComponent(msg);
   try{
     var pend=JSON.parse(localStorage.getItem('cge_cc_pendentes')||'[]');
-    var item={pedido:st.pedidoCriado||null, nome:$('nome').value.trim(), doc:st.docFmt,
-      tipo:st.tipo, valor:st.precoFinal, quando:new Date().toISOString()};
-    var jaTem=false;
-    for(var i=0;i<pend.length;i++){ if(pend[i].pedido===item.pedido && item.pedido) jaTem=true; }
-    if(!jaTem){ pend.push(item); localStorage.setItem('cge_cc_pendentes',JSON.stringify(pend)); }
+    var item={pedido:st.pedidoCriado||null,nome:$('nome').value.trim(),doc:st.docFmt,tipo:st.tipo,valor:st.precoFinal,quando:new Date().toISOString()};
+    var jaTem=false;for(var i=0;i<pend.length;i++){if(pend[i].pedido===item.pedido&&item.pedido)jaTem=true;}
+    if(!jaTem){pend.push(item);localStorage.setItem('cge_cc_pendentes',JSON.stringify(pend));}
   }catch(e){}
   [1,2,3,4].forEach(function(i){var e=$('e'+i);if(e)e.classList.add('hide');var s=$('s'+i);if(s)s.classList.remove('on');});
   ['eSenha','eTrava'].forEach(function(i){var e=$(i);if(e)e.classList.add('hide');});
@@ -764,10 +758,8 @@ function pedirLiberacao(){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function naoAcheiSeuPix(){
-  var box=$('avisoNaoAchou');
-  box.style.display='block';
-  box.innerHTML='<b>Nao localizamos o seu PIX automaticamente.</b><br>'
-    +'Envie o <b>comprovante</b> no WhatsApp para conferirmos e liberarmos. '
+  var box=$('avisoNaoAchou');box.style.display='block';
+  box.innerHTML='<b>Nao localizamos o seu PIX automaticamente.</b><br>Envie o <b>comprovante</b> no WhatsApp para conferirmos e liberarmos. '
     +'<a href="https://wa.me/'+WA+'?text='+encodeURIComponent('Ola! Meu PIX nao foi localizado. Pedido '+(st.pedidoCriado||'')+'. Vou enviar o comprovante.')+'" target="_blank" style="color:#fff;font-weight:700;text-decoration:underline">Enviar comprovante</a>';
 }
 function validarLiberacao(){
@@ -845,11 +837,10 @@ function agendar(){
 
 function modoEscritorio(){
   var atual=TOKEN||'';
-  var t=prompt('Chave de acesso do CertControl (vazio = sair do modo escritorio):', atual);
+  var t=prompt('Chave de acesso do CertControl (vazio = sair do modo escritorio):',atual);
   if(t===null)return;
   if(t.trim()===''){localStorage.removeItem('cge_cc_token');location.reload();return;}
-  localStorage.setItem('cge_cc_token',t.trim());
-  location.reload();
+  localStorage.setItem('cge_cc_token',t.trim());location.reload();
 }
 
 document.querySelectorAll('.tp').forEach(function(o){
@@ -860,21 +851,12 @@ document.querySelectorAll('.tp').forEach(function(o){
     st.precoFinal=st.cupom?aplicaDesc(st.preco,st.cupom):st.preco;
     if(st.cupom)pintaCupom();
     $('wrapCnpj').classList[st.tipo==='PF'?'add':'remove']('hide');
-    if(st.tipo==='PJ'){
-      var cEl=$('cnpj');
-      if(cEl && digitos(cEl.value).length===14){ ultimoAuto=null; tentarAutoPreencher(); }
-    }
+    if(st.tipo==='PJ'){var cEl=$('cnpj');if(cEl&&digitos(cEl.value).length===14){ultimoAuto=null;tentarAutoPreencher();}}
     salvarRascunho();
   };
 });
-$('cpf').oninput=function(e){
-  e.target.value=maskCPF(e.target.value);
-  if(digitos(e.target.value).length===11) tentarAutoPreencher();
-};
-$('cnpj').oninput=function(e){
-  e.target.value=maskCNPJ(e.target.value);
-  if(digitos(e.target.value).length===14) tentarAutoPreencher();
-};
+$('cpf').oninput=function(e){e.target.value=maskCPF(e.target.value);if(digitos(e.target.value).length===11)tentarAutoPreencher();};
+$('cnpj').oninput=function(e){e.target.value=maskCNPJ(e.target.value);if(digitos(e.target.value).length===14)tentarAutoPreencher();};
 $('tel').oninput=function(e){e.target.value=maskTel(e.target.value);};
 $('cep').oninput=function(e){
   e.target.value=maskCEP(e.target.value);
@@ -887,7 +869,7 @@ function buscarCep(cep){
     if(d.neighborhood)$('bairro').value=d.neighborhood;
     if(d.city)$('cidade').value=d.city;
     if(d.state)$('uf').value=d.state;
-    if(d.ibge&&d.ibge.city)$('uf').dataset.ibge=String(d.ibge.city);
+    if(d.ibge&&d.ibge.city){$('uf').dataset.ibge=String(d.ibge.city);st.ibge=String(d.ibge.city);}
     salvarRascunho();
   }).catch(function(){});
 }
