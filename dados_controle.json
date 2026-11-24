@@ -1,11 +1,12 @@
 {
   "_leia": "Fonte de dados da Area de Controle CGE EMITTA. Editar este arquivo e publicar para atualizar o painel.",
-  "_atualizado": "2026-11-23",
+  "_atualizado": "2026-11-24",
 
   "parceiros": [
     {
       "id": "naziane",
       "nome": "Naziane",
+      "nome_api": "Naziane",
       "doc": "074.235.813-56",
       "tipo": "PF",
       "cidade": "Riachão",
@@ -21,6 +22,7 @@
     {
       "id": "luiz-samira",
       "nome": "Luiz Gustavo + Samira Santos Soares",
+      "nome_api": "Luiz Gustavo",
       "doc": "345.370.838-59",
       "doc2": "534.509.638-48",
       "tipo": "PF",
@@ -37,6 +39,7 @@
     {
       "id": "thaissa",
       "nome": "Thaissa Ribeiro Cajueiro Gomes",
+      "nome_api": "Thaissa Ribeiro Cajueiro Gomes",
       "doc": "—",
       "tipo": "PF",
       "cidade": "Araguaína",
@@ -48,6 +51,22 @@
       "adesao": "",
       "comissao": 20,
       "observacao": "Rua Vitória Régia 76, Setor Itapuã · 31 anos · praça TABELA_ARAGUAINA_TO"
+    },
+    {
+      "id": "hamilton",
+      "nome": "Hamilton A. De Sousa (matriz)",
+      "nome_api": "Hamilton A. De Sousa",
+      "doc": "001.135.003-27",
+      "tipo": "PF",
+      "cidade": "Vilhena",
+      "uf": "RO",
+      "telefone": "(63) 99285-6647",
+      "email": "hamilton.alves16@hotmail.com",
+      "perfil": "A",
+      "status": "ativo",
+      "adesao": "",
+      "comissao": 0,
+      "observacao": "Venda direta CGE — sem comissao de terceiro"
     }
   ],
 
