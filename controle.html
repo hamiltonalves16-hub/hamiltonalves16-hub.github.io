@@ -92,6 +92,9 @@ td.num{text-align:right;font-weight:700;white-space:nowrap;font-variant-numeric:
 .plano .pr small{font-size:11px;color:#888;font-weight:600}
 .plano .rc{font-size:11.5px;color:#AAA;line-height:1.5;margin-top:6px}
 
+.warn{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.45);border-radius:12px;padding:12px 14px;font-size:12.5px;color:#FCA5A5;margin-bottom:12px}
+.warn b{color:#fff}
+
 .hide{display:none!important}
 footer{border-top:1px solid rgba(202,152,59,.25);padding:24px 0 30px;text-align:center;color:#666;font-size:12px;margin-top:12px}
 @media(max-width:620px){
@@ -211,17 +214,29 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:24px 0 30px;text-align:
 <div id="tab-parc" class="hide">
 <div class="kpis">
 <div class="kpi ok"><div class="l">Ativos</div><div class="v" id="pAtivos">—</div><div class="s">vendendo agora</div></div>
-<div class="kpi"><div class="l">Enviados</div><div class="v" id="pTotal">—</div><div class="s">com acesso ao kit</div></div>
-<div class="kpi dest"><div class="l">Comissão média</div><div class="v" id="pCom">—</div><div class="s">sobre a venda</div></div>
+<div class="kpi"><div class="l">Vendas no período</div><div class="v" id="pVendas">—</div><div class="s" id="pVendasS">—</div></div>
+<div class="kpi dest"><div class="l">Receita da rede</div><div class="v" id="pReceita">—</div><div class="s">emitidos</div></div>
+<div class="kpi al"><div class="l">Comissão a pagar</div><div class="v" id="pComissao">—</div><div class="s" id="pComissaoS">—</div></div>
 </div>
 
 <div class="painel">
-<h2>Rede de parceiros <span class="tag" id="pTag"></span></h2>
-<p class="dica">Perfil A: emissor vendido separado. Perfil B: contabilidade com emissor incluso.</p>
+<h2>Produção por parceiro <span class="tag" id="pTag"></span></h2>
+<p class="dica">Vendas ligadas pelo nome do parceiro na API. A comissão é o percentual do cadastro aplicado sobre a receita dos certificados <b>emitidos</b>.</p>
 <div class="tabela-scroll">
 <table>
-<thead><tr><th>Parceiro</th><th>CPF/CNPJ</th><th>Praça</th><th>Perfil</th><th style="text-align:right">Comissão</th><th>Status</th><th>Contato</th></tr></thead>
+<thead><tr><th>Parceiro</th><th>Praça</th><th style="text-align:right">Vendas</th><th style="text-align:right">Emitidos</th><th style="text-align:right">Receita</th><th style="text-align:right">Com. %</th><th style="text-align:right">A pagar</th><th>Status</th></tr></thead>
 <tbody id="pCorpo"></tbody>
+</table>
+</div>
+<div id="pSemLigacao" class="hide" style="margin-top:12px"></div>
+</div>
+
+<div class="painel">
+<h2>Cadastro da rede <span class="tag" id="pTag2"></span></h2>
+<div class="tabela-scroll">
+<table>
+<thead><tr><th>Parceiro</th><th>CPF/CNPJ</th><th>Perfil</th><th>Adesão</th><th>Status</th><th>Contato</th></tr></thead>
+<tbody id="pCadastro"></tbody>
 </table>
 </div>
 </div>
@@ -450,7 +465,7 @@ function renderGeral(r){
     var nome=(v.cliente_certificado&&v.cliente_certificado.nome_razao)||'-';
     var prod=(v.produto&&(v.produto['descrição']||v.produto.descricao))||'-';
     return '<tr><td><b>#'+esc(v.pedido)+'</b></td><td>'+esc(nome)+'</td><td class="dim">'+esc(prod)+'</td>'
-      +'<td class="num">'+brl(v.valor_total)+'</td><td><span class="badge '+statusClasse(st)+'">'+esc(st)+'</span></td>'
+      +'<td class="num">'+brl(precoCliente(v))+'</td><td><span class="badge '+statusClasse(st)+'">'+esc(st)+'</span></td>'
       +'<td class="dim">'+brData(v.data_venda)+'</td></tr>';
   }).join('');
 }
@@ -569,28 +584,137 @@ function renderVencimentos(){
   });
 }
 
+/* ================= PARCEIROS ================= */
+function normalizaNome(s){
+  return String(s||'').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z ]/g,' ').replace(/\s+/g,' ').trim();
+}
+/* a API manda o nome do parceiro em texto; casamos pelo nome normalizado
+   e, se faltar, pelo primeiro nome (tolera erro de grafia no cadastro) */
+function achaParceiroDaVenda(v){
+  var nomeApi=normalizaNome(v.parceiro);
+  if(!nomeApi) return null;
+  var ps=(DADOS&&DADOS.parceiros)||[];
+  var i,alvo;
+
+  for(i=0;i<ps.length;i++){
+    alvo=normalizaNome(ps[i].nome_api||ps[i].nome);
+    if(alvo && alvo===nomeApi) return ps[i];
+  }
+  var primeiroApi=nomeApi.split(' ')[0];
+  for(i=0;i<ps.length;i++){
+    alvo=normalizaNome(ps[i].nome_api||ps[i].nome);
+    if(alvo && alvo.split(' ')[0]===primeiroApi) return ps[i];
+  }
+  return null;
+}
+
+function producaoPorParceiro(){
+  var ps=(DADOS&&DADOS.parceiros)||[];
+  var mapa={};
+  ps.forEach(function(p){
+    mapa[p.id]={p:p,vendas:0,emitidos:0,receita:0,receitaEmitida:0,comissao:0};
+  });
+  var orfaos={};
+
+  VENDAS.forEach(function(v){
+    if(ehCancelado(v)) return;
+    var p=achaParceiroDaVenda(v);
+    var valor=precoCliente(v);
+    var emit=foiEmitido(v);
+
+    if(!p){
+      var nome=String(v.parceiro||'—').trim()||'—';
+      if(!orfaos[nome]) orfaos[nome]={vendas:0,emitidos:0,receita:0};
+      orfaos[nome].vendas++;
+      orfaos[nome].receita+=valor;
+      if(emit) orfaos[nome].emitidos++;
+      return;
+    }
+
+    var r=mapa[p.id];
+    r.vendas++;
+    r.receita+=valor;
+    if(emit){
+      r.emitidos++;
+      r.receitaEmitida+=valor;
+      r.comissao+=valor*(Number(p.comissao||0)/100);
+    }
+  });
+  return {mapa:mapa,orfaos:orfaos};
+}
+
 function renderParceiros(){
   var ps=(DADOS&&DADOS.parceiros)||[];
   var ativos=ps.filter(function(p){return p.status==='ativo';}).length;
   $('pAtivos').textContent=ativos;
-  $('pTotal').textContent=ps.length;
-  var soma=0,c=0;
-  ps.forEach(function(p){ if(p.comissao){soma+=Number(p.comissao);c++;} });
-  $('pCom').textContent=(c?Math.round(soma/c):0)+'%';
   $('pTag').textContent=ps.length+' cadastrados';
+  $('pTag2').textContent=ps.length+' cadastrados';
 
-  if(!ps.length){$('pCorpo').innerHTML='<tr><td colspan="7" class="vazio">Nenhum parceiro cadastrado.</td></tr>';return;}
-  $('pCorpo').innerHTML=ps.map(function(p){
+  var prod=producaoPorParceiro();
+  var totV=0,totE=0,totR=0,totC=0;
+  Object.keys(prod.mapa).forEach(function(k){
+    var r=prod.mapa[k];
+    totV+=r.vendas; totE+=r.emitidos; totR+=r.receitaEmitida; totC+=r.comissao;
+  });
+
+  $('pVendas').textContent=totV;
+  $('pVendasS').textContent=totE+' emitido'+(totE===1?'':'s');
+  $('pReceita').textContent=brl(totR);
+  $('pComissao').textContent=brl(totC);
+  $('pComissaoS').textContent=totC?'sobre a receita emitida':'nada a pagar';
+
+  var linhas=ps.map(function(p){
+    var r=prod.mapa[p.id];
+    if(!r) return '';
     var st=(p.status||'').toLowerCase();
     var cls=st==='ativo'?'b-ativo':st==='proposta'?'b-proposta':'b-out';
-    return '<tr><td><b>'+esc(p.nome)+'</b></td>'
-      +'<td class="dim" style="font-size:11.5px">'+esc(p.doc||'—')+(p.doc2?'<br>'+esc(p.doc2):'')+'</td>'
+    var pagar=(Number(p.comissao||0)>0)?brl(r.comissao):'<span class="dim">—</span>';
+    return '<tr>'
+      +'<td><b>'+esc(p.nome)+'</b>'+(p.observacao?'<br><span class="dim" style="font-size:10.5px">'+esc(p.observacao)+'</span>':'')+'</td>'
       +'<td>'+esc(p.cidade||'')+'/'+esc(p.uf||'')+'</td>'
-      +'<td><span class="badge '+(p.perfil==='A'?'b-pend':'b-pago')+'">Perfil '+esc(p.perfil||'—')+'</span></td>'
-      +'<td class="num">'+(p.comissao||0)+'%</td>'
-      +'<td><span class="badge '+cls+'">'+esc(p.status||'—')+'</span></td>'
-      +'<td class="dim" style="font-size:11.5px">'+esc(p.telefone||'')+(p.email?'<br>'+esc(p.email):'')+'</td></tr>';
+      +'<td class="num">'+r.vendas+'</td>'
+      +'<td class="num">'+r.emitidos+'</td>'
+      +'<td class="num">'+(r.receitaEmitida?brl(r.receitaEmitida):'<span class="dim">—</span>')+'</td>'
+      +'<td class="num dim">'+(p.comissao||0)+'%</td>'
+      +'<td class="num" style="color:var(--ama)">'+pagar+'</td>'
+      +'<td><span class="badge '+cls+'">'+esc(p.status||'—')+'</span></td></tr>';
   }).join('');
+
+  var nomes=Object.keys(prod.orfaos);
+  if(nomes.length){
+    var extra=nomes.map(function(n){
+      var o=prod.orfaos[n];
+      return '<tr><td><b>'+esc(n)+'</b><br><span class="dim" style="font-size:10.5px">não cadastrado</span></td>'
+        +'<td class="dim">—</td><td class="num">'+o.vendas+'</td><td class="num">'+o.emitidos+'</td>'
+        +'<td class="num">'+(o.receita?brl(o.receita):'<span class="dim">—</span>')+'</td>'
+        +'<td class="num dim">—</td><td class="num dim">—</td>'
+        +'<td><span class="badge b-out">sem cadastro</span></td></tr>';
+    }).join('');
+    linhas+=extra;
+    $('pSemLigacao').className='warn';
+    $('pSemLigacao').innerHTML='<b>'+nomes.length+' parceiro(s) aparecem na API sem cadastro aqui.</b><br>'
+      +'<span style="font-size:12px">Cadastre em dados_controle.json com o campo <b>nome_api</b> igual ao que a API devolve.</span>';
+  } else {
+    $('pSemLigacao').className='hide';
+  }
+
+  $('pCorpo').innerHTML=linhas||'<tr><td colspan="8" class="vazio">Entre com a chave para ver a produção.</td></tr>';
+
+  if(!ps.length){$('pCadastro').innerHTML='<tr><td colspan="6" class="vazio">Nenhum parceiro cadastrado.</td></tr>';}
+  else {
+    $('pCadastro').innerHTML=ps.map(function(p){
+      var st=(p.status||'').toLowerCase();
+      var cls=st==='ativo'?'b-ativo':st==='proposta'?'b-proposta':'b-out';
+      return '<tr><td><b>'+esc(p.nome)+'</b></td>'
+        +'<td class="dim" style="font-size:11.5px">'+esc(p.doc||'—')+(p.doc2?'<br>'+esc(p.doc2):'')+'</td>'
+        +'<td><span class="badge '+(p.perfil==='A'?'b-pend':'b-pago')+'">Perfil '+esc(p.perfil||'—')+'</span></td>'
+        +'<td class="dim">'+(p.adesao?brData(p.adesao):'—')+'</td>'
+        +'<td><span class="badge '+cls+'">'+esc(p.status||'—')+'</span></td>'
+        +'<td class="dim" style="font-size:11.5px">'+esc(p.telefone||'')+(p.email?'<br>'+esc(p.email):'')+'</td></tr>';
+    }).join('');
+  }
 
   var porPraca={};
   ps.forEach(function(p){
@@ -606,6 +730,7 @@ function renderParceiros(){
   $('pPorPraca').innerHTML=html||'<div class="vazio">Sem dados.</div>';
 }
 
+/* ================= CIDADES ================= */
 var CID_SEL=null;
 function renderCidades(){
   var cs=(DADOS&&DADOS.cidades)||[];
@@ -652,6 +777,7 @@ function renderCidades(){
 }
 function selCidade(id){CID_SEL=id;renderCidades();}
 
+/* ================= EMISSOR ================= */
 function renderEmissor(){
   var e=(DADOS&&DADOS.emissor)||{planos:[],certificado:{}};
   var m=(DADOS&&DADOS.metas)||{};
@@ -748,6 +874,9 @@ function renderTudoSemApi(){
   $('gParcS').textContent=ps.length+' na rede';
   $('gCid').textContent=cs.filter(function(c){return c.status==='ativo';}).length;
   $('gCidS').textContent='com tabela ativa';
+  $('pVendas').textContent='—';$('pVendasS').textContent='entre com a chave';
+  $('pReceita').textContent='—';
+  $('pComissao').textContent='—';$('pComissaoS').textContent='—';
 }
 
 document.querySelectorAll('#tabs button').forEach(function(b){
