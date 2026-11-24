@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Área de Controle — CGE EMITTA</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--preto:#0A0A0A;--p2:#161615;--p3:#0F0F0F;--our:#CA983B;--ama:#E6AD41;--pra:#AAAAAC;--dis:'Space Grotesk',sans-serif;--bod:'Inter',sans-serif;--ver:#6EE7B7;--err:#EF4444}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--preto);color:#fff;font-family:var(--bod);line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;background:rgba(10,10,10,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(202,152,59,.25);z-index:60}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:14px}
+.brand{display:block;line-height:1;text-decoration:none}
+.brand .cge{display:block;font-family:var(--dis);font-weight:700;font-size:24px;letter-spacing:.5px;background:linear-gradient(160deg,#F0C463,#E6AD41 40%,#CA983B 70%,#8C6521);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand .sis{display:flex;align-items:center;gap:7px;font-size:8.5px;letter-spacing:.32em;color:#E8E8E8;margin-top:2px;font-weight:600}
+.brand .sis::before,.brand .sis::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,#CA983B)}
+.nav a.lk{color:var(--pra);text-decoration:none;font-weight:600;font-size:13.5px;margin-left:16px}
+.nav a.lk:hover{color:var(--ama)}
+h1{font-family:var(--dis);font-size:clamp(21px,4vw,28px);margin:0 0 3px}
+h1 span{color:var(--ama)}
+.sub{color:var(--pra);font-size:13px;margin-bottom:0}
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:20px 0 14px}
+
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;border-bottom:1px solid #242424;padding-bottom:0}
+.tabs button{background:transparent;border:0;border-bottom:2px solid transparent;color:#888;font-family:var(--bod);font-size:13.5px;font-weight:700;padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:7px}
+.tabs button:hover{color:#CCC}
+.tabs button.on{color:var(--ama);border-bottom-color:var(--ama)}
+.tabs .ic{font-size:15px;line-height:1}
+
+.periodo{display:flex;gap:6px;flex-wrap:wrap}
+.periodo button{background:var(--p2);border:1px solid #333;color:#CCC;border-radius:99px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;font-family:var(--bod)}
+.periodo button.on{background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto);border-color:var(--ama)}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:11px;margin-bottom:16px}
+.kpi{background:var(--p2);border:1px solid rgba(202,152,59,.28);border-radius:14px;padding:15px}
+.kpi .l{font-size:10px;color:var(--pra);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:4px}
+.kpi .v{font-family:var(--dis);font-size:22px;font-weight:700;line-height:1.15}
+.kpi .s{font-size:11px;color:#777;margin-top:3px}
+.kpi.dest{background:linear-gradient(135deg,rgba(202,152,59,.18),rgba(202,152,59,.04));border-color:rgba(202,152,59,.6)}
+.kpi.dest .v{color:var(--ama)}
+.kpi.ok .v{color:var(--ver)}
+.kpi.al .v{color:#FCA5A5}
+
+.painel{background:var(--p2);border:1px solid rgba(202,152,59,.28);border-radius:14px;padding:16px;margin-bottom:15px}
+.painel h2{font-family:var(--dis);font-size:15px;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.painel h2 .tag{font-size:11px;color:#777;font-weight:600;font-family:var(--bod)}
+.painel .dica{color:#888;font-size:12px;margin-bottom:12px}
+
+.graf{display:flex;align-items:flex-end;gap:5px;height:120px;padding-top:10px}
+.graf .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;height:100%;justify-content:flex-end}
+.graf .barra{width:100%;background:linear-gradient(180deg,var(--ama),var(--our));border-radius:5px 5px 0 0;min-height:3px;transition:.3s}
+.graf .rot{font-size:9px;color:#888;font-weight:600}
+.graf .col.zero .barra{background:#2a2a2a}
+
+.tabela-scroll{max-height:460px;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;color:#888;font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;padding:8px 7px;border-bottom:1px solid #262626;position:sticky;top:0;background:var(--p2);z-index:2}
+td{padding:9px 7px;border-bottom:1px solid #1a1a1a;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tbody tr:hover{background:rgba(202,152,59,.05)}
+td.num{text-align:right;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:9.5px;font-weight:700;white-space:nowrap;text-transform:uppercase;letter-spacing:.03em}
+.b-pago,.b-ativo{background:rgba(5,150,105,.18);color:#6EE7B7;border:1px solid rgba(5,150,105,.5)}
+.b-pend,.b-proposta{background:rgba(202,152,59,.15);color:#E6AD41;border:1px solid rgba(202,152,59,.5)}
+.b-canc{background:rgba(239,68,68,.12);color:#FCA5A5;border:1px solid rgba(239,68,68,.4)}
+.b-out{background:#222;color:#999;border:1px solid #333}
+.vazio{text-align:center;color:#777;padding:26px;font-size:13px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(202,152,59,.35);border-top-color:var(--ama);border-radius:50%;animation:g 1s linear infinite;vertical-align:-3px;margin-right:7px}
+@keyframes g{to{transform:rotate(360deg)}}
+
+.setup{max-width:420px;margin:50px auto;background:var(--p2);border:1px solid rgba(202,152,59,.4);border-radius:16px;padding:22px}
+.setup h2{font-family:var(--dis);font-size:18px;margin-bottom:6px}
+.setup p{color:var(--pra);font-size:12.5px;margin-bottom:14px}
+.setup input{width:100%;background:var(--p3);border:1px solid #333;color:#fff;border-radius:10px;padding:11px 13px;font-size:14px;font-family:var(--bod);outline:none;margin-bottom:10px}
+.setup input:focus{border-color:var(--our)}
+.setup button{width:100%;border:0;border-radius:99px;padding:13px;font-size:14.5px;font-weight:700;font-family:var(--bod);cursor:pointer;background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto)}
+
+.barra-h{height:7px;background:#242424;border-radius:99px;overflow:hidden;margin-top:5px}
+.barra-h i{display:block;height:100%;background:linear-gradient(90deg,var(--our),var(--ama));border-radius:99px}
+.linha-p{display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px}
+.dim{color:#888}
+
+.planos{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:11px}
+.plano{background:var(--p3);border:1px solid #2c2c2c;border-radius:12px;padding:14px}
+.plano.dest{border-color:rgba(202,152,59,.65);background:linear-gradient(160deg,rgba(202,152,59,.13),rgba(202,152,59,.03))}
+.plano .n{font-family:var(--dis);font-size:14.5px;font-weight:700;margin-bottom:2px}
+.plano .pr{font-family:var(--dis);font-size:24px;font-weight:700;color:var(--ama);margin:4px 0}
+.plano .pr small{font-size:11px;color:#888;font-weight:600}
+.plano .rc{font-size:11.5px;color:#AAA;line-height:1.5;margin-top:6px}
+
+.hide{display:none!important}
+footer{border-top:1px solid rgba(202,152,59,.25);padding:24px 0 30px;text-align:center;color:#666;font-size:12px;margin-top:12px}
+@media(max-width:620px){
+  .nav a.lk{display:none}
+  .tabs button{padding:9px 9px;font-size:12px}
+  .kpi .v{font-size:19px}
+}
+</style>
+</head>
+<body>
+
+<header><div class="wrap nav">
+<a href="index.html" class="brand"><span class="cge">CGE</span><span class="sis">SISTEMAS</span></a>
+<div>
+<a href="index.html" class="lk">Site</a>
+<a href="certificado.html" class="lk">Certificado</a>
+<a href="vendas.html" class="lk">Vendas</a>
+<a href="controle.html" class="lk" style="color:var(--ama)">Controle</a>
+</div>
+</div></header>
+
+<div class="wrap">
+
+<div id="setup" class="hide">
+  <div class="setup">
+    <h2>Chave de acesso</h2>
+    <p>Cole a chave de integração do CertControl. Ela fica salva só neste aparelho.</p>
+    <input type="text" id="tokIn" placeholder="eyJ0eXAiOiJKV1Qi...">
+    <div class="msg" id="mTok" style="display:none;color:#FCA5A5;font-size:12px;margin-bottom:10px">Informe a chave.</div>
+    <button onclick="salvarToken()">Entrar</button>
+    <p style="margin-top:14px;margin-bottom:0;font-size:11.5px">
+      <a href="javascript:void(0)" onclick="modoLeitura()" style="color:#888">Entrar sem chave (só parceiros/cidades/emissor)</a>
+    </p>
+  </div>
+</div>
+
+<div id="conteudo" class="hide">
+
+<div class="top">
+<div>
+<h1>Área de <span>Controle</span></h1>
+<p class="sub">Certificados · Parceiros · Cidades · Emissor — <span id="lblPeriodo">7 dias</span></p>
+</div>
+<div class="periodo" id="filtroPeriodo">
+<button data-p="hoje">Hoje</button>
+<button data-p="7" class="on">7 dias</button>
+<button data-p="30">30 dias</button>
+<button data-p="mes">Mês</button>
+<button data-p="ano">Ano</button>
+</div>
+</div>
+
+<div class="tabs" id="tabs">
+<button class="on" data-tab="geral"><span class="ic">▦</span>Visão geral</button>
+<button data-tab="cert"><span class="ic">▣</span>Certificados</button>
+<button data-tab="parc"><span class="ic">◈</span>Parceiros</button>
+<button data-tab="cid"><span class="ic">◉</span>Cidades</button>
+<button data-tab="emis"><span class="ic">◐</span>Emissor</button>
+</div>
+
+<div id="tab-geral">
+<div class="kpis">
+<div class="kpi"><div class="l">Faturamento</div><div class="v" id="gFat">—</div><div class="s" id="gFatQ">—</div></div>
+<div class="kpi dest"><div class="l">Lucro líquido</div><div class="v" id="gLucro">—</div><div class="s" id="gLucroS">—</div></div>
+<div class="kpi ok"><div class="l">Recebido</div><div class="v" id="gPago">—</div><div class="s" id="gPagoQ">—</div></div>
+<div class="kpi"><div class="l">A receber</div><div class="v" id="gPend">—</div><div class="s" id="gPendQ">—</div></div>
+<div class="kpi"><div class="l">Parceiros ativos</div><div class="v" id="gParc">—</div><div class="s" id="gParcS">—</div></div>
+<div class="kpi"><div class="l">Praças ativas</div><div class="v" id="gCid">—</div><div class="s" id="gCidS">—</div></div>
+</div>
+
+<div class="painel">
+<h2>Faturamento por dia <span class="tag" id="gGrafInfo"></span></h2>
+<div class="graf" id="gGraf"></div>
+</div>
+
+<div class="painel">
+<h2>Últimos pedidos <span class="tag" id="gUltQ"></span></h2>
+<div class="tabela-scroll">
+<table>
+<thead><tr><th>Pedido</th><th>Cliente</th><th>Produto</th><th style="text-align:right">Valor</th><th>Situação</th><th>Data</th></tr></thead>
+<tbody id="gUlt"><tr><td colspan="6" class="vazio"><span class="spin"></span>Carregando...</td></tr></tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="tab-cert" class="hide">
+<div class="kpis">
+<div class="kpi"><div class="l">Vendidos no período</div><div class="v" id="cQtd">—</div><div class="s">certificados</div></div>
+<div class="kpi ok"><div class="l">Receita</div><div class="v" id="cReceita">—</div><div class="s">bruto</div></div>
+<div class="kpi dest"><div class="l">Margem</div><div class="v" id="cMargem">—</div><div class="s">após custo Autêntica</div></div>
+<div class="kpi al"><div class="l">A pagar Autêntica</div><div class="v" id="cAPagar">—</div><div class="s" id="cAPagarS">—</div></div>
+</div>
+
+<div class="painel">
+<h2>Vendas de certificado <span class="tag" id="cTag"></span></h2>
+<div class="tabela-scroll">
+<table>
+<thead><tr><th>Pedido</th><th>Cliente</th><th>Tipo</th><th style="text-align:right">Venda</th><th style="text-align:right">Custo</th><th style="text-align:right">Margem</th><th>Situação</th><th>Data</th></tr></thead>
+<tbody id="cCorpo"><tr><td colspan="8" class="vazio"><span class="spin"></span>Carregando...</td></tr></tbody>
+</table>
+</div>
+</div>
+
+<div class="painel">
+<h2>Renovação — quem avisar <span class="tag" id="cVencTag"></span></h2>
+<p class="dica">Certificados válidos por 1 ano. Ordenados por quem vence primeiro.</p>
+<div class="tabela-scroll">
+<table>
+<thead><tr><th>Cliente</th><th>Documento</th><th style="text-align:right">Vence em</th><th>Data</th><th>Ação</th></tr></thead>
+<tbody id="cVenc"><tr><td colspan="5" class="vazio"><span class="spin"></span>Buscando vencimentos...</td></tr></tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="tab-parc" class="hide">
+<div class="kpis">
+<div class="kpi ok"><div class="l">Ativos</div><div class="v" id="pAtivos">—</div><div class="s">vendendo agora</div></div>
+<div class="kpi"><div class="l">Enviados</div><div class="v" id="pTotal">—</div><div class="s">com acesso ao kit</div></div>
+<div class="kpi dest"><div class="l">Comissão média</div><div class="v" id="pCom">—</div><div class="s">sobre a venda</div></div>
+</div>
+
+<div class="painel">
+<h2>Rede de parceiros <span class="tag" id="pTag"></span></h2>
+<p class="dica">Perfil A: emissor vendido separado. Perfil B: contabilidade com emissor incluso.</p>
+<div class="tabela-scroll">
+<table>
+<thead><tr><th>Parceiro</th><th>CPF/CNPJ</th><th>Praça</th><th>Perfil</th><th style="text-align:right">Comissão</th><th>Status</th><th>Contato</th></tr></thead>
+<tbody id="pCorpo"></tbody>
+</table>
+</div>
+</div>
+
+<div class="painel">
+<h2>Distribuição por praça</h2>
+<div id="pPorPraca"></div>
+</div>
+</div>
+
+<div id="tab-cid" class="hide">
+<div class="painel">
+<h2>Tabela de preços por praça <span class="tag" id="cidTag"></span></h2>
+<p class="dica">Selecione a cidade para ver os preços praticados. A tabela nacional é a base; praças regionais têm preço próprio.</p>
+<div id="cidBotoes" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px"></div>
+<div id="cidDetalhe"></div>
+</div>
+</div>
+
+<div id="tab-emis" class="hide">
+<div class="kpis">
+<div class="kpi dest"><div class="l">Ticket médio alvo</div><div class="v" id="eTicket">—</div><div class="s">por cliente/mês</div></div>
+<div class="kpi"><div class="l">Custo por cliente</div><div class="v" id="eCusto">—</div><div class="s">repasse Autêntica/mês</div></div>
+<div class="kpi ok"><div class="l">Margem unitária</div><div class="v" id="eMargemU">—</div><div class="s">antes dos fixos</div></div>
+<div class="kpi al"><div class="l">Ponto de equilíbrio</div><div class="v" id="eEquil">—</div><div class="s">clientes</div></div>
+</div>
+
+<div class="painel">
+<h2>Planos do emissor <span class="tag">emissor incluído em todos</span></h2>
+<div class="planos" id="ePlanos"></div>
+</div>
+
+<div class="painel">
+<h2>Simulador de carteira</h2>
+<p class="dica">Arraste a quantidade de clientes para ver o resultado mensal.</p>
+<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px">
+<input type="range" id="eSlider" min="10" max="500" value="100" step="5" style="flex:1;min-width:200px;accent-color:var(--ama)">
+<span style="font-family:var(--dis);font-size:20px;font-weight:700;color:var(--ama);min-width:70px;text-align:right" id="eSliderV">100</span>
+</div>
+<div class="kpis" id="eSim"></div>
+</div>
+</div>
+
+<footer>
+<p><b style="color:var(--pra)">CGE EMITTA</b> · Área de Controle interna · Hamilton Alves — CRC 004878/O-7</p>
+<p style="margin-top:4px">Certificados em tempo real pela API CertControl · demais dados em dados_controle.json</p>
+</footer>
+</div>
+</div>
+
+<script>
+var API='https://service.certcontrol.com.br/api/integracao';
+var WA='5563992856647';
+var PERIODO='7';
+var DADOS=null;
+var VENDAS=[];
+var CUSTO_CERT=50;
+/* A API guarda em valor_total o CUSTO pago a Autentica (R$50), NAO o preco
+   de venda. O preco cobrado do cliente vem da nossa tabela. */
+var PRECO_CERT={'CPF A1':160,'A1 CPF':160,'CNPJ A1':190,'A1 CNPJ':190};
+var SIT_FINAL=['4 - emitida','3 - aprovada','2 - aprovada'];
+
+function descProduto(v){
+  var p=v.produto||{};
+  return p['descrição']||p.descricao||'-';
+}
+function precoCliente(v){
+  var d=String(descProduto(v)).trim();
+  if(PRECO_CERT[d]) return PRECO_CERT[d];
+  var t=parseFloat(v.valor_total||0);
+  return (t>CUSTO_CERT?t:CUSTO_CERT);
+}
+function foiEmitido(v){
+  var s=String((v.soluti||{})['situação']||'').toLowerCase();
+  return SIT_FINAL.some(function(x){return s.indexOf(x)>=0;});
+}
+function pagoAutentica(v){
+  return !!(String(v.data_pagamento||'').trim());
+}
+function ehCancelado(v){
+  return /cancel/i.test(String(v.status||''));
+}
+
+(function(){
+  var q=new URLSearchParams(location.search);
+  var k=q.get('k');
+  if(!k){ var m=location.hash.match(/k=([^&]+)/); if(m) k=decodeURIComponent(m[1]); }
+  if(k){ localStorage.setItem('cge_cc_token',k); try{history.replaceState(null,'',location.pathname);}catch(e){} }
+})();
+var TOKEN=localStorage.getItem('cge_cc_token')||'';
+var MODO_LEITURA=localStorage.getItem('cge_cc_leitura')==='1';
+
+function $(id){return document.getElementById(id);}
+function brl(v){v=parseFloat(v||0);return 'R$ '+v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
+function brlCurto(v){v=parseFloat(v||0);if(v>=1000000)return 'R$ '+(v/1000000).toFixed(2).replace('.',',')+'M';if(v>=1000)return 'R$ '+(v/1000).toFixed(1).replace('.',',')+'k';return brl(v);}
+function iso(d){return d.toISOString().slice(0,10);}
+function brData(s){if(!s)return '-';var p=String(s).slice(0,10).split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+function diasAte(s){if(!s)return null;var a=new Date(String(s).slice(0,10)+'T12:00:00');var h=new Date();h.setHours(12,0,0,0);return Math.round((a-h)/86400000);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+function salvarToken(){
+  var t=$('tokIn').value.trim();
+  if(!t){$('mTok').style.display='block';return;}
+  localStorage.setItem('cge_cc_token',t);
+  localStorage.removeItem('cge_cc_leitura');
+  location.reload();
+}
+function modoLeitura(){
+  localStorage.setItem('cge_cc_leitura','1');
+  location.reload();
+}
+function sairToken(){
+  localStorage.removeItem('cge_cc_token');
+  localStorage.removeItem('cge_cc_leitura');
+  location.reload();
+}
+
+function entrada(){
+  if(TOKEN||MODO_LEITURA){
+    $('setup').classList.add('hide');
+    $('conteudo').classList.remove('hide');
+    return true;
+  }
+  $('setup').classList.remove('hide');
+  $('conteudo').classList.add('hide');
+  return false;
+}
+
+function fetchJSON(path){
+  return fetch(API+path,{headers:{Authorization:'Bearer '+TOKEN,Accept:'application/json'}})
+    .then(function(r){
+      if(r.status===401||r.status===403) throw new Error('Chave sem permissão ou expirada.');
+      return r.json();
+    });
+}
+function intervalo(p){
+  var h=new Date(), fim=iso(h), ini=new Date(h);
+  if(p==='hoje'){}
+  else if(p==='7'){ini.setDate(ini.getDate()-6);}
+  else if(p==='30'){ini.setDate(ini.getDate()-29);}
+  else if(p==='mes'){ini=new Date(h.getFullYear(),h.getMonth(),1);}
+  else if(p==='ano'){ini=new Date(h.getFullYear(),0,1);}
+  return {ini:iso(ini),fim:fim};
+}
+
+function carregaDados(){
+  if(DADOS) return Promise.resolve(DADOS);
+  return fetch('dados_controle.json?t='+Date.now())
+    .then(function(r){return r.ok?r.json():{};})
+    .then(function(j){DADOS=j||{};return DADOS;})
+    .catch(function(){DADOS={};return DADOS;});
+}
+
+function carregarVendas(){
+  if(!TOKEN){
+    VENDAS=[];
+    renderTudoSemApi();
+    return Promise.resolve([]);
+  }
+  var r=intervalo(PERIODO);
+  $('lblPeriodo').textContent=(PERIODO==='hoje'?'hoje':PERIODO==='mes'?'este mês':PERIODO==='ano'?'este ano':'últimos '+PERIODO+' dias');
+  return fetchJSON('/vendas?data_venda_inicio='+r.ini+'&data_venda_fim='+r.fim+'&per_page=200')
+    .then(function(j){
+      VENDAS=(j.data||[]).slice().sort(function(a,b){return (b.data_venda||'').localeCompare(a.data_venda||'');});
+      renderGeral(r); renderCert(r); renderVencimentos();
+      return VENDAS;
+    })
+    .catch(function(e){
+      $('gUlt').innerHTML='<tr><td colspan="6" class="vazio" style="color:#FCA5A5">'+esc(e.message)+'</td></tr>';
+      $('cCorpo').innerHTML='<tr><td colspan="8" class="vazio" style="color:#FCA5A5">'+esc(e.message)+'</td></tr>';
+      $('cVenc').innerHTML='<tr><td colspan="5" class="vazio" style="color:#FCA5A5">'+esc(e.message)+'</td></tr>';
+    });
+}
+
+function statusClasse(st){
+  st=String(st||'').toLowerCase();
+  if(/pago|emitid|aprovad/.test(st)) return 'b-pago';
+  if(/cancel|estorn/.test(st)) return 'b-canc';
+  if(/pend|aguard/.test(st)) return 'b-pend';
+  return 'b-out';
+}
+
+function renderGeral(r){
+  var fat=0,pago=0,pend=0,qPago=0,qPend=0,q=0,qEmit=0,porDia={},fatEmit=0;
+  VENDAS.forEach(function(v){
+    if(ehCancelado(v)) return;
+    var valor=precoCliente(v);
+    var st=String(v.status||'').toLowerCase();
+    q++; fat+=valor;
+
+    if(foiEmitido(v)){ qEmit++; fatEmit+=valor; }
+
+    if(st==='pago'||pagoAutentica(v)){ pago+=valor; qPago++; }
+    else { pend+=valor; qPend++; }
+
+    var d=String(v.data_venda||'').slice(0,10);
+    if(d) porDia[d]=(porDia[d]||0)+valor;
+  });
+  var custo=qEmit*CUSTO_CERT;
+  var imposto=fatEmit*0.10;
+  var lucro=fatEmit-custo-imposto;
+
+  $('gFat').textContent=brl(fat);
+  $('gFatQ').textContent=q+' pedido'+(q===1?'':'s')+' · '+qEmit+' emitido'+(qEmit===1?'':'s');
+  $('gLucro').textContent=brl(lucro);
+  $('gLucroS').textContent='só emitidos: custo '+brl(custo)+' + imposto '+brl(imposto);
+  $('gPago').textContent=brl(pago);
+  $('gPagoQ').textContent=qPago+' confirmado'+(qPago===1?'':'s');
+  $('gPend').textContent=brl(pend);
+  $('gPendQ').textContent=qPend+' a receber';
+
+  var pAtivos=(DADOS.parceiros||[]).filter(function(p){return p.status==='ativo';}).length;
+  var cAtivos=(DADOS.cidades||[]).filter(function(c){return c.status==='ativo';}).length;
+  $('gParc').textContent=pAtivos;
+  $('gParcS').textContent=(DADOS.parceiros||[]).length+' na rede';
+  $('gCid').textContent=cAtivos;
+  $('gCidS').textContent='com tabela ativa';
+
+  desenharGrafico('gGraf','gGrafInfo',porDia,r);
+
+  var ult=VENDAS.slice(0,12);
+  $('gUltQ').textContent=ult.length?'últimos '+ult.length:'';
+  if(!ult.length){$('gUlt').innerHTML='<tr><td colspan="6" class="vazio">Nenhum pedido no período.</td></tr>';return;}
+  $('gUlt').innerHTML=ult.map(function(v){
+    var st=v.status||'';
+    var nome=(v.cliente_certificado&&v.cliente_certificado.nome_razao)||'-';
+    var prod=(v.produto&&(v.produto['descrição']||v.produto.descricao))||'-';
+    return '<tr><td><b>#'+esc(v.pedido)+'</b></td><td>'+esc(nome)+'</td><td class="dim">'+esc(prod)+'</td>'
+      +'<td class="num">'+brl(v.valor_total)+'</td><td><span class="badge '+statusClasse(st)+'">'+esc(st)+'</span></td>'
+      +'<td class="dim">'+brData(v.data_venda)+'</td></tr>';
+  }).join('');
+}
+
+function desenharGrafico(idG,idInfo,porDia,r){
+  var ini=new Date(r.ini+'T12:00:00'),fim=new Date(r.fim+'T12:00:00');
+  var nDias=Math.round((fim-ini)/86400000)+1;
+  var cols=[],rotulo='';
+
+  if(nDias>62){
+    var porMes={};
+    Object.keys(porDia).forEach(function(k){
+      var m=k.slice(0,7);
+      porMes[m]=(porMes[m]||0)+porDia[k];
+    });
+    var mIni=new Date(ini.getFullYear(),ini.getMonth(),1);
+    var mFim=new Date(fim.getFullYear(),fim.getMonth(),1);
+    for(var d=new Date(mIni);d<=mFim;d.setMonth(d.getMonth()+1)){
+      var k=d.toISOString().slice(0,7);
+      var nom=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'][d.getMonth()];
+      cols.push({d:k,v:porMes[k]||0,lbl:nom});
+    }
+    rotulo=' em '+cols.length+(cols.length===1?' mês':' meses');
+  } else {
+    for(var i=nDias-1;i>=0;i--){
+      var dd=new Date(fim);dd.setDate(dd.getDate()-i);
+      var kk=iso(dd);
+      cols.push({d:kk,v:porDia[kk]||0,lbl:kk.slice(8,10)+'/'+kk.slice(5,7)});
+    }
+    rotulo=' em '+cols.length+' dia'+(cols.length===1?'':'s');
+  }
+
+  var max=Math.max.apply(null,cols.map(function(x){return x.v;}));if(!max)max=1;
+  $(idG).innerHTML=cols.map(function(x){
+    var hh=Math.round(x.v/max*100);
+    var mostrar=(cols.length<=12)?x.lbl:'';
+    return '<div class="col'+(x.v===0?' zero':'')+'" title="'+x.lbl+': '+brl(x.v)+'"><div class="barra" style="height:'+hh+'%"></div><div class="rot">'+mostrar+'</div></div>';
+  }).join('');
+  var tot=cols.reduce(function(a,b){return a+b.v;},0);
+  $(idInfo).textContent=brl(tot)+rotulo;
+}
+
+function renderCert(r){
+  var itens=[],fat=0,custo=0,q=0,qSemPagar=0,qEmit=0;
+  VENDAS.forEach(function(v){
+    if(ehCancelado(v)) return;
+    q++;
+    var valor=precoCliente(v);
+    var emit=foiEmitido(v);
+    var c=emit?CUSTO_CERT:0;
+    if(emit) qEmit++;
+    if(emit && !pagoAutentica(v)) qSemPagar++;
+    fat+=valor; custo+=c;
+    itens.push({v:v,valor:valor,custo:c,emit:emit});
+  });
+  $('cQtd').textContent=q+' ('+qEmit+' emitidos)';
+  $('cReceita').textContent=brl(fat);
+  $('cMargem').textContent=brl(fat-custo);
+  $('cAPagar').textContent=brl(custo);
+  $('cAPagarS').textContent=qSemPagar?qSemPagar+' emitido(s) sem baixa':'tudo pago à Autêntica';
+  $('cTag').textContent=q?'':'';
+
+  if(!itens.length){
+    $('cCorpo').innerHTML='<tr><td colspan="8" class="vazio">Nenhuma venda no período.</td></tr>';
+    return;
+  }
+  $('cCorpo').innerHTML=itens.map(function(o){
+    var v=o.v,st=v.status||'';
+    var nome=(v.cliente_certificado&&v.cliente_certificado.nome_razao)||'-';
+    var tipo=v.tipo||'/';
+    return '<tr><td><b>#'+esc(v.pedido)+'</b></td><td>'+esc(nome)+'</td>'
+      +'<td class="dim">'+esc(tipo)+'</td>'
+      +'<td class="num">'+brl(o.valor)+'</td>'
+      +'<td class="num dim">'+(o.emit?brl(CUSTO_CERT):'—')+'</td>'
+      +'<td class="num" style="color:var(--ama)">'+(o.emit?brl(o.valor-CUSTO_CERT):'—')+'</td>'
+      +'<td><span class="badge '+statusClasse(st)+'">'+esc(st)+'</span></td>'
+      +'<td class="dim">'+brData(v.data_venda)+'</td></tr>';
+  }).join('');
+}
+
+function renderVencimentos(){
+  if(!TOKEN){$('cVenc').innerHTML='<tr><td colspan="5" class="vazio">Entre com a chave para ver os vencimentos.</td></tr>';return;}
+  var h=new Date(),ini=new Date();ini.setMonth(ini.getMonth()-14);
+  fetchJSON('/vendas?data_venda_inicio='+iso(ini)+'&data_venda_fim='+iso(h)+'&per_page=200')
+  .then(function(j){
+    var lista=[];
+    (j.data||[]).forEach(function(v){
+      if(/cancel|estorn/i.test(String(v.status||''))) return;
+      var s=v.soluti||{};
+      var fim=(s.validade&&s.validade.data_fim)||null;
+      if(!fim) return;
+      lista.push({
+        nome:(v.cliente_certificado&&v.cliente_certificado.nome_razao)||'-',
+        doc:(v.cliente_certificado&&v.cliente_certificado.documento)||'',
+        cel:(v.cliente_certificado&&v.cliente_certificado.celular)||'',
+        fim:fim, dias:diasAte(fim)
+      });
+    });
+    lista.sort(function(a,b){return a.dias-b.dias;});
+    $('cVencTag').textContent=lista.length+' certificados';
+    if(!lista.length){$('cVenc').innerHTML='<tr><td colspan="5" class="vazio">Sem certificados emitidos no período.</td></tr>';return;}
+    $('cVenc').innerHTML=lista.slice(0,60).map(function(o){
+      var dias=o.dias;
+      var cor=dias<0?'#FCA5A5':dias<=30?'#E6AD41':'#6EE7B7';
+      var txt=dias<0?Math.abs(dias)+' dias vencido':dias===0?'vence hoje':dias+' dias';
+      var num=String(o.cel).replace(/\D/g,'');
+      var link=num?'https://wa.me/55'+num+'?text='+encodeURIComponent('Olá! Seu certificado digital vence em '+brData(o.fim)+'. Podemos renovar para você não ficar sem. — CGE EMITTA'):'';
+      return '<tr><td>'+esc(o.nome)+'</td><td class="dim">'+esc(o.doc)+'</td>'
+        +'<td class="num" style="color:'+cor+'">'+txt+'</td>'
+        +'<td class="dim">'+brData(o.fim)+'</td>'
+        +'<td>'+(link?'<a href="'+link+'" target="_blank" style="color:var(--ama);font-weight:700;text-decoration:none;font-size:11.5px">Avisar →</a>':'<span class="dim">sem celular</span>')+'</td></tr>';
+    }).join('');
+  })
+  .catch(function(e){
+    $('cVenc').innerHTML='<tr><td colspan="5" class="vazio" style="color:#FCA5A5">'+esc(e.message)+'</td></tr>';
+  });
+}
+
+function renderParceiros(){
+  var ps=(DADOS&&DADOS.parceiros)||[];
+  var ativos=ps.filter(function(p){return p.status==='ativo';}).length;
+  $('pAtivos').textContent=ativos;
+  $('pTotal').textContent=ps.length;
+  var soma=0,c=0;
+  ps.forEach(function(p){ if(p.comissao){soma+=Number(p.comissao);c++;} });
+  $('pCom').textContent=(c?Math.round(soma/c):0)+'%';
+  $('pTag').textContent=ps.length+' cadastrados';
+
+  if(!ps.length){$('pCorpo').innerHTML='<tr><td colspan="7" class="vazio">Nenhum parceiro cadastrado.</td></tr>';return;}
+  $('pCorpo').innerHTML=ps.map(function(p){
+    var st=(p.status||'').toLowerCase();
+    var cls=st==='ativo'?'b-ativo':st==='proposta'?'b-proposta':'b-out';
+    return '<tr><td><b>'+esc(p.nome)+'</b></td>'
+      +'<td class="dim" style="font-size:11.5px">'+esc(p.doc||'—')+(p.doc2?'<br>'+esc(p.doc2):'')+'</td>'
+      +'<td>'+esc(p.cidade||'')+'/'+esc(p.uf||'')+'</td>'
+      +'<td><span class="badge '+(p.perfil==='A'?'b-pend':'b-pago')+'">Perfil '+esc(p.perfil||'—')+'</span></td>'
+      +'<td class="num">'+(p.comissao||0)+'%</td>'
+      +'<td><span class="badge '+cls+'">'+esc(p.status||'—')+'</span></td>'
+      +'<td class="dim" style="font-size:11.5px">'+esc(p.telefone||'')+(p.email?'<br>'+esc(p.email):'')+'</td></tr>';
+  }).join('');
+
+  var porPraca={};
+  ps.forEach(function(p){
+    var k=(p.cidade||'—')+'/'+(p.uf||'');
+    porPraca[k]=(porPraca[k]||0)+1;
+  });
+  var total=ps.length||1;
+  var html=Object.keys(porPraca).sort(function(a,b){return porPraca[b]-porPraca[a];}).map(function(k){
+    var pct=Math.round(porPraca[k]/total*100);
+    return '<div style="margin-bottom:10px"><div class="linha-p"><span>'+esc(k)+'</span><b>'+porPraca[k]+'</b></div>'
+      +'<div class="barra-h"><i style="width:'+pct+'%"></i></div></div>';
+  }).join('');
+  $('pPorPraca').innerHTML=html||'<div class="vazio">Sem dados.</div>';
+}
+
+var CID_SEL=null;
+function renderCidades(){
+  var cs=(DADOS&&DADOS.cidades)||[];
+  $('cidTag').textContent=cs.length+' praças';
+  if(!cs.length){$('cidBotoes').innerHTML='';$('cidDetalhe').innerHTML='<div class="vazio">Nenhuma cidade cadastrada.</div>';return;}
+
+  if(!CID_SEL||!cs.some(function(c){return c.id===CID_SEL;})) CID_SEL=cs[0].id;
+
+  $('cidBotoes').innerHTML=cs.map(function(c){
+    var on=c.id===CID_SEL;
+    return '<button onclick="selCidade(\''+esc(c.id)+'\')" style="background:'+(on?'linear-gradient(90deg,var(--our),var(--ama))':'var(--p3)')
+      +';color:'+(on?'var(--preto)':'#CCC')+';border:1px solid '+(on?'var(--ama)':'#333')
+      +';border-radius:99px;padding:8px 15px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:var(--bod)">'
+      +esc(c.cidade)+'/'+esc(c.uf)+'</button>';
+  }).join('');
+
+  var c=cs.filter(function(x){return x.id===CID_SEL;})[0];
+  var nac=cs.filter(function(x){return x.tabela==='NACIONAL';})[0]||c;
+  var rot={
+    emissor_essencial:'Emissor Essencial',emissor_profissional:'Emissor Profissional',emissor_premium:'Emissor Premium',
+    cont_mei:'Contabilidade MEI',cont_me:'Contabilidade ME',cont_epp:'Contabilidade EPP',
+    pacote_mei:'Pacote MEI (c/ emissor)',pacote_me:'Pacote ME (c/ emissor)',pacote_epp:'Pacote EPP (c/ emissor)',
+    a1_pf:'Certificado A1 PF',a1_pj:'Certificado A1 PJ'
+  };
+
+  var linhas=Object.keys(rot).map(function(k){
+    var v=(c.precos||{})[k];
+    var n=(nac.precos||{})[k];
+    if(v==null) return '';
+    var dif=(n!=null && n!==v)?(v-n):0;
+    var difTxt=dif>0?'<span style="color:#6EE7B7">+'+brl(dif)+'</span>':dif<0?'<span style="color:#FCA5A5">-'+brl(Math.abs(dif))+'</span>':'<span class="dim">—</span>';
+    return '<tr><td>'+rot[k]+'</td><td class="num">'+brl(v)+'</td><td class="num dim">'+(n!=null?brl(n):'—')+'</td><td class="num">'+(c.id===nac.id?'<span class="dim">base</span>':difTxt)+'</td></tr>';
+  }).join('');
+
+  $('cidDetalhe').innerHTML=
+    '<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px">'
+    +'<div class="badge '+(c.status==='ativo'?'b-ativo':'b-out')+'">'+esc(c.status||'—')+'</div>'
+    +'<span class="dim" style="font-size:12px">Tabela: <b style="color:#fff">'+esc(c.tabela||'—')+'</b></span>'
+    +(c.obs?'<span class="dim" style="font-size:12px">· '+esc(c.obs)+'</span>':'')
+    +'</div>'
+    +'<table><thead><tr><th>Produto</th><th style="text-align:right">'+esc(c.cidade)+'</th>'
+    +'<th style="text-align:right">Nacional</th><th style="text-align:right">Diferença</th></tr></thead>'
+    +'<tbody>'+linhas+'</tbody></table>';
+}
+function selCidade(id){CID_SEL=id;renderCidades();}
+
+function renderEmissor(){
+  var e=(DADOS&&DADOS.emissor)||{planos:[],certificado:{}};
+  var m=(DADOS&&DADOS.metas)||{};
+
+  var ticket=m.ticket_medio||248.99;
+  var custo=e.custo_por_cliente_mes||20;
+  var imposto=(m.imposto_pct||10)/100;
+  var fixo=m.custo_fixo_mes||12750;
+  var margemU=ticket*(1-imposto)-custo;
+  var equil=margemU>0?Math.ceil(fixo/margemU):0;
+
+  $('eTicket').textContent=brl(ticket);
+  $('eCusto').textContent=brl(custo);
+  $('eMargemU').textContent=brl(margemU);
+  $('eEquil').textContent=equil;
+
+  $('ePlanos').innerHTML=(e.planos||[]).map(function(p,i){
+    var dest=p.id==='profissional'?' dest':'';
+    var extra=p.pos_extra?'<div class="rc" style="color:#888;font-size:10.5px;margin-top:4px">+ '+brl(p.pos_extra)+' por maquininha</div>':'';
+    return '<div class="plano'+dest+'">'
+      +'<div class="n">'+esc(p.nome)+'</div>'
+      +'<div class="pr">'+brl(p.preco)+' <small>/mês</small></div>'
+      +'<div class="rc">'+esc(p.recursos||'')+'</div>'+extra
+      +(dest?'<div class="badge b-pend" style="margin-top:9px">mais vendido</div>':'')
+      +'</div>';
+  }).join('');
+
+  var c=e.certificado||{};
+  var box=document.getElementById('extraCert');
+  if(box) box.remove();
+  var div=document.createElement('div');
+  div.id='extraCert';
+  div.className='painel';
+  div.style.marginTop='13px';
+  div.innerHTML='<h2 style="font-size:13.5px">Certificado A1 (avulso)</h2>'
+    +'<table style="margin-top:8px"><thead><tr><th>Tipo</th><th style="text-align:right">Venda</th><th style="text-align:right">Custo</th><th style="text-align:right">Margem</th></tr></thead><tbody>'
+    +'<tr><td>A1 Pessoa Física</td><td class="num">'+brl(c.a1_pf)+'</td><td class="num dim">'+brl(c.custo_pf)+'</td><td class="num" style="color:var(--ama)">'+brl((c.a1_pf||0)-(c.custo_pf||0))+'</td></tr>'
+    +'<tr><td>A1 Pessoa Jurídica</td><td class="num">'+brl(c.a1_pj)+'</td><td class="num dim">'+brl(c.custo_pj)+'</td><td class="num" style="color:var(--ama)">'+brl((c.a1_pj||0)-(c.custo_pj||0))+'</td></tr>'
+    +'</tbody></table>'
+    +'<p class="dica" style="margin-top:10px;margin-bottom:0">Videoconferência com biometria · CNH obrigatória · validade '+(c.validade_anos||1)+' ano · renovação automática por '+(c.renovacao_anos||5)+' anos</p>';
+  document.getElementById('ePlanos').parentNode.appendChild(div);
+
+  simular();
+}
+
+function simular(){
+  var n=parseInt($('eSlider').value,10)||100;
+  $('eSliderV').textContent=n;
+  var m=(DADOS&&DADOS.metas)||{};
+  var e=(DADOS&&DADOS.emissor)||{};
+  var ticket=m.ticket_medio||248.99;
+  var custo=e.custo_por_cliente_mes||20;
+  var imposto=(m.imposto_pct||10)/100;
+  var fixo=m.custo_fixo_mes||12750;
+
+  var bruto=n*ticket;
+  var imp=bruto*imposto;
+  var custoCli=n*custo;
+  var lucro=bruto-imp-custoCli-fixo;
+  var margem=bruto>0?(lucro/bruto*100):0;
+
+  $('eSim').innerHTML=
+    '<div class="kpi"><div class="l">Receita bruta</div><div class="v">'+brlCurto(bruto)+'</div><div class="s">'+n+' clientes</div></div>'
+   +'<div class="kpi"><div class="l">Custo variável</div><div class="v" style="color:#FCA5A5">-'+brlCurto(custoCli+imp)+'</div><div class="s">repasse + imposto</div></div>'
+   +'<div class="kpi"><div class="l">Custo fixo</div><div class="v" style="color:#FCA5A5">-'+brlCurto(fixo)+'</div><div class="s">estrutura/mês</div></div>'
+   +'<div class="kpi '+(lucro>0?'dest':'al')+'"><div class="l">Lucro do mês</div><div class="v">'+brlCurto(lucro)+'</div><div class="s">margem '+margem.toFixed(1).replace('.',',')+'%</div></div>';
+}
+
+function trocaAba(t){
+  ['geral','cert','parc','cid','emis'].forEach(function(x){
+    var el=document.getElementById('tab-'+x);
+    if(el) el.classList[x===t?'remove':'add']('hide');
+  });
+  document.querySelectorAll('#tabs button').forEach(function(b){
+    b.classList[b.dataset.tab===t?'add':'remove']('on');
+  });
+  if(t==='parc') renderParceiros();
+  if(t==='cid') renderCidades();
+  if(t==='emis') renderEmissor();
+}
+
+function renderTudoSemApi(){
+  $('gFat').textContent='—';$('gFatQ').textContent='entre com a chave';
+  $('gLucro').textContent='—';$('gLucroS').textContent='—';
+  $('gPago').textContent='—';$('gPagoQ').textContent='—';
+  $('gPend').textContent='—';$('gPendQ').textContent='—';
+  $('gUlt').innerHTML='<tr><td colspan="6" class="vazio">Entre com a chave do CertControl para ver as vendas.</td></tr>';
+  $('cCorpo').innerHTML='<tr><td colspan="8" class="vazio">Entre com a chave para ver os certificados.</td></tr>';
+  $('cVenc').innerHTML='<tr><td colspan="5" class="vazio">Entre com a chave para ver os vencimentos.</td></tr>';
+  var ps=(DADOS&&DADOS.parceiros)||[];
+  var pAtivos=ps.filter(function(p){return p.status==='ativo';}).length;
+  var cs=(DADOS&&DADOS.cidades)||[];
+  $('gParc').textContent=pAtivos;
+  $('gParcS').textContent=ps.length+' na rede';
+  $('gCid').textContent=cs.filter(function(c){return c.status==='ativo';}).length;
+  $('gCidS').textContent='com tabela ativa';
+}
+
+document.querySelectorAll('#tabs button').forEach(function(b){
+  b.onclick=function(){trocaAba(b.dataset.tab);};
+});
+document.querySelectorAll('#filtroPeriodo button').forEach(function(b){
+  b.onclick=function(){
+    document.querySelectorAll('#filtroPeriodo button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on');
+    PERIODO=b.dataset.p;
+    carregarVendas();
+  };
+});
+$('eSlider').oninput=simular;
+
+if(entrada()){
+  carregaDados().then(function(){
+    renderParceiros(); renderCidades(); renderEmissor();
+    carregarVendas().then(function(){ trocaAba('geral'); });
+  });
+}
+</script>
+</body>
+</html>
