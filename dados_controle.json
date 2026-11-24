@@ -1,0 +1,170 @@
+{
+  "_leia": "Fonte de dados da Area de Controle CGE EMITTA. Editar este arquivo e publicar para atualizar o painel.",
+  "_atualizado": "2026-11-23",
+
+  "parceiros": [
+    {
+      "id": "naziane",
+      "nome": "Naziane",
+      "doc": "074.235.813-56",
+      "tipo": "PF",
+      "cidade": "Riachão",
+      "uf": "MA",
+      "telefone": "(99) 98481-9008",
+      "email": "cge.nac.nac@gmail.com",
+      "perfil": "B",
+      "status": "ativo",
+      "adesao": "2026-09-30",
+      "comissao": 20,
+      "observacao": "Rua Projetada, Lagoa Seca, CEP 65990-000"
+    },
+    {
+      "id": "luiz-samira",
+      "nome": "Luiz Gustavo + Samira Santos Soares",
+      "doc": "345.370.838-59",
+      "doc2": "534.509.638-48",
+      "tipo": "PF",
+      "cidade": "Campinas",
+      "uf": "SP",
+      "telefone": "19953300599",
+      "email": "Luizguga2023@gmail.com",
+      "perfil": "B",
+      "status": "ativo",
+      "adesao": "2026-09-30",
+      "comissao": 20,
+      "observacao": "Data de nascimento conforme RG"
+    },
+    {
+      "id": "thaissa",
+      "nome": "Thaissa Ribeiro Cajueiro Gomes",
+      "doc": "—",
+      "tipo": "PF",
+      "cidade": "Araguaína",
+      "uf": "TO",
+      "telefone": "(63) 99249-7629",
+      "email": "thaissacajueiro@hotmail.com",
+      "perfil": "A",
+      "status": "proposta",
+      "adesao": "",
+      "comissao": 20,
+      "observacao": "Rua Vitória Régia 76, Setor Itapuã · 31 anos · praça TABELA_ARAGUAINA_TO"
+    }
+  ],
+
+  "cidades": [
+    {
+      "id": "vilhena",
+      "cidade": "Vilhena",
+      "uf": "RO",
+      "tabela": "NACIONAL",
+      "status": "ativo",
+      "obs": "Sede CGE",
+      "precos": {
+        "emissor_essencial": 89.99,
+        "emissor_profissional": 99.99,
+        "emissor_premium": 119.99,
+        "cont_mei": 129.99,
+        "cont_me": 299.99,
+        "cont_epp": 399.00,
+        "pacote_mei": 149.99,
+        "pacote_me": 299.99,
+        "pacote_epp": 399.99,
+        "a1_pf": 160.00,
+        "a1_pj": 190.00
+      }
+    },
+    {
+      "id": "araguaina",
+      "cidade": "Araguaína",
+      "uf": "TO",
+      "tabela": "ARAGUAINA_TO",
+      "status": "ativo",
+      "obs": "Praça regional · Thaissa",
+      "precos": {
+        "emissor_essencial": 89.99,
+        "emissor_profissional": 99.99,
+        "emissor_premium": 119.99,
+        "cont_mei": 159.99,
+        "cont_me": 499.00,
+        "cont_epp": 599.99,
+        "pacote_mei": 159.99,
+        "pacote_me": 499.00,
+        "pacote_epp": 599.99,
+        "a1_pf": 160.00,
+        "a1_pj": 180.00
+      }
+    },
+    {
+      "id": "palmas",
+      "cidade": "Palmas",
+      "uf": "TO",
+      "tabela": "NACIONAL",
+      "status": "ativo",
+      "obs": "Rodapé próprio (63) 99285-6647",
+      "precos": {
+        "emissor_essencial": 89.99,
+        "emissor_profissional": 99.99,
+        "emissor_premium": 119.99,
+        "cont_mei": 129.99,
+        "cont_me": 299.99,
+        "cont_epp": 399.00,
+        "pacote_mei": 149.99,
+        "pacote_me": 299.99,
+        "pacote_epp": 399.99,
+        "a1_pf": 160.00,
+        "a1_pj": 190.00
+      }
+    }
+  ],
+
+  "emissor": {
+    "custo_por_cliente_mes": 20.00,
+    "planos": [
+      {
+        "id": "essencial",
+        "nome": "Essencial",
+        "preco": 89.99,
+        "recursos": "NF-e, NFC-e, NFS-e, CT-e, MDF-e",
+        "app": false,
+        "pos": false
+      },
+      {
+        "id": "profissional",
+        "nome": "Profissional",
+        "preco": 99.99,
+        "recursos": "Todos os documentos + APP Android",
+        "app": true,
+        "pos": false
+      },
+      {
+        "id": "premium",
+        "nome": "Premium",
+        "preco": 119.99,
+        "recursos": "Todos os documentos + APP + Smart POS",
+        "app": true,
+        "pos": true,
+        "pos_extra": 10.00
+      }
+    ],
+    "certificado": {
+      "a1_pf": 160.00,
+      "a1_pj": 190.00,
+      "custo_pf": 50.00,
+      "custo_pj": 80.00,
+      "validade_anos": 1,
+      "renovacao_anos": 5,
+      "exige_cnh": true,
+      "videoconferencia": true
+    }
+  },
+
+  "metas": {
+    "equilibrio_clientes_min": 83,
+    "equilibrio_clientes_max": 99,
+    "custo_fixo_mes": 12750.00,
+    "ticket_medio": 248.99,
+    "imposto_pct": 10,
+    "meta_3mi_clientes_min": 1620,
+    "meta_3mi_clientes_max": 1932
+  }
+}
