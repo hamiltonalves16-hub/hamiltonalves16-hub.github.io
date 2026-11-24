@@ -78,6 +78,8 @@ td.num{text-align:right;font-weight:700;white-space:nowrap;font-variant-numeric:
 .setup input{width:100%;background:var(--p3);border:1px solid #333;color:#fff;border-radius:10px;padding:11px 13px;font-size:14px;font-family:var(--bod);outline:none;margin-bottom:10px}
 .setup input:focus{border-color:var(--our)}
 .setup button{width:100%;border:0;border-radius:99px;padding:13px;font-size:14.5px;font-weight:700;font-family:var(--bod);cursor:pointer;background:linear-gradient(90deg,var(--our),var(--ama));color:var(--preto)}
+.setup button.alt{background:transparent;border:1px solid #444;color:#CCC;margin-top:9px;font-size:13px;padding:11px}
+.setup button.alt:hover{border-color:var(--our);color:var(--ama)}
 
 .barra-h{height:7px;background:#242424;border-radius:99px;overflow:hidden;margin-top:5px}
 .barra-h i{display:block;height:100%;background:linear-gradient(90deg,var(--our),var(--ama));border-radius:99px}
@@ -125,6 +127,13 @@ footer{border-top:1px solid rgba(202,152,59,.25);padding:24px 0 30px;text-align:
     <input type="text" id="tokIn" placeholder="eyJ0eXAiOiJKV1Qi...">
     <div class="msg" id="mTok" style="display:none;color:#FCA5A5;font-size:12px;margin-bottom:10px">Informe a chave.</div>
     <button onclick="salvarToken()">Entrar</button>
+    <button class="alt" onclick="gerarLink()">Gerar link de acesso</button>
+    <div id="boxLink" class="hide" style="margin-top:12px;background:var(--p3);border:1px solid #333;border-radius:10px;padding:11px">
+      <div style="font-size:11.5px;color:#8CF;font-weight:700;margin-bottom:5px">Link pronto</div>
+      <div style="font-size:11px;color:#AAA;margin-bottom:8px">Abra ou salve este link nos favoritos. Ele entra sem pedir a chave.</div>
+      <input type="text" id="lnkGerado" readonly style="font-size:11px;margin-bottom:8px">
+      <button class="alt" style="margin:0;padding:9px;font-size:12px" onclick="copiarLink()">Copiar link</button>
+    </div>
     <p style="margin-top:14px;margin-bottom:0;font-size:11.5px">
       <a href="javascript:void(0)" onclick="modoLeitura()" style="color:#888">Entrar sem chave (só parceiros/cidades/emissor)</a>
     </p>
@@ -320,14 +329,64 @@ function ehCancelado(v){
   return /cancel/i.test(String(v.status||''));
 }
 
+/* ===== GUARDA DA CHAVE =====
+   Alguns navegadores (modo privado, navegador dentro do WhatsApp/Instagram,
+   cookies bloqueados) apagam o localStorage. Entao tentamos tres lugares:
+   localStorage -> cookie -> sessionStorage. E damos o link como garantia. */
+var CHAVE_NOME='cge_cc_token';
+var CHAVE_LEITURA='cge_cc_leitura';
+
+function setCookie(nome,valor,dias){
+  try{
+    var exp='';
+    if(dias){ var d=new Date(); d.setTime(d.getTime()+dias*86400000); exp='; expires='+d.toUTCString(); }
+    document.cookie=nome+'='+encodeURIComponent(valor)+exp+'; path=/; SameSite=Lax';
+    return document.cookie.indexOf(nome+'=')>=0;
+  }catch(e){ return false; }
+}
+function getCookie(nome){
+  try{
+    var par=document.cookie.split(';');
+    for(var i=0;i<par.length;i++){
+      var t=par[i].trim();
+      if(t.indexOf(nome+'=')===0) return decodeURIComponent(t.slice(nome.length+1));
+    }
+  }catch(e){}
+  return '';
+}
+function apagaCookie(nome){ setCookie(nome,'',-1); }
+
+function guardar(nome,valor,dias){
+  var ok=false;
+  try{ localStorage.setItem(nome,valor); ok=(localStorage.getItem(nome)===valor)||ok; }catch(e){}
+  try{ sessionStorage.setItem(nome,valor); ok=(sessionStorage.getItem(nome)===valor)||ok; }catch(e){}
+  if(setCookie(nome,valor,dias||365)) ok=true;
+  return ok;
+}
+function recuperar(nome){
+  try{ var v=localStorage.getItem(nome); if(v) return v; }catch(e){}
+  var c=getCookie(nome); if(c) return c;
+  try{ var s=sessionStorage.getItem(nome); if(s) return s; }catch(e){}
+  return '';
+}
+function apagar(nome){
+  try{ localStorage.removeItem(nome); }catch(e){}
+  try{ sessionStorage.removeItem(nome); }catch(e){}
+  apagaCookie(nome);
+}
+
 (function(){
   var q=new URLSearchParams(location.search);
   var k=q.get('k');
   if(!k){ var m=location.hash.match(/k=([^&]+)/); if(m) k=decodeURIComponent(m[1]); }
-  if(k){ localStorage.setItem('cge_cc_token',k); try{history.replaceState(null,'',location.pathname);}catch(e){} }
+  if(k){
+    guardar(CHAVE_NOME,k,365);
+    apagar(CHAVE_LEITURA);
+    try{ history.replaceState(null,'',location.pathname); }catch(e){}
+  }
 })();
-var TOKEN=localStorage.getItem('cge_cc_token')||'';
-var MODO_LEITURA=localStorage.getItem('cge_cc_leitura')==='1';
+var TOKEN=recuperar(CHAVE_NOME)||'';
+var MODO_LEITURA=recuperar(CHAVE_LEITURA)==='1';
 
 function $(id){return document.getElementById(id);}
 function brl(v){v=parseFloat(v||0);return 'R$ '+v.toFixed(2).replace('.',',').replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
@@ -337,23 +396,86 @@ function brData(s){if(!s)return '-';var p=String(s).slice(0,10).split('-');retur
 function diasAte(s){if(!s)return null;var a=new Date(String(s).slice(0,10)+'T12:00:00');var h=new Date();h.setHours(12,0,0,0);return Math.round((a-h)/86400000);}
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 
+function limpaChave(v){
+  return String(v||'').trim().replace(/^Bearer\s+/i,'').replace(/\s+/g,'');
+}
+
 function salvarToken(){
-  var t=$('tokIn').value.trim();
-  if(!t){$('mTok').style.display='block';return;}
-  localStorage.setItem('cge_cc_token',t);
-  localStorage.removeItem('cge_cc_leitura');
+  var t=limpaChave($('tokIn').value);
+  if(!t){$('mTok').style.display='block';$('mTok').style.color='#FCA5A5';$('mTok').textContent='Cole a chave.';return;}
+
+  var guardou=guardar(CHAVE_NOME,t,365);
+  apagar(CHAVE_LEITURA);
+
+  if(!guardou){
+    $('mTok').style.display='block';
+    $('mTok').style.color='#E6AD41';
+    $('mTok').innerHTML='Este navegador nao guarda a chave (modo privado). '
+      +'Entrando agora; na proxima use o <b>link de acesso</b>.';
+    TOKEN=t;
+    setTimeout(function(){ abrirPainel(); },1200);
+    return;
+  }
   location.reload();
 }
 function modoLeitura(){
-  localStorage.setItem('cge_cc_leitura','1');
+  guardar(CHAVE_LEITURA,'1',365);
+  apagar(CHAVE_NOME);
   location.reload();
 }
 function sairToken(){
-  localStorage.removeItem('cge_cc_token');
-  localStorage.removeItem('cge_cc_leitura');
+  apagar(CHAVE_NOME);
+  apagar(CHAVE_LEITURA);
   location.reload();
 }
 
+/* link que ja carrega a chave: garantia quando nada persiste */
+function gerarLink(){
+  var t=limpaChave($('tokIn').value);
+  var av=$('mTok');
+  if(!t){
+    av.style.display='block';
+    av.style.color='#FCA5A5';
+    av.textContent='Cole a chave antes de gerar o link.';
+    return;
+  }
+  var url=location.origin+location.pathname+'?k='+encodeURIComponent(t);
+  $('lnkGerado').value=url;
+  $('boxLink').classList.remove('hide');
+  guardar(CHAVE_NOME,t,365);
+  apagar(CHAVE_LEITURA);
+  av.style.display='block';
+  av.style.color='#6EE7B7';
+  av.innerHTML='Link gerado. <b>Copie e salve nos favoritos</b>: ele entra sem pedir a chave.';
+}
+function copiarLink(){
+  var el=$('lnkGerado');
+  el.select();
+  el.setSelectionRange(0,99999);
+  var ok=false;
+  try{ ok=document.execCommand('copy'); }catch(e){}
+  var av=$('mTok');
+  av.style.display='block';
+  if(ok){
+    av.style.color='#6EE7B7';
+    av.innerHTML='<b>Link copiado.</b> Salve nos favoritos do navegador.';
+    return;
+  }
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(el.value).then(function(){
+      av.style.color='#6EE7B7';
+      av.innerHTML='<b>Link copiado.</b> Salve nos favoritos do navegador.';
+    },function(){
+      av.style.color='#E6AD41';
+      av.textContent='Selecione o link acima e copie manualmente.';
+    });
+    return;
+  }
+  av.style.color='#E6AD41';
+  av.textContent='Selecione o link acima e copie manualmente.';
+}
+
+var JA_ABERTO=false;
 function entrada(){
   if(TOKEN||MODO_LEITURA){
     $('setup').classList.add('hide');
@@ -363,6 +485,16 @@ function entrada(){
   $('setup').classList.remove('hide');
   $('conteudo').classList.add('hide');
   return false;
+}
+function abrirPainel(){
+  if(JA_ABERTO) return;
+  JA_ABERTO=true;
+  $('setup').classList.add('hide');
+  $('conteudo').classList.remove('hide');
+  carregaDados().then(function(){
+    renderParceiros(); renderCidades(); renderEmissor();
+    carregarVendas().then(function(){ trocaAba('geral'); });
+  });
 }
 
 function fetchJSON(path){
@@ -381,7 +513,6 @@ function intervalo(p){
   else if(p==='ano'){ini=new Date(h.getFullYear(),0,1);}
   return {ini:iso(ini),fim:fim};
 }
-
 function carregaDados(){
   if(DADOS) return Promise.resolve(DADOS);
   return fetch('dados_controle.json?t='+Date.now())
@@ -426,12 +557,9 @@ function renderGeral(r){
     var valor=precoCliente(v);
     var st=String(v.status||'').toLowerCase();
     q++; fat+=valor;
-
     if(foiEmitido(v)){ qEmit++; fatEmit+=valor; }
-
     if(st==='pago'||pagoAutentica(v)){ pago+=valor; qPago++; }
     else { pend+=valor; qPend++; }
-
     var d=String(v.data_venda||'').slice(0,10);
     if(d) porDia[d]=(porDia[d]||0)+valor;
   });
@@ -584,20 +712,16 @@ function renderVencimentos(){
   });
 }
 
-/* ================= PARCEIROS ================= */
 function normalizaNome(s){
   return String(s||'').toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
     .replace(/[^a-z ]/g,' ').replace(/\s+/g,' ').trim();
 }
-/* a API manda o nome do parceiro em texto; casamos pelo nome normalizado
-   e, se faltar, pelo primeiro nome (tolera erro de grafia no cadastro) */
 function achaParceiroDaVenda(v){
   var nomeApi=normalizaNome(v.parceiro);
   if(!nomeApi) return null;
   var ps=(DADOS&&DADOS.parceiros)||[];
   var i,alvo;
-
   for(i=0;i<ps.length;i++){
     alvo=normalizaNome(ps[i].nome_api||ps[i].nome);
     if(alvo && alvo===nomeApi) return ps[i];
@@ -730,7 +854,6 @@ function renderParceiros(){
   $('pPorPraca').innerHTML=html||'<div class="vazio">Sem dados.</div>';
 }
 
-/* ================= CIDADES ================= */
 var CID_SEL=null;
 function renderCidades(){
   var cs=(DADOS&&DADOS.cidades)||[];
@@ -777,7 +900,6 @@ function renderCidades(){
 }
 function selCidade(id){CID_SEL=id;renderCidades();}
 
-/* ================= EMISSOR ================= */
 function renderEmissor(){
   var e=(DADOS&&DADOS.emissor)||{planos:[],certificado:{}};
   var m=(DADOS&&DADOS.metas)||{};
@@ -892,12 +1014,7 @@ document.querySelectorAll('#filtroPeriodo button').forEach(function(b){
 });
 $('eSlider').oninput=simular;
 
-if(entrada()){
-  carregaDados().then(function(){
-    renderParceiros(); renderCidades(); renderEmissor();
-    carregarVendas().then(function(){ trocaAba('geral'); });
-  });
-}
+if(entrada()) abrirPainel();
 </script>
 </body>
 </html>
